@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+    <file path="G:\Source\crypto-pro-trader-service\src\helpers\__tests__\result-helper.test.js">
+        <testCase name="getSettlementResult tests should return correct settlement" duration="2"/>
+        <testCase name="getSettlementResult tests should return correct settlement" duration="1"/>
+    </file>
+</testExecutions>

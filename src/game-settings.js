@@ -1,5 +1,5 @@
 export default {
-    id: 24,
+    id: 43,
     name: "CryptoProTrader",
     durations: {
         wholeRound: 120,

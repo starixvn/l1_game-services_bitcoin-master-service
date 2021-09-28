@@ -1,14 +1,16 @@
 import { SettleGameRoundConsumer } from "sc-pool-betting-game-base";
 
-export default class CryptoTraderSettleGameRoundConsumer extends SettleGameRoundConsumer {
+export default class CryptoProTraderSettleGameRoundConsumer extends SettleGameRoundConsumer {
     async settleRound() {
         const { runningCandleStick } = this.gameData.cryptoExchange;
+
         const result = {
             open: runningCandleStick.open,
             close: runningCandleStick.close,
         };
 
         const settlementResult = this.definition.settle(result);
+
         const newRound = await this.roundsRepository.create({
             id: this.gameData.roundId,
             result,

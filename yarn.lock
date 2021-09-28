@@ -8912,10 +8912,10 @@ sc-game-base@~1.24.1:
     socket.io "^2.3.0"
     socket.io-prometheus-metrics "^1.0.6"
 
-sc-pool-betting-game-base@~1.1.6:
-  version "1.1.6"
-  resolved "http://npm.lumigame.com/sc-pool-betting-game-base/-/sc-pool-betting-game-base-1.1.6.tgz#8db4d0aa4da16efcbde93c7548e38a74b9209e79"
-  integrity sha512-dx1woWj1TC+37PgoTKp1HrKxvN0UL4/WocrUZBX9smIZg5QiIhb1B6KpQAVA1R0X3joE1I8hYt4599PIVKy3kw==
+sc-pool-betting-game-base@1.1.7-beta.0:
+  version "1.1.7-beta.0"
+  resolved "http://npm.lumigame.com/sc-pool-betting-game-base/-/sc-pool-betting-game-base-1.1.7-beta.0.tgz#5674254727e1921d7c3ea6e02759228e985747ad"
+  integrity sha512-aZL1+3R1s4YfopWCehlTdQaBT3edFeg7EUoKOROOAqh9N751dYE8Uv93rc5XFvpU+zGnx8WFg00AUnJrUtZCmw==
   dependencies:
     chance "^1.1.7"
     sc-game-base "~1.24.1"

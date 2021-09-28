@@ -1,9 +1,11 @@
 import { asClass, asValue } from "awilix";
 import { ContainerRegistry } from "sc-pool-betting-game-base";
 
-import { CryptoProTraderPlaceBetConsumer } from "./consumers";
-import { CryptoProTraderGameCron } from "./crons";
-import { CryptoProTraderBetLogs, CryptoProTraderBets, CryptoProTraderRounds } from "./models";
+import CryptoProTraderPlaceBetConsumer from "./consumers/place-bet-consumer";
+import CryptoProTraderSettleGameRoundConsumer from "./consumers/settle-game-round-consumer";
+import CryptoProTraderGameCron from "./crons/game-cron";
+import CryptoProTraderProcessBetQueue from "./crons/process-bet-queue";
+import { CryptoProTraderBetLogs, CryptoProTraderBets, CryptoProTraderRounds, CryptoExchanges } from "./models";
 
 export default class CryptoProTraderContainerRegistry extends ContainerRegistry {
     registerModels() {
@@ -13,6 +15,7 @@ export default class CryptoProTraderContainerRegistry extends ContainerRegistry 
             roundsRepository: asValue(CryptoProTraderRounds),
             betsRepository: asValue(CryptoProTraderBets),
             betLogsRepository: asValue(CryptoProTraderBetLogs),
+            cryptoExchangesRepository: asValue(CryptoExchanges),
         });
     }
 
@@ -20,6 +23,7 @@ export default class CryptoProTraderContainerRegistry extends ContainerRegistry 
         super.registerConsumers();
 
         this.container.register({
+            settleGameRoundConsumer: asClass(CryptoProTraderSettleGameRoundConsumer).singleton().proxy(),
             placeBetConsumer: asClass(CryptoProTraderPlaceBetConsumer).singleton(),
         });
     }
@@ -28,7 +32,8 @@ export default class CryptoProTraderContainerRegistry extends ContainerRegistry 
         super.registerCrons();
 
         this.container.register({
-            processBetQueue: asClass(CryptoProTraderGameCron).singleton().proxy(),
+            gameCron: asClass(CryptoProTraderGameCron).singleton().proxy(),
+            processBetQueue: asClass(CryptoProTraderProcessBetQueue).singleton().proxy(),
         });
     }
 }

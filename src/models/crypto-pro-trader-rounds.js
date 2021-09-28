@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const resultSchema = new mongoose.Schema(
     {
-        open: { type: Boolean, required: true },
-        close: { type: Boolean, required: true },
+        open: { type: Number, required: true },
+        close: { type: Number, required: true },
     },
     { _id: false }
 );
