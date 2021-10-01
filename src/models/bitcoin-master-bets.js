@@ -23,8 +23,8 @@ const betSchema = new mongoose.Schema({
     name: { type: String, required: true },
     phien: { type: Number, required: true },
 
-    over: { type: Number, required: true, default: 0 },
-    under: { type: Number, required: true, default: 0 },
+    up: { type: Number, required: true, default: 0 },
+    down: { type: Number, required: true, default: 0 },
     odd: { type: Number, required: true, default: 0 },
     even: { type: Number, required: true, default: 0 },
 

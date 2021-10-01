@@ -5,8 +5,8 @@ export default class BitcoinMasterPlaceBetConsumer extends PlaceBetConsumer {
     balanceChoiceMapper = {
         odd: "even",
         even: "odd",
-        over: "under",
-        under: "over",
+        up: "down",
+        down: "up",
     };
 
     composeValidationCriteria(player, betChoice, amount, freeBet, roundId) {

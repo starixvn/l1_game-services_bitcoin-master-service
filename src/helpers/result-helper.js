@@ -3,8 +3,8 @@ export const getSettlementResult = (roundResult) => {
     const even = Math.floor(close) % 2 === 0;
 
     return {
-        over: open < close,
-        under: open > close,
+        up: open < close,
+        down: open > close,
         odd: !even,
         even,
     };

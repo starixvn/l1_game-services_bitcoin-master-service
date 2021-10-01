@@ -57,7 +57,6 @@ export default class BitcoinMasterGameCron extends GameCron {
 
         console.log(new Date().getSeconds());
 
-        
         setTimeout(() => {
             job.start();
             console.log("started!!!");
@@ -67,8 +66,9 @@ export default class BitcoinMasterGameCron extends GameCron {
     async proceed() {
         await super.proceed();
         await this.updateCryptoExchangeData();
-        console.log(`${new Date().getSeconds()}-${this.gameData.remainingTime}`);
+        console.log(`${new Date().getSeconds()}-${this.gameData.remainingTime}-${this.gameData.cryptoExchange.runningCandleStick.open}`);
 
+  
     }
 
     async updateCryptoExchangeData() {

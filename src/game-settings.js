@@ -8,6 +8,6 @@ export default {
         lockingBet: 65,
         snapshotOpenPrice: 59
     },
-    choices: ["even", "odd", "over", "under"],
-    choicesMapper: { even: 1, odd: 2, over: 3, under: 4 },
+    choices: ["even", "odd", "up", "down"],
+    choicesMapper: { even: 1, odd: 2, up: 3, down: 4 },
 };

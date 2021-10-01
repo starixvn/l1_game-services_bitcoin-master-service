@@ -12,8 +12,8 @@ const settlementResultSchema = new mongoose.Schema(
     {
         odd: { type: Boolean, default: false },
         even: { type: Boolean, default: false },
-        over: { type: Boolean, default: false },
-        under: { type: Boolean, default: false },
+        up: { type: Boolean, default: false },
+        down: { type: Boolean, default: false },
     },
     { _id: false }
 );

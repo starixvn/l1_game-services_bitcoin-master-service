@@ -11,7 +11,7 @@ export default class BitcoinMasterBot extends Bot {
             subOpts: 40,
         };
 
-        this.mainOpts = ["over", "under"];
+        this.mainOpts = ["up", "down"];
         this.subOpts = ["even", "odd"];
     }
 

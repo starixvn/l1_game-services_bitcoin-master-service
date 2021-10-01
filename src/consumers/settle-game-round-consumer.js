@@ -40,7 +40,7 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
             const uusUsers = await this.userInfosRepository.find({ currency: "UUS" }, "id").lean().exec();
             const uusUserIds = uusUsers.map((user) => user.id);
 
-            await Promise.all(this.settleOverUnder(uusUserIds, bets, roundId, settlementResult));
+            await Promise.all(this.settleUpDown(uusUserIds, bets, roundId, settlementResult));
             await Promise.all(this.settleOddEven(uusUserIds, bets, roundId, settlementResult));
 
             const settledBets = await this.querySettledBets(roundId);
@@ -62,10 +62,10 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
         this.roundResultPublisher.publishRoundResult(this.collectRoundResult(result, settlementResult, roundId));
     }
 
-    settleOverUnder(uusUserIds, bets, roundId, settlementResult) {
-        const choices = ["over", "under"];
+    settleUpDown(uusUserIds, bets, roundId, settlementResult) {
+        const choices = ["up", "down"];
 
-        if (settlementResult.over || settlementResult.under) {
+        if (settlementResult.up || settlementResult.down) {
             const realBets = bets.filter((bet) => !uusUserIds.includes(bet.uid) && choices.includes(bet.choice));
             const uusBets = bets.filter((bet) => uusUserIds.includes(bet.uid) && choices.includes(bet.choice));
             const realBetProcessors = this.settleBetsByGroup(realBets, roundId, settlementResult, this.gameData.totalBets, choices);
@@ -73,9 +73,9 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
 
             return realBetProcessors.concat(uusBetProcessors);
         } else {
-            const overUnderBets = bets.filter((bet) => choices.includes(bet.choice));
+            const upDownBets = bets.filter((bet) => choices.includes(bet.choice));
 
-            return overUnderBets.map((bet) => this.settleBet(bet, roundId, settlementResult, { choice: bet.choice, amount: bet.amount }));
+            return upDownBets.map((bet) => this.settleBet(bet, roundId, settlementResult, { choice: bet.choice, amount: bet.amount }));
         }
     }
 
