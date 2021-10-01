@@ -6,7 +6,7 @@ export default {
         placingBets: 104,
         balancingBetTime: 69,
         lockingBet: 65,
-        snapshotOpenPrice: 59
+        snapshotOpenPrice: 58
     },
     choices: ["even", "odd", "up", "down"],
     choicesMapper: { even: 1, odd: 2, up: 3, down: 4 },

@@ -68,7 +68,9 @@ export default class BitcoinMasterGameCron extends GameCron {
         await this.updateCryptoExchangeData();
         console.log(`${new Date().getSeconds()}-${this.gameData.remainingTime}-${this.gameData.cryptoExchange.runningCandleStick.open}`);
 
-  
+        if (this.gameData.remainingTime === this.definition.durations.snapshotOpenPrice) {
+            this.runningRoundInfoPublisher.publishToAllUsers({ open: this.gameData.cryptoExchange.runningCandleStick.open });
+        }
     }
 
     async updateCryptoExchangeData() {
