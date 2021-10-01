@@ -42,7 +42,7 @@ export default {
     },
     sentry: {
         sentryUrl: "https://8c8a6d0dd58d4d18aa41e703bde72db3@sentryuat.sabagame.com/134",
-        logIdentifier: "crypto-pro-trader",
+        logIdentifier: "bitcoin-master",
         env: "LOCAL",
     },
     authenticateSettings: {

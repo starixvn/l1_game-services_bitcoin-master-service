@@ -39,7 +39,7 @@ const betSchema = new mongoose.Schema({
     siteId: { type: String },
 });
 
-const CryptoProTraderBets = mongoose.model("cryptoprotrader_one", betSchema);
-const CryptoProTraderBetLogs = mongoose.model("cryptoprotrader_cuoc", betLogSchema);
+const BitcoinMasterBets = mongoose.model("bitcoinmaster_one", betSchema);
+const BitcoinMasterBetLogs = mongoose.model("bitcoinmaster_cuoc", betLogSchema);
 
-export { CryptoProTraderBets, CryptoProTraderBetLogs };
+export { BitcoinMasterBets, BitcoinMasterBetLogs };

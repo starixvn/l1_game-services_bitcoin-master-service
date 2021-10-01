@@ -1,6 +1,6 @@
 import { ProcessBetQueue } from "sc-pool-betting-game-base";
 
-export default class CryptoProTraderProcessBetQueue extends ProcessBetQueue {
+export default class BitcoinMasterProcessBetQueue extends ProcessBetQueue {
     async upsertBet(player, roundId, bet) {
         const configs = this.gameData.gameConfigs;
         const existingBetFilter = { uid: player.UID, phien: roundId };

@@ -1,7 +1,7 @@
 import { GameCron } from "sc-pool-betting-game-base";
 import cron from "cron";
 
-export default class CryptoProTraderGameCron extends GameCron {
+export default class BitcoinMasterGameCron extends GameCron {
     constructor({
         definition,
         gameData,
@@ -67,7 +67,8 @@ export default class CryptoProTraderGameCron extends GameCron {
     async proceed() {
         await super.proceed();
         await this.updateCryptoExchangeData();
-        console.log(this.gameData.remainingTime);
+        console.log(`${new Date().getSeconds()}-${this.gameData.remainingTime}`);
+
     }
 
     async updateCryptoExchangeData() {

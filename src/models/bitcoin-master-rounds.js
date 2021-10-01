@@ -25,4 +25,4 @@ const Schema = new mongoose.Schema({
     time: { type: Date, default: new Date() },
 });
 
-export const CryptoProTraderRounds = mongoose.model("CryptoProTrader_phien", Schema);
+export const BitcoinMasterRounds = mongoose.model("BitcoinMaster_phien", Schema);

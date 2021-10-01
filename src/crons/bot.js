@@ -1,6 +1,6 @@
 import { Bot } from "sc-pool-betting-game-base";
 
-export default class CryptoProTraderBot extends Bot {
+export default class BitcoinMasterBot extends Bot {
     constructor(definition, gameData, publisher, userInfosRepository, betsRepository, betLogsRepository) {
         super(definition, gameData, publisher, userInfosRepository, betsRepository, betLogsRepository);
 

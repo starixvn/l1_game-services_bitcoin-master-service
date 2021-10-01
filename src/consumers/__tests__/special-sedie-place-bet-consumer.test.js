@@ -2,7 +2,7 @@ import Chance from "chance";
 import { helpers } from "sc-common";
 import { Core } from "sc-game-base";
 
-import SpecialSediePlaceBetConsumer from "../crypto-pro-trader-place-bet-consumer";
+import SpecialSediePlaceBetConsumer from "../bitcoin-master-place-bet-consumer";
 
 describe("composeBettingTimeValidationCriteria tests", () => {
     const playerName = "nhanvat01";
