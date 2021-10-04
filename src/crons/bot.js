@@ -29,7 +29,7 @@ export default class BitcoinMasterBot extends Bot {
             },
         ];
 
-        return betChoiceRatios.find((x) => x.underBetRatio) ?? betChoiceRatios[0];
+        return betChoiceRatios.find((x) => x.underBetRatio)?.group ?? betChoiceRatios[0].group;
     }
 
     getAllBetAmount() {
@@ -50,6 +50,7 @@ export default class BitcoinMasterBot extends Bot {
         const { roundId } = this.gameData;
 
         const update = { [choice]: betAmount };
+        console.log(update);
         const create = { uid: bot.id, phien: roundId, time: new Date() };
 
         await this.betsRepository.updateOne(

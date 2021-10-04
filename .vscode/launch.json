@@ -10,7 +10,10 @@
             "name": "Node: Nodemon",
             "processId": "${command:PickProcess}",
             "restart": true,
-            "protocol": "inspector"
+            "protocol": "inspector",
+            "env": {
+                "NODE_ENV": "production"
+            }
         }
     ]
 }

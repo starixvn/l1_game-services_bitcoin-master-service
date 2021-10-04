@@ -3164,6 +3164,13 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
+clean-css@^4.1.7:
+  version "4.2.3"
+  resolved "http://npm.lumigame.com/clean-css/-/clean-css-4.2.3.tgz#507b5de7d97b48ee53d84adb0160ff6216380f78"
+  integrity sha512-VcMWDN54ZN/DS+g58HYL5/n4Zrqe8vHJpGA8KdgUXFU4fuP/aHNw8eld9SyEIyabIMJX/0RaY/fplOo5hYLSFA==
+  dependencies:
+    source-map "~0.6.0"
+
 clean-stack@^2.0.0:
   version "2.2.0"
   resolved "http://npm.lumigame.com/clean-stack/-/clean-stack-2.2.0.tgz#ee8472dbb129e727b31e8a10a427dee9dfe4008b"
@@ -4168,6 +4175,15 @@ expect@^27.2.2:
     jest-matcher-utils "^27.2.2"
     jest-message-util "^27.2.2"
     jest-regex-util "^27.0.6"
+
+express-minify@^1.0.0:
+  version "1.0.0"
+  resolved "http://npm.lumigame.com/express-minify/-/express-minify-1.0.0.tgz#28c90ecb8add5f8da0d5d503739646fb54be5704"
+  integrity sha512-04/iYxB79jGeNZBBkbAW7L7FMG4Wtu78F1SayXIKiJD6MfqYnOI3DD8no7QOntgedYCdYUpj+Skg8QWR/2WnMQ==
+  dependencies:
+    clean-css "^4.1.7"
+    on-headers "^1.0.1"
+    uglify-js "^3.0.28"
 
 express@^4.16.4, express@^4.17.1:
   version "4.17.1"
@@ -7796,7 +7812,7 @@ on-finished@~2.3.0:
   dependencies:
     ee-first "1.1.1"
 
-on-headers@~1.0.2:
+on-headers@^1.0.1, on-headers@~1.0.2:
   version "1.0.2"
   resolved "http://npm.lumigame.com/on-headers/-/on-headers-1.0.2.tgz#772b0ae6aaa525c399e489adfad90c403eb3c28f"
   integrity sha512-pZAE+FJLoyITytdqK0U5s+FIpjN0JP3OzFi/u8Rx+EV5/W+JTWGXG8xFzevE7AjBfDqHv/8vL8qQsIhHnqRkrA==
@@ -8912,10 +8928,10 @@ sc-game-base@~1.24.1:
     socket.io "^2.3.0"
     socket.io-prometheus-metrics "^1.0.6"
 
-sc-pool-betting-game-base@1.1.7-beta.0:
-  version "1.1.7-beta.0"
-  resolved "http://npm.lumigame.com/sc-pool-betting-game-base/-/sc-pool-betting-game-base-1.1.7-beta.0.tgz#5674254727e1921d7c3ea6e02759228e985747ad"
-  integrity sha512-aZL1+3R1s4YfopWCehlTdQaBT3edFeg7EUoKOROOAqh9N751dYE8Uv93rc5XFvpU+zGnx8WFg00AUnJrUtZCmw==
+sc-pool-betting-game-base@1.1.7-beta.1:
+  version "1.1.7-beta.1"
+  resolved "http://npm.lumigame.com/sc-pool-betting-game-base/-/sc-pool-betting-game-base-1.1.7-beta.1.tgz#a324d69e4cbbe6a32108ee306e6a319e02fdbd63"
+  integrity sha512-gC9O86HpOEvf2ZXKeHLOWDxqPTfQ4HK11GWIypqKIwyXvC1mH+6SfZURXajVx37PXS5NxspfEKe+rBiQzNoWgA==
   dependencies:
     chance "^1.1.7"
     sc-game-base "~1.24.1"
@@ -9271,7 +9287,7 @@ source-map@^0.5.0, source-map@^0.5.6:
   resolved "http://npm.lumigame.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
   integrity sha1-igOdLRAh0i0eoUyA2OpGi6LvP8w=
 
-source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.1:
+source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.0, source-map@~0.6.1:
   version "0.6.1"
   resolved "http://npm.lumigame.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
@@ -9869,7 +9885,7 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-uglify-js@^3.1.4:
+uglify-js@^3.0.28, uglify-js@^3.1.4:
   version "3.14.2"
   resolved "http://npm.lumigame.com/uglify-js/-/uglify-js-3.14.2.tgz#d7dd6a46ca57214f54a2d0a43cad0f35db82ac99"
   integrity sha512-rtPMlmcO4agTUfz10CbgJ1k6UAoXM2gWb3GoMPPZB/+/Ackf8lNWk11K4rYi2D0apgoFRLtQOZhb+/iGNJq26A==

@@ -15,6 +15,7 @@ export default class BitcoinMasterGameCron extends GameCron {
         archiveStatusesRepository,
         notificationRepository,
         cryptoExchangesRepository,
+        chartClientPublisher,
     }) {
         super({
             definition,
@@ -31,6 +32,7 @@ export default class BitcoinMasterGameCron extends GameCron {
         });
 
         this.cryptoExchangesRepository = cryptoExchangesRepository;
+        this.chartClientPublisher = chartClientPublisher;
     }
 
     async start() {
@@ -66,14 +68,15 @@ export default class BitcoinMasterGameCron extends GameCron {
     async proceed() {
         await super.proceed();
         await this.updateCryptoExchangeData();
-        console.log(`${new Date().getSeconds()}-${this.gameData.remainingTime}-${this.gameData.cryptoExchange.runningCandleStick.open}`);
 
         if (this.gameData.remainingTime === this.definition.durations.snapshotOpenPrice) {
             this.runningRoundInfoPublisher.publishToAllUsers({ open: this.gameData.cryptoExchange.runningCandleStick.open });
         }
+
+        this.chartClientPublisher.publishToAllClients(this.gameData.cryptoExchange);
     }
 
     async updateCryptoExchangeData() {
-        this.gameData.cryptoExchange = await this.cryptoExchangesRepository.findOne().lean();
+        this.gameData.cryptoExchange = await this.cryptoExchangesRepository.findOne(null, { _id: false }).lean();
     }
 }
