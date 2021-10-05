@@ -11,9 +11,8 @@ export default class BitcoinMasterSocketRouter extends SocketRouter {
         try {
             const { ss } = payload;
 
-            if (ss) {
+            if (ss || Object.values(this.gameData.realPlayers).some((x) => x.session.sessionId === ss)) {
                 this.gameData.chartClients[this.socketClient.id] = this.socketClient;
-                console.log(this.socketClient.id);
             } else {
                 this.socketClient.emit("message", { unauthorized: true });
                 this.socketClient.disconnect(true);
