@@ -159,7 +159,7 @@
         }
     }
     function init() {
-        const socket = io("/user/bitcoinmaster", { path: "/socket.io", transports: ["websocket"] });
+        const socket = io("/user/bitcoinmaster", { path: "/bitcoinmaster/socket.io", transports: ["websocket"] });
         const chart = echarts.init(document.getElementById("main"), "dark");
         socket.on("connect", () => {
             const searchParam = new URLSearchParams(window.location.search);
