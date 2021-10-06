@@ -5,7 +5,7 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
         const { runningCandleStick } = this.gameData.cryptoExchange;
 
         const result = {
-            open: runningCandleStick.open,
+            open: this.gameData.open,
             close: runningCandleStick.close,
         };
 

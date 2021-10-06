@@ -57,11 +57,8 @@ export default class BitcoinMasterGameCron extends GameCron {
             this.gameData.roundId = await this.getLastArchiveRound();
         }
 
-        console.log(new Date().getSeconds());
-
         setTimeout(() => {
             job.start();
-            console.log("started!!!");
         }, (60 - new Date().getSeconds()) * 1000);
     }
 
@@ -70,7 +67,9 @@ export default class BitcoinMasterGameCron extends GameCron {
         await this.updateCryptoExchangeData();
 
         if (this.gameData.remainingTime === this.definition.durations.snapshotOpenPrice) {
-            this.runningRoundInfoPublisher.publishToAllUsers({ open: this.gameData.cryptoExchange.runningCandleStick.open });
+            const { open } = this.gameData.cryptoExchange.runningCandleStick;
+            this.runningRoundInfoPublisher.publishToAllUsers({ open });
+            this.gameData.open = open;
         }
 
         this.chartClientPublisher.publishToAllClients(this.gameData.cryptoExchange);
