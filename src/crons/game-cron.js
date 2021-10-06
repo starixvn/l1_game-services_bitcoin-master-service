@@ -64,15 +64,17 @@ export default class BitcoinMasterGameCron extends GameCron {
 
     async proceed() {
         await super.proceed();
-        await this.updateCryptoExchangeData();
+        if (!this.gameData.disabled) {
+            await this.updateCryptoExchangeData();
 
-        if (this.gameData.remainingTime === this.definition.durations.snapshotOpenPrice) {
-            const { open } = this.gameData.cryptoExchange.runningCandleStick;
-            this.runningRoundInfoPublisher.publishToAllUsers({ open });
-            this.gameData.open = open;
+            if (this.gameData.remainingTime === this.definition.durations.snapshotOpenPrice) {
+                const { open } = this.gameData.cryptoExchange.runningCandleStick;
+                this.runningRoundInfoPublisher.publishToAllUsers({ open });
+                this.gameData.open = open;
+            }
+
+            this.chartClientPublisher.publishToAllClients(this.gameData.cryptoExchange);
         }
-
-        this.chartClientPublisher.publishToAllClients(this.gameData.cryptoExchange);
     }
 
     async updateCryptoExchangeData() {
