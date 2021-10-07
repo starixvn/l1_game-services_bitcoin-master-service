@@ -3,7 +3,7 @@ import { SettleGameRoundConsumer } from "sc-pool-betting-game-base";
 export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoundConsumer {
     async settleRound() {
         const { runningCandleStick } = this.gameData.cryptoExchange;
-
+        debugger;
         const result = {
             open: this.gameData.open,
             close: runningCandleStick.close,

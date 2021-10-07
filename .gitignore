@@ -3,3 +3,5 @@
 .prettierignore
 .idea
 **/reports
+**/coverage
+**/.vscode
