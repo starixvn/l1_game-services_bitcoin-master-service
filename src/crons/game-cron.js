@@ -40,7 +40,7 @@ export default class BitcoinMasterGameCron extends GameCron {
             .findOne({}, "id", { sort: { id: -1 } })
             .lean()
             .exec();
-        const job = new cron.CronJob(
+        this.job = new cron.CronJob(
             "* * * * * *",
             () => this.proceed().catch(this.logService.logError),
             () => {
@@ -57,8 +57,12 @@ export default class BitcoinMasterGameCron extends GameCron {
             this.gameData.roundId = await this.getLastArchiveRound();
         }
 
+        this.startJob();
+    }
+
+    startJob() {
         setTimeout(() => {
-            job.start();
+            this.job.start();
         }, (60 - new Date().getSeconds()) * 1000);
     }
 
@@ -74,6 +78,16 @@ export default class BitcoinMasterGameCron extends GameCron {
             }
 
             this.chartClientPublisher.publishToAllClients(this.gameData.cryptoExchange);
+        }
+    }
+
+    async checkGameStatus() {
+        const { disabled } = this.gameData.disabled;
+        await super.checkGameStatus();
+
+        if (disabled && !this.gameData.disabled) {
+            this.job.stop();
+            this.startJob();
         }
     }
 
