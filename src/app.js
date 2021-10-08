@@ -5,7 +5,7 @@ import gameSettings from "./game-settings";
 import { getSettlementResult } from "./helpers";
 import BitcoinMasterContainerRegistry from "./bitcoin-master-container-registry";
 import BitcoinMasterGameData from "./game-data";
-import BitcoinMasterStartup from "./startup";
+import BitcoinMasterStartup from "./bitcoin-master-startup";
 
 const run = async () => {
     const gameData = new BitcoinMasterGameData(gameSettings.durations.wholeRound);

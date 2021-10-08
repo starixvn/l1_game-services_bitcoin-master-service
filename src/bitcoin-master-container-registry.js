@@ -1,11 +1,11 @@
 import { asClass, asValue } from "awilix";
 import { ContainerRegistry } from "sc-pool-betting-game-base";
 
-import BitcoinMasterPlaceBetConsumer from "./consumers/place-bet-consumer";
-import BitcoinMasterSettleGameRoundConsumer from "./consumers/settle-game-round-consumer";
-import BitcoinMasterBot from "./crons/bot";
-import BitcoinMasterGameCron from "./crons/game-cron";
-import BitcoinMasterProcessBetQueue from "./crons/process-bet-queue";
+import BitcoinMasterPlaceBetConsumer from "./consumers/bitcoin-master-place-bet-consumer";
+import BitcoinMasterSettleGameRoundConsumer from "./consumers/bitcoin-master-settle-game-round-consumer";
+import BitcoinMasterBot from "./crons/bitcoin-master-bot";
+import BitcoinMasterGameCron from "./crons/bitcoin-master-game-cron";
+import BitcoinMasterProcessBetQueue from "./crons/bitcoin-master-process-bet-queue";
 import ChartClientPublisher from "./event-publishers/chart-client-publisher";
 import { BitcoinMasterBetLogs, BitcoinMasterBets, BitcoinMasterRounds, CryptoExchanges } from "./models";
 import BitcoinMasterSocketRouter from "./routers/socket-router";
