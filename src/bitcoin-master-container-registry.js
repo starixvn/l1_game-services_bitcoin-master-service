@@ -48,7 +48,7 @@ export default class BitcoinMasterContainerRegistry extends ContainerRegistry {
             socketRouter: asClass(BitcoinMasterSocketRouter).proxy(),
         });
     }
-    
+
     registerPublishers() {
         super.registerPublishers();
 
@@ -56,5 +56,4 @@ export default class BitcoinMasterContainerRegistry extends ContainerRegistry {
             chartClientPublisher: asClass(ChartClientPublisher).singleton(),
         });
     }
-
 }

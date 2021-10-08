@@ -1,7 +1,7 @@
-import { PlaceBetConsumer } from "sc-pool-betting-game-base";
+import { Core } from "sc-game-base";
 import notices from "sc-pool-betting-game-base/src/constants/notices";
 
-export default class BitcoinMasterPlaceBetConsumer extends PlaceBetConsumer {
+export default class BitcoinMasterPlaceBetConsumer extends Core.BaseEventConsumers.PlaceBetConsumer {
     balanceChoiceMapper = {
         odd: "even",
         even: "odd",

@@ -12,7 +12,6 @@ const run = async () => {
     const definition = new Core.GameDefinition(gameSettings, null, getSettlementResult);
     const container = new BitcoinMasterContainerRegistry().register(appConfigs, definition, gameData);
     const app = new Core.BaseGameApp(container, new BitcoinMasterStartup(container));
-    
     await app.run();
 };
 
