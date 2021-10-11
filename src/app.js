@@ -4,7 +4,7 @@ import appConfigs from "./app-configs";
 import gameSettings from "./game-settings";
 import { getSettlementResult } from "./helpers";
 import BitcoinMasterContainerRegistry from "./bitcoin-master-container-registry";
-import BitcoinMasterGameData from "./game-data";
+import BitcoinMasterGameData from "./bitcoin-master-game-data";
 import BitcoinMasterStartup from "./bitcoin-master-startup";
 
 const run = async () => {

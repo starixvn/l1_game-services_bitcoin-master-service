@@ -39,7 +39,7 @@ const betSchema = new mongoose.Schema({
     siteId: { type: String },
 });
 
-const BitcoinMasterBets = mongoose.model("bitcoinmaster_one", betSchema);
-const BitcoinMasterBetLogs = mongoose.model("bitcoinmaster_cuoc", betLogSchema);
+const BitcoinMasterBets = mongoose.model("bitcoinmaster_bet", betSchema);
+const BitcoinMasterBetLogs = mongoose.model("bitcoinmaster_betlog", betLogSchema);
 
 export { BitcoinMasterBets, BitcoinMasterBetLogs };

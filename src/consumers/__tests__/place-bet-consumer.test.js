@@ -1,6 +1,5 @@
-import { helpers } from "sc-common";
 import { Core } from "sc-game-base";
-import BitcoinMasterGameData from "../../game-data";
+import BitcoinMasterGameData from "../../bitcoin-master-game-data";
 import gameSettings from "../../game-settings";
 
 import BitcoinMasterPlaceBetConsumer from "../bitcoin-master-place-bet-consumer";

@@ -1,35 +1,23 @@
 import { SettleGameRoundConsumer } from "sc-pool-betting-game-base";
 
 export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoundConsumer {
-    async settleRound() {
+    generateResult() {
+        const resultFromAdmin = this.gameData.settlementResultFromAdmin;
+
         const { runningCandleStick } = this.gameData.cryptoExchange;
-        debugger;
+
         const result = {
+            time: runningCandleStick.time,
             open: this.gameData.open,
             close: runningCandleStick.close,
         };
 
-        const settlementResult = this.definition.settle(result);
-
-        const newRound = await this.roundsRepository.create({
-            id: this.gameData.roundId,
-            result,
-            settlementResult,
-            time: new Date(),
-        });
-
-        if (newRound) {
-            const finish = {
-                settlementResult,
-                result,
-                roundId: newRound.id,
-                time: newRound.time,
-            };
-
-            this.gameData.roundId = finish.roundId + 1;
-
-            await this.settleBets(finish);
-        }
+        return this.gameData.roundId === resultFromAdmin.roundId
+            ? {
+                  time: result.time,
+                  ...resultFromAdmin.result,
+              }
+            : result;
     }
 
     async settleBets({ result, settlementResult, roundId, time }) {

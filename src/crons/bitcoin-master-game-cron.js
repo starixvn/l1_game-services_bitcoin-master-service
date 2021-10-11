@@ -15,6 +15,8 @@ export default class BitcoinMasterGameCron extends GameCron {
         archiveStatusesRepository,
         notificationRepository,
         cryptoExchangesRepository,
+        cryptoCandleSticksRepository,
+        betsRepository,
         chartClientPublisher,
     }) {
         super({
@@ -32,6 +34,8 @@ export default class BitcoinMasterGameCron extends GameCron {
         });
 
         this.cryptoExchangesRepository = cryptoExchangesRepository;
+        this.cryptoCandleSticksRepository = cryptoCandleSticksRepository;
+        this.betsRepository = betsRepository;
         this.chartClientPublisher = chartClientPublisher;
     }
 
@@ -40,6 +44,7 @@ export default class BitcoinMasterGameCron extends GameCron {
             .findOne({}, "id", { sort: { id: -1 } })
             .lean()
             .exec();
+
         this.job = new cron.CronJob(
             "* * * * * *",
             () => this.proceed().catch(this.logService.logError),
@@ -53,6 +58,7 @@ export default class BitcoinMasterGameCron extends GameCron {
 
         if (lastRound) {
             this.gameData.roundId = lastRound.id + 1;
+            await this.processUnsettledBets(lastRound);
         } else {
             this.gameData.roundId = await this.getLastArchiveRound();
         }
@@ -93,5 +99,24 @@ export default class BitcoinMasterGameCron extends GameCron {
 
     async updateCryptoExchangeData() {
         this.gameData.cryptoExchange = await this.cryptoExchangesRepository.findOne(null, { _id: false }).lean();
+    }
+
+    async processUnsettledBets(lastRound) {
+        const unsettledBet = await this.betsRepository.exists({ thanhtoan: false, phien: lastRound.id + 1 }).lean();
+
+        if (unsettledBet) {
+            const time = new Date(lastRound.result.time);
+            time.setMinutes(time.getMinutes() + 2);
+
+            const runningCandleStick = await this.cryptoCandleSticksRepository.findOne({ time }).lean();
+
+            this.gameData.cryptoExchange = {
+                runningCandleStick,
+            };
+
+            this.gameData.open = runningCandleStick.open;
+
+            await this.settleGameRoundConsumer.settleRound();
+        }
     }
 }

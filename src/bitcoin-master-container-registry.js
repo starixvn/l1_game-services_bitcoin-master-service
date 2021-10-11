@@ -8,6 +8,7 @@ import BitcoinMasterGameCron from "./crons/bitcoin-master-game-cron";
 import BitcoinMasterProcessBetQueue from "./crons/bitcoin-master-process-bet-queue";
 import ChartClientPublisher from "./event-publishers/chart-client-publisher";
 import { BitcoinMasterBetLogs, BitcoinMasterBets, BitcoinMasterRounds, CryptoExchanges } from "./models";
+import CryptoCandleSticks from "./models/crypto-candlestick";
 import BitcoinMasterSocketRouter from "./routers/socket-router";
 
 export default class BitcoinMasterContainerRegistry extends ContainerRegistry {
@@ -19,6 +20,7 @@ export default class BitcoinMasterContainerRegistry extends ContainerRegistry {
             betsRepository: asValue(BitcoinMasterBets),
             betLogsRepository: asValue(BitcoinMasterBetLogs),
             cryptoExchangesRepository: asValue(CryptoExchanges),
+            cryptoCandleSticksRepository: asValue(CryptoCandleSticks),
         });
     }
 

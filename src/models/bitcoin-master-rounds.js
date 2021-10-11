@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const resultSchema = new mongoose.Schema(
     {
+        time: { type: Date, required: true },
         open: { type: Number, required: true },
         close: { type: Number, required: true },
     },
@@ -25,4 +26,4 @@ const Schema = new mongoose.Schema({
     time: { type: Date, default: new Date() },
 });
 
-export const BitcoinMasterRounds = mongoose.model("BitcoinMaster_phien", Schema);
+export const BitcoinMasterRounds = mongoose.model("BitcoinMaster_round", Schema);
