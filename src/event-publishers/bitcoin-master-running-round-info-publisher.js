@@ -1,6 +1,6 @@
 import { RunningRoundInfoPublisher } from "sc-pool-betting-game-base";
 
-export class BitcoinMasterRunningRoundInfoPublisher extends RunningRoundInfoPublisher {
+export default class BitcoinMasterRunningRoundInfoPublisher extends RunningRoundInfoPublisher {
     calculateBetPercentage(choices) {
         const betPercentage = {};
 

@@ -2,10 +2,10 @@ import { stubMongooseModelStupidly } from "jest-micro-auto-stub";
 import mongoose from "mongoose";
 import { Core } from "sc-game-base";
 
-import GameData from "../../bitcoin-master-game-data";
 import BitcoinMasterSettleGameRoundConsumer from "../bitcoin-master-settle-game-round-consumer";
 import { getSettlementResult } from "../../helpers/result-helper";
 import gameSettings from "../../game-settings";
+import GameData from "../../bitcoin-master-game-data";
 import RoundResultPublisher from "sc-game-base/src/core/event-publishers/round-result-publisher";
 import UserBetResultPublisher from "sc-game-base/src/core/event-publishers/user-bet-result-publisher";
 

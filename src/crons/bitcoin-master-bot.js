@@ -50,7 +50,7 @@ export default class BitcoinMasterBot extends Bot {
         const { roundId } = this.gameData;
 
         const update = { [choice]: betAmount };
-        console.log(update);
+        
         const create = { uid: bot.id, phien: roundId, time: new Date() };
 
         await this.betsRepository.updateOne(

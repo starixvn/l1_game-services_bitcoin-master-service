@@ -6,6 +6,7 @@ import BitcoinMasterSettleGameRoundConsumer from "./consumers/bitcoin-master-set
 import BitcoinMasterBot from "./crons/bitcoin-master-bot";
 import BitcoinMasterGameCron from "./crons/bitcoin-master-game-cron";
 import BitcoinMasterProcessBetQueue from "./crons/bitcoin-master-process-bet-queue";
+import BitcoinMasterRunningRoundInfoPublisher from "./event-publishers/bitcoin-master-running-round-info-publisher";
 import ChartClientPublisher from "./event-publishers/chart-client-publisher";
 import { BitcoinMasterBetLogs, BitcoinMasterBets, BitcoinMasterRounds, CryptoExchanges } from "./models";
 import CryptoCandleSticks from "./models/crypto-candlestick";
@@ -55,6 +56,7 @@ export default class BitcoinMasterContainerRegistry extends ContainerRegistry {
         super.registerPublishers();
 
         this.container.register({
+            runningRoundInfoPublisher: asClass(BitcoinMasterRunningRoundInfoPublisher).singleton(),
             chartClientPublisher: asClass(ChartClientPublisher).singleton(),
         });
     }
