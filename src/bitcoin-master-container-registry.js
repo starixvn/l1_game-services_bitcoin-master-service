@@ -10,7 +10,7 @@ import BitcoinMasterRunningRoundInfoPublisher from "./event-publishers/bitcoin-m
 import ChartClientPublisher from "./event-publishers/chart-client-publisher";
 import { BitcoinMasterBetLogs, BitcoinMasterBets, BitcoinMasterRounds, CryptoExchanges } from "./models";
 import CryptoCandleSticks from "./models/crypto-candlestick";
-import BitcoinMasterSocketRouter from "./routers/socket-router";
+import BitcoinMasterSocketRouter from "./routers/bitcoin-master-socket-router";
 
 export default class BitcoinMasterContainerRegistry extends ContainerRegistry {
     registerModels() {

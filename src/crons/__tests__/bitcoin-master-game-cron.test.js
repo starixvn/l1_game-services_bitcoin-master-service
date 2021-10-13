@@ -1,7 +1,6 @@
 import { Core } from "sc-game-base";
 import gameSettings from "../../game-settings";
 import GameData from "../../bitcoin-master-game-data";
-import BitcoinMasterBot from "../bitcoin-master-bot";
 import BitcoinMasterSettleGameRoundConsumer from "../../consumers/bitcoin-master-settle-game-round-consumer";
 import BitcoinMasterGameCron from "../bitcoin-master-game-cron";
 import BitcoinMasterRunningRoundInfoPublisher from "../../event-publishers/bitcoin-master-running-round-info-publisher";
