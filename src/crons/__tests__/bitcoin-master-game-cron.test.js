@@ -9,6 +9,8 @@ import ChartClientPublisher from "../../event-publishers/chart-client-publisher"
 jest.mock("../../consumers/bitcoin-master-settle-game-round-consumer");
 jest.mock("../../event-publishers/bitcoin-master-running-round-info-publisher");
 jest.mock("../../event-publishers/chart-client-publisher");
+jest.mock("cron");
+jest.useFakeTimers();
 
 const definition = new Core.GameDefinition(gameSettings);
 const gameConfigs = { odds: { odd: 1.98, even: 1.98, up: 1.98, down: 1.98 } };
@@ -37,6 +39,20 @@ const betsRepository = {
     exists: jest.fn(),
 };
 
+const roundsRepository = {
+    mockExecFunc: jest.fn(),
+    findOne: () => ({
+        lean: () => ({ exec: roundsRepository.mockExecFunc }),
+    }),
+};
+
+const archiveStatusesRepository = {
+    mockExecFunc: jest.fn(),
+    findOne: () => ({
+        lean: () => ({ exec: archiveStatusesRepository.mockExecFunc }),
+    }),
+};
+
 const cron = new BitcoinMasterGameCron({
     definition,
     gameData,
@@ -44,8 +60,10 @@ const cron = new BitcoinMasterGameCron({
     cryptoExchangesRepository,
     runningRoundInfoPublisher,
     chartClientPublisher,
+    roundsRepository,
     betsRepository,
     cryptoCandleSticksRepository,
+    archiveStatusesRepository,
 });
 
 describe("updateCryptoExchangeData tests", () => {
@@ -128,4 +146,16 @@ describe("processUnsettledBets tests", () => {
         expect(gameData.open).toEqual(100);
         expect(settleGameRoundConsumer.settleRound).toHaveBeenCalled();
     });
+});
+
+describe("start tests", () => {
+    it("should start cron correctly", async () => {
+        await cron.start();
+        jest.runAllTimers();
+        expect(cron.job.start).toHaveBeenCalled();
+    });
+});
+
+afterEach(() => {
+    jest.clearAllMocks();
 });
