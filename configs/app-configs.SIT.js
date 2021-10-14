@@ -64,5 +64,10 @@ export default {
         "https://l1sitm.sgamesuat.com",
         "http://l1sit.sgamesuat.com",
         "https://l1sit.sgamesuat.com",
+        "https://l1uatproxy.sgamesuat.com",
     ],
+    chartConfig: {
+        socket: "wss://l1uatproxy.sgamesuat.com/user/bitcoinmaster",
+        socketPath: "/sit/bitcoinmaster/socket.io",
+    },
 };

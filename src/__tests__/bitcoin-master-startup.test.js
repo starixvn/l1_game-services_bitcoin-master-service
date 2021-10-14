@@ -12,6 +12,7 @@ describe("startServer tests", () => {
         process.env.NODE_ENV = "production";
         const app = {
             use: jest.fn(),
+            get: jest.fn()
         };
         await startup.startServer(app);
 
@@ -21,6 +22,7 @@ describe("startServer tests", () => {
     it("not production env - should setup static folder correctly", async () => {
         const app = {
             use: jest.fn(),
+            get: jest.fn()
         };
         await startup.startServer(app);
 

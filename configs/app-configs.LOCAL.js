@@ -58,4 +58,8 @@ export default {
         "http://l1-m.lumigame.com",
         "https://l1-m.lumigame.com",
     ],
+    chartConfig: {
+        socket: "wss://l1-proxy.lumigame.com/user/bitcoinmaster",
+        socketPath: "/bitcoinmaster/socket.io",
+    },
 };

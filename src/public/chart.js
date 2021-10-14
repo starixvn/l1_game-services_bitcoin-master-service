@@ -157,15 +157,18 @@
             chart.setOption({ ...defaultChartOption, ...dynamicOption });
         }
     }
-    function init() {
-        const socket = io("/user/bitcoinmaster", { path: "/bitcoinmaster/socket.io", transports: ["websocket"] });
+
+    function initChart(socketInfo) {
+        const socket = io(socketInfo.socket, {
+            path: socketInfo.socketPath,
+            transports: ["websocket"],
+        });
+
         const chart = echarts.init(document.getElementById("main"), "dark");
         socket.on("connect", () => {
             const searchParam = new URLSearchParams(window.location.search);
             socket.emit("signinchart", { ss: searchParam.get("ss") });
-            socket.on("message", (event) => {
-                console.log(event);
-            });
+
             socket.on("BitcoinMaster", (data) => {
                 updateChart(chart, data);
             });
@@ -173,6 +176,17 @@
                 socket.close();
             });
         });
+    }
+
+    function init() {
+        const request = new XMLHttpRequest();
+        request.open("get", "chart-config");
+        request.send();
+
+        request.onloadend = function (event) {
+            const res = JSON.parse(event.target.response);
+            initChart(res.socketInfo);
+        };
     }
 
     init();

@@ -67,5 +67,10 @@ export default {
         "https://m.sabagame.com",
         "http://m.gamesaba.com",
         "https://m.gamesaba.com",
+        "https://proxy.sabagame.com",
     ],
+    chartConfig: {
+        socket: "wss://proxy.sabagame.com/user/bitcoinmaster",
+        socketPath: "/bitcoinmaster/socket.io",
+    },
 };
