@@ -52,7 +52,7 @@ export default class BitcoinMasterGameCron extends GameCron {
                 this.logService.logError(
                     `${this.definition.name} unexpectedly stopped at round #${this.gameData.roundId} because some other tasks halt it.`
                 );
-                job.start();
+                this.startJob();
             }
         );
 
@@ -88,12 +88,17 @@ export default class BitcoinMasterGameCron extends GameCron {
     }
 
     async checkGameStatus() {
-        const { disabled } = this.gameData.disabled;
-        await super.checkGameStatus();
-
-        if (disabled && !this.gameData.disabled) {
-            this.job.stop();
-            this.startJob();
+        try {
+            const { disabled } = this.gameData;
+            await super.checkGameStatus();
+            console.log(disabled);
+    
+            if (disabled && !this.gameData.disabled) {
+                this.job.stop();
+            }
+        }
+        catch(exception) {
+            console.log(exception)
         }
     }
 
