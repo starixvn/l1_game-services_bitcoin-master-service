@@ -63,13 +63,15 @@ export default class BitcoinMasterGameCron extends GameCron {
             this.gameData.roundId = await this.getLastArchiveRound();
         }
 
+        this.firstStart = true;
         this.startJob();
     }
 
     startJob() {
+        const now = new Date();
         setTimeout(() => {
             this.job.start();
-        }, (60 - new Date().getSeconds()) * 1000);
+        }, 60000 - now.getSeconds() * 1000 - now.getMilliseconds());
     }
 
     async proceed() {
@@ -86,17 +88,39 @@ export default class BitcoinMasterGameCron extends GameCron {
             this.runningRoundInfoPublisher.publishToAllUsers({ close });
             this.chartClientPublisher.publishToAllClients(this.gameData.cryptoExchange);
         }
+
+        this.firstStart = false;
+        console.log(`${new Date().getSeconds()}-${this.gameData.remainingTime}`);
     }
 
     async checkGameStatus() {
-        const { disabled } = this.gameData;
-        await super.checkGameStatus();
+        const { configName, durations } = this.definition;
+        const configs = await this.gameConfigsRepository.findOne({ name: configName }).lean().exec();
+        const previouslyDisabled = this.gameData.disabled;
+        const configuredlyDisabled = !configs || !configs.enabled;
 
-        if (disabled && !this.gameData.disabled) {
-            this.job.stop();
+        if (previouslyDisabled) {
+            if (this.gameData.delayStartTime > 0) {
+                this.gameData.delayStartTime--;
+            } else if (!configuredlyDisabled) {
+                this.gameData.delayStartTime = 61 - new Date().getSeconds();
+            }
+        }
 
-            const { durations } = this.definition;
+        this.gameData.umMessages =
+            (await this.notificationRepository.findOne({ gameName: configName, displayKind: 2 }, "messages").lean().exec())?.messages ?? {};
+
+        this.gameData.gameConfigs = configs ?? {};
+        this.gameData.disabled = configuredlyDisabled || this.gameData.delayStartTime > 0;
+
+        if (this.gameData.disabled) {
             this.gameData.remainingTime = durations.wholeRound;
+            this.gameStatusPublisher.publishDisableGameStatus();
+            await this.gameConfigsRepository.updateOne({ name: configName }, { disabledround: this.gameData.roundId });
+        } else if (previouslyDisabled) {
+            this.gameStatusPublisher.publishEnablingGameStatus();
+        } else {
+            this.gameStatusPublisher.publishStartGame();
         }
     }
 
