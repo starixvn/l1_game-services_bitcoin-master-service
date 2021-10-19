@@ -52,7 +52,7 @@ export default class BitcoinMasterGameCron extends GameCron {
                 this.logService.logError(
                     `${this.definition.name} unexpectedly stopped at round #${this.gameData.roundId} because some other tasks halt it.`
                 );
-                this.startJob((61 - new Date().getSeconds()) * 1000);
+                this.startJob();
             }
         );
 
@@ -66,23 +66,24 @@ export default class BitcoinMasterGameCron extends GameCron {
         this.startJob();
     }
 
-    startJob(delay) {
+    startJob() {
         setTimeout(() => {
             this.job.start();
-        }, delay);
+        }, (60 - new Date().getSeconds()) * 1000);
     }
 
     async proceed() {
         await super.proceed();
         if (!this.gameData.disabled) {
             await this.updateCryptoExchangeData();
+            const { open, close } = this.gameData.cryptoExchange.runningCandleStick;
 
             if (this.gameData.remainingTime === this.definition.durations.snapshotOpenPrice) {
-                const { open } = this.gameData.cryptoExchange.runningCandleStick;
                 this.runningRoundInfoPublisher.publishToAllUsers({ open });
                 this.gameData.open = open;
             }
 
+            this.runningRoundInfoPublisher.publishToAllUsers({ close });
             this.chartClientPublisher.publishToAllClients(this.gameData.cryptoExchange);
         }
     }
@@ -93,6 +94,9 @@ export default class BitcoinMasterGameCron extends GameCron {
 
         if (disabled && !this.gameData.disabled) {
             this.job.stop();
+
+            const { durations } = this.definition;
+            this.gameData.remainingTime = durations.wholeRound;
         }
     }
 
