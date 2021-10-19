@@ -1,7 +1,7 @@
 (function () {
     var numberFormatter = new Intl.NumberFormat("en-US", { style: "decimal", signDisplay: "always", maximumFractionDigits: 2 });
-    const bullishColor = "#00da3c";
-    const bearlishColor = "#ec0000";
+    const bullishColor = "#0ecb81";
+    const bearlishColor = "#f6465d";
 
     const defaultChartOption = {
         backgroundColor: "rgba(16, 12, 42, 0.8)",
