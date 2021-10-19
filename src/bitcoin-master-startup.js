@@ -14,7 +14,7 @@ export default class BitcoinMasterStartup extends Core.BaseStartup {
             app.use(minify({ cache: "public" }));
             app.use(express.static("public"));
         } else {
-            app.use(express.static("src/public"));
+            app.use(express.static("public"));
         }
     }
 }
