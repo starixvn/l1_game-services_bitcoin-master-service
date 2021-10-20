@@ -66,7 +66,6 @@ export default class BitcoinMasterGameCron extends GameCron {
         job.start();
     }
 
-
     async proceed() {
         await super.proceed();
         if (!this.gameData.disabled) {
@@ -81,9 +80,6 @@ export default class BitcoinMasterGameCron extends GameCron {
             this.runningRoundInfoPublisher.publishToAllUsers({ close });
             this.chartClientPublisher.publishToAllClients(this.gameData.cryptoExchange);
         }
-
-        this.firstStart = false;
-        console.log(`${new Date().getSeconds()}-${this.gameData.remainingTime}`);
     }
 
     async checkGameStatus() {
