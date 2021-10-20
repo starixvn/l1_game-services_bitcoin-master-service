@@ -17,7 +17,7 @@ describe("startServer tests", () => {
         await startup.startServer(app);
 
         expect(BaseGameStartup.prototype.startServer).toHaveBeenCalledWith(app);
-        expect(app.use).toHaveBeenCalledTimes(2);
+        expect(app.use).toHaveBeenCalledTimes(3);
     });
     it("not production env - should setup static folder correctly", async () => {
         const app = {

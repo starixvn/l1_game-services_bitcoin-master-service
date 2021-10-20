@@ -54,5 +54,6 @@ export default {
     chartConfig: {
         socket: "ws://localhost:8084/user/bitcoinmaster",
         socketPath: "/socket.io",
+        allows: ["http://localhost:7456", "http://localhost:7000"],
     },
 };

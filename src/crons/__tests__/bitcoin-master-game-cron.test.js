@@ -148,13 +148,6 @@ describe("processUnsettledBets tests", () => {
     });
 });
 
-describe("start tests", () => {
-    it("should start cron correctly", async () => {
-        await cron.start();
-        jest.runAllTimers();
-        expect(cron.job.start).toHaveBeenCalled();
-    });
-});
 
 afterEach(() => {
     jest.clearAllMocks();
