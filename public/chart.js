@@ -42,6 +42,7 @@
             left: 50,
             top: 50,
             right: 70,
+            bottom: 60
         },
         yAxis: {
             scale: true,
