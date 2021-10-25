@@ -1,5 +1,6 @@
 import { asClass, asValue } from "awilix";
 import { ContainerRegistry } from "sc-pool-betting-game-base";
+import BitcoinMasterInGameConsumer from "./consumers/bitcoin-master-ingame-consumer";
 
 import BitcoinMasterPlaceBetConsumer from "./consumers/bitcoin-master-place-bet-consumer";
 import BitcoinMasterSettleGameRoundConsumer from "./consumers/bitcoin-master-settle-game-round-consumer";
@@ -30,6 +31,7 @@ export default class BitcoinMasterContainerRegistry extends ContainerRegistry {
         this.container.register({
             settleGameRoundConsumer: asClass(BitcoinMasterSettleGameRoundConsumer).singleton().proxy(),
             placeBetConsumer: asClass(BitcoinMasterPlaceBetConsumer).singleton(),
+            inGameConsumer: asClass(BitcoinMasterInGameConsumer).singleton(),
         });
     }
 

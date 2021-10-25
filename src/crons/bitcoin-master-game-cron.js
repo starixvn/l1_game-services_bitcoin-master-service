@@ -102,7 +102,6 @@ export default class BitcoinMasterGameCron extends GameCron {
         this.gameData.gameConfigs = configs ?? {};
         this.gameData.disabled = configuredlyDisabled || this.gameData.delayStartTime > 0;
 
-        debugger;
         if (this.gameData.disabled) {
             this.gameData.remainingTime = durations.wholeRound;
             this.gameStatusPublisher.publishDisableGameStatus();
