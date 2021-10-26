@@ -68,5 +68,6 @@ export default {
     chartConfig: {
         socket: "wss://l1uatproxy.sgamesuat.com/user/bitcoinmaster",
         socketPath: "/uat/bitcoinmaster/socket.io",
+        allows: ["https://l1uat.sgamesuat.com", "https://l1uatm.sgamesuat.com"],
     },
 };
