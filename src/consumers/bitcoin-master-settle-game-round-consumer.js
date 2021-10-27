@@ -53,8 +53,6 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
     calculateBetResult(bet, betLogs) {
         const betResult = betLogs.reduce(
             (result, betLog) => {
-                result.winningByChoices[choice] = winAmount;
-
                 if (betLog.win) {
                     result.totalWin += betLog.betwin + betLog.amount;
                     result.winningByChoices[betLog.choice] += betLog.betwin + betLog.amount;   
