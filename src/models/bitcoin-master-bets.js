@@ -27,10 +27,10 @@ const betSchema = new mongoose.Schema({
     down: { type: Number, required: true, default: 0 },
     odd: { type: Number, required: true, default: 0 },
     even: { type: Number, required: true, default: 0 },
-
+    totalAmount: { type: Number, required: true, default: 0 },
+    
     thanhtoan: { type: Boolean, default: false },
     refund: { type: Number, default: 0 },
-    win: { type: Boolean, default: false },
     betwin: { type: Number, default: 0 },
     time: { type: Date },
     odds: { type: Object },

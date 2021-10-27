@@ -34,7 +34,7 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
 
             await Promise.all(
                 settledBets.map(async (bet) => {
-                    const betResult = this.calculateBetResult(bet);
+                    const betResult = this.calculateBetResult(bet, bets.filter(x => x.phien === bet.phien && x.uid === bet.uid));
 
                     await this.callEndGame(bet, roundId, time, betResult);
                     this.captureBetResult(bet.uid, betResult);
@@ -48,6 +48,36 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
 
         this.roundResultPublisher.publishRoundResult(this.collectRoundResult(result, settlementResult, roundId));
     }
+
+    
+    calculateBetResult(bet, betLogs) {
+        const betResult = betLogs.reduce(
+            (result, betLog) => {
+                result.winningByChoices[choice] = winAmount;
+
+                if (betLog.win) {
+                    result.totalWin += betLog.betwin + betLog.amount;
+                    result.winningByChoices[betLog.choice] += betLog.betwin + betLog.amount;   
+                    //result.netWin += betLog.betwin;
+                } else {
+                     result.totalWin += betLog.refund;
+                     result.winningByChoices[betLog.choice] += betLog.refund;
+                     result.totalLost += betLog.amount - betLog.refund;
+                }
+
+                return result;
+            },
+            {
+                totalBetAmount: bet.totalAmount,
+                totalWin: 0,
+                totalLost: 0,
+                winningByChoices: {},
+            }
+        );
+    
+        return betResult;
+    }
+
 
     settleUpDown(uusUserIds, bets, roundId, settlementResult) {
         const choices = ["up", "down"];
