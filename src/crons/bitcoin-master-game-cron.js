@@ -80,6 +80,8 @@ export default class BitcoinMasterGameCron extends GameCron {
             this.runningRoundInfoPublisher.publishToAllUsers({ close });
             this.chartClientPublisher.publishToAllClients(this.gameData.cryptoExchange);
         }
+
+        console.log(`${this.gameData.roundId}-${this.gameData.remainingTime}-${new Date().getSeconds()}`);
     }
 
     async checkGameStatus() {
