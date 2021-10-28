@@ -4,7 +4,7 @@
     const bearlishColor = "#f6465d";
 
     const defaultChartOption = {
-        backgroundColor: "rgba(16, 12, 42, 0.5)",
+        backgroundColor: "rgba(16, 12, 42, 0.2)",
         tooltip: {
             trigger: "axis",
             axisPointer: {
