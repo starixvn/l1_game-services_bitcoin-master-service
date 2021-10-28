@@ -85,7 +85,7 @@
                     dimensions: ["date", "open", "close", "highest", "lowest"],
                     name: "candles",
                     type: "candlestick",
-                    barMinWidth: 25,
+                    barMinWidth: "80%",
                     itemStyle: {
                         color: bullishColor,
                         color0: bearlishColor,
