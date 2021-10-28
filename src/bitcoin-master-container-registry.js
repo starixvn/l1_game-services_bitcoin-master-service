@@ -10,6 +10,7 @@ import BitcoinMasterProcessBetQueue from "./crons/bitcoin-master-process-bet-que
 import BitcoinMasterRunningRoundInfoPublisher from "./event-publishers/bitcoin-master-running-round-info-publisher";
 import ChartClientPublisher from "./event-publishers/chart-client-publisher";
 import { BitcoinMasterBetLogs, BitcoinMasterBets, BitcoinMasterRounds, CryptoExchanges, CryptoCandleSticks } from "./models";
+import BitcoinMasterHistoryQuery from "./query-apis/bitcoin-master-history-query";
 import BitcoinMasterSocketRouter from "./routers/bitcoin-master-socket-router";
 
 export default class BitcoinMasterContainerRegistry extends ContainerRegistry {
@@ -59,6 +60,14 @@ export default class BitcoinMasterContainerRegistry extends ContainerRegistry {
         this.container.register({
             runningRoundInfoPublisher: asClass(BitcoinMasterRunningRoundInfoPublisher).singleton(),
             chartClientPublisher: asClass(ChartClientPublisher).singleton(),
+        });
+    }
+
+    registerApis() {
+        super.registerApis();
+
+        this.container.register({
+            historyQuery: asClass(BitcoinMasterHistoryQuery).singleton(),
         });
     }
 }
