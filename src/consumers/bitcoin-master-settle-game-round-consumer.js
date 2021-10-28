@@ -34,7 +34,10 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
 
             await Promise.all(
                 settledBets.map(async (bet) => {
-                    const betResult = this.calculateBetResult(bet, bets.filter(x => x.phien === bet.phien && x.uid === bet.uid));
+                    const betResult = this.calculateBetResult(
+                        bet,
+                        bets.filter((x) => x.phien === bet.phien && x.uid === bet.uid)
+                    );
 
                     await this.callEndGame(bet, roundId, time, betResult);
                     this.captureBetResult(bet.uid, betResult);
@@ -49,18 +52,17 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
         this.roundResultPublisher.publishRoundResult(this.collectRoundResult(result, settlementResult, roundId));
     }
 
-    
     calculateBetResult(bet, betLogs) {
-        const betResult = betLogs.reduce(
+        return betLogs.reduce(
             (result, betLog) => {
                 if (betLog.win) {
                     result.totalWin += betLog.betwin + betLog.amount;
-                    result.winningByChoices[betLog.choice] += betLog.betwin + betLog.amount;   
-                    //result.netWin += betLog.betwin;
+                    result.winningByChoices[betLog.choice] = (result.winningByChoices[betLog.choice] ?? 0) + betLog.betwin + betLog.amount;
+                    result.netWin += betLog.betwin;
                 } else {
-                     result.totalWin += betLog.refund;
-                     result.winningByChoices[betLog.choice] += betLog.refund;
-                     result.totalLost += betLog.amount - betLog.refund;
+                    result.totalWin += betLog.refund;
+                    result.winningByChoices[betLog.choice] = (result.winningByChoices[betLog.choice] ?? 0) + betLog.refund;
+                    result.totalLost += betLog.amount - betLog.refund;
                 }
 
                 return result;
@@ -69,13 +71,11 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
                 totalBetAmount: bet.totalAmount,
                 totalWin: 0,
                 totalLost: 0,
+                netWin: 0,
                 winningByChoices: {},
             }
         );
-    
-        return betResult;
     }
-
 
     settleUpDown(uusUserIds, bets, roundId, settlementResult) {
         const choices = ["up", "down"];

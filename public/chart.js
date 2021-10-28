@@ -4,7 +4,7 @@
     const bearlishColor = "#f6465d";
 
     const defaultChartOption = {
-        backgroundColor: "rgba(16, 12, 42, 0.7)",
+        backgroundColor: "rgba(16, 12, 42, 0.5)",
         tooltip: {
             trigger: "axis",
             axisPointer: {
@@ -85,6 +85,7 @@
                     dimensions: ["date", "open", "close", "highest", "lowest"],
                     name: "candles",
                     type: "candlestick",
+                    barMinWidth: 25,
                     itemStyle: {
                         color: bullishColor,
                         color0: bearlishColor,
