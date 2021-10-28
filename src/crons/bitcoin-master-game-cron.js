@@ -41,7 +41,7 @@ export default class BitcoinMasterGameCron extends GameCron {
 
     async start() {
         const lastRound = await this.roundsRepository
-            .findOne({}, "id", { sort: { id: -1 } })
+            .findOne({}, { sort: { id: -1 } })
             .lean()
             .exec();
 
