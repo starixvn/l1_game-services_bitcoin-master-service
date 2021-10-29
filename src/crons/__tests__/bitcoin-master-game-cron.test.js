@@ -9,12 +9,13 @@ import GameStatusPublisher from "sc-game-base/src/core/event-publishers/game-sta
 import { stubMongooseModelStupidly } from "jest-micro-auto-stub";
 import mongoose from "mongoose";
 
+jest.useFakeTimers();
+
 jest.mock("../../consumers/bitcoin-master-settle-game-round-consumer");
 jest.mock("../../event-publishers/bitcoin-master-running-round-info-publisher");
 jest.mock("../../event-publishers/chart-client-publisher");
 jest.mock("sc-game-base/src/core/event-publishers/game-status-publisher");
 jest.mock("cron");
-jest.useFakeTimers();
 
 const definition = new Core.GameDefinition(gameSettings);
 const gameConfigs = { enabled: true, odds: { odd: 1.98, even: 1.98, up: 1.98, down: 1.98 } };
@@ -152,7 +153,7 @@ describe("processUnsettledBets tests", () => {
         cryptoCandleSticksRepository.mockLeanFnc.mockReturnValueOnce({
             average: {
                 time: new Date(),
-                open: 100,
+                open: 120,
                 close: 200,
                 high: 250,
                 low: 100,
@@ -160,13 +161,14 @@ describe("processUnsettledBets tests", () => {
         });
 
         await cron.processUnsettledBets({ id: 1, result: { time: new Date() } });
-        jest.runAllTimers();
-        expect(gameData.open).toEqual(100);
+
+        await jest.runAllTimers();
+
+        expect(gameData.open).toEqual(120);
         expect(settleGameRoundConsumer.settleRound).toHaveBeenCalled();
     });
     it("should not call settleround when there is no unsettled bets", async () => {
         betsRepository.exists.mockReturnValueOnce(false);
-
 
         await cron.processUnsettledBets({ id: 1, result: { time: new Date() } });
 
@@ -223,5 +225,5 @@ describe("checkGameStatus tests", () => {
 });
 
 afterEach(() => {
-    jest.clearAllMocks();
+   jest.clearAllMocks();
 });
