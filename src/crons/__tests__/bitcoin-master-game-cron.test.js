@@ -160,7 +160,7 @@ describe("processUnsettledBets tests", () => {
         });
 
         await cron.processUnsettledBets({ id: 1, result: { time: new Date() } });
-
+        jest.runAllTimers();
         expect(gameData.open).toEqual(100);
         expect(settleGameRoundConsumer.settleRound).toHaveBeenCalled();
     });

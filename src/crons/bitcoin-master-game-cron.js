@@ -126,15 +126,21 @@ export default class BitcoinMasterGameCron extends GameCron {
             const time = new Date(lastRound.result.time);
             time.setMinutes(time.getMinutes() + 2);
 
-            const { average } = await this.cryptoCandleSticksRepository.findOne({ time }, "average").lean();
+            const settleTime = new Date(time);
+            settleTime.setMinutes(settleTime.getMinutes() + 1);
+            const now = new Date();
 
-            this.gameData.cryptoExchange = {
-                runningCandleStick: average,
-            };
+            setTimeout(async () => {
+                const { average } = await this.cryptoCandleSticksRepository.findOne({ time }, "average").lean();
 
-            this.gameData.open = average.open;
+                this.gameData.cryptoExchange = {
+                    runningCandleStick: average,
+                };
 
-            await this.settleGameRoundConsumer.settleRound();
+                this.gameData.open = average.open;
+
+                await this.settleGameRoundConsumer.settleRound();
+            }, Math.max(settleTime.getTime() - now.getTime(), 0));
         }
     }
 }

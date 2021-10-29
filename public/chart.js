@@ -1,1 +1,195 @@
-!function(){var r=new Intl.NumberFormat("en-US",{style:"decimal",signDisplay:"always",maximumFractionDigits:2});const p="#0ecb81",d="#f6465d",a={backgroundColor:"rgba(16, 12, 42, 0.2)",tooltip:{trigger:"axis",axisPointer:{type:"cross"},position:[40,0],formatter:function(e,n,t){var o=e[0]["data"],a=o[2]-o[1],i=0<a?o[2]:o[1],s=0<a?p:d,c=`O: <span style="color:${s}">${o[1]}</span>`,l=`C: <span style="color:${s}">${o[2]}</span>`,e=`L: <span style="color:${s}">${o[3]}</span>`;return`${c} ${`H: <span style="color:${s}">${o[4]}</span>`} ${e} ${l} ${`<span style="color:${s}">${r.format(a)}(${r.format(100*a/i)}%)</span>`}`}},legend:{data:["","Binance","Huobi","Mexc","Okex"],selected:{Binance:!1,Huobi:!1,Mexc:!1,Okex:!1},bottom:0},grid:{left:50,top:50,right:70,bottom:60},yAxis:{scale:!0,position:"right"},xAxis:{type:"time",minInterval:5,splitLine:{show:!1},max:function(e){return e.max+6e4}}};function i(t,o){const a=[];for(let e=0;e<5;e++)a.push([o[e],""]);for(let n=5;n<t.length;n++){let e=0;for(var i=n-5;i<=n;i++)e+=t[i].close;a.push([o[n],e/6])}return a}function n(e){const n=io(e.socket,{path:e.socketPath,transports:["websocket"]}),o=echarts.init(document.getElementById("main"),"dark");n.on("connect",()=>{const e=new URLSearchParams(window.location.search);n.emit("signinchart",{ss:e.get("ss")}),n.on("BitcoinMaster",e=>{var n,t;n=o,e=(t=e).averageCandleSticks.map(e=>e.time),e={dataset:{source:t.averageCandleSticks.map(e=>[e.time,e.open,e.close,e.low,e.high])},series:[{dimensions:["date","open","close","highest","lowest"],name:"candles",type:"candlestick",barMinWidth:"80%",itemStyle:{color:p,color0:d,borderColor:"#008F28",borderColor0:"#8A0000"},markLine:{symbol:["none"],data:[{name:"min line on close",yAxis:t.runningCandleStick.close}],label:{backgroundColor:t.runningCandleStick.close>t.runningCandleStick.open?p:d,color:t.runningCandleStick.close>t.runningCandleStick.open?"black":"white",padding:[5,5,5,5]},lineStyle:{color:t.runningCandleStick.close>t.runningCandleStick.open?p:d}}},{name:"Binance",type:"line",data:i(t.binance,e),smooth:!0,lineStyle:{opacity:.5,type:"dotted"}},{name:"Huobi",type:"line",data:i(t.huobi,e),smooth:!0,lineStyle:{opacity:.5,type:"dotted"}},{name:"Mexc",type:"line",data:i(t.mexc,e),smooth:!0,lineStyle:{opacity:.5,type:"dotted"}},{name:"Okex",type:"line",data:i(t.okex,e),smooth:!0,lineStyle:{opacity:.5,type:"dotted"}}]},n.getOption()?n.setOption({...e}):n.setOption({...a,...e})}),n.on("disconnect",()=>{n.close()})})}!function(){const e=new XMLHttpRequest;e.open("get","chart-config"),e.send(),e.onloadend=function(e){n(JSON.parse(e.target.response).socketInfo)}}()}();
+(function () {
+    var numberFormatter = new Intl.NumberFormat("en-US", { style: "decimal", signDisplay: "always", maximumFractionDigits: 2 });
+    const bullishColor = "#0ecb81";
+    const bearlishColor = "#f6465d";
+
+    const defaultChartOption = {
+        backgroundColor: "rgba(16, 12, 42, 0.2)",
+        tooltip: {
+            trigger: "axis",
+            axisPointer: {
+                type: "cross",
+            },
+            position: [40, 0],
+            formatter: function (params, ticket, callback) {
+                const { data: item } = params[0];
+                const sub = item[2] - item[1];
+                const number = sub > 0 ? item[2] : item[1];
+                const textColor = sub > 0 ? bullishColor : bearlishColor;
+
+                const open = `O: <span style="color:${textColor}">${item[1]}</span>`;
+                const close = `C: <span style="color:${textColor}">${item[2]}</span>`;
+                const low = `L: <span style="color:${textColor}">${item[3]}</span>`;
+                const high = `H: <span style="color:${textColor}">${item[4]}</span>`;
+                const percentage = `<span style="color:${textColor}">${numberFormatter.format(sub)}(${numberFormatter.format(
+                    (sub * 100) / number
+                )}%)</span>`;
+
+                return `${open} ${high} ${low} ${close} ${percentage}`;
+            },
+        },
+        legend: {
+            data: ["", "Binance", "Huobi", "Mexc", "Okex"],
+            selected: {
+                Binance: false,
+                Huobi: false,
+                Mexc: false,
+                Okex: false,
+            },
+            bottom: 0,
+        },
+        grid: {
+            left: 50,
+            top: 50,
+            right: 70,
+            bottom: 60
+        },
+        yAxis: {
+            scale: true,
+            position: "right",
+        },
+        xAxis: {
+            type: "time",
+            minInterval: 5,
+            splitLine: { show: false },
+            max: function (value) {
+                return value.max + 60000;
+            },
+        },
+    };
+
+    function calculateMA6(data, times) {
+        const result = [];
+        for (let i = 0; i < 5; i++) {
+            result.push([times[i], ""]);
+        }
+
+        for (let i = 5; i < data.length; i++) {
+            let sum = 0;
+            for (var j = i - 5; j <= i; j++) {
+                sum += data[j].close;
+            }
+            result.push([times[i], sum / 6]);
+        }
+        return result;
+    }
+
+    function updateChart(chart, data) {
+        const times = data.averageCandleSticks.map((x) => x.time);
+        const dynamicOption = {
+            dataset: {
+                source: data.averageCandleSticks.map((x) => [x.time, x.open, x.close, x.low, x.high]),
+            },
+            series: [
+                {
+                    dimensions: ["date", "open", "close", "highest", "lowest"],
+                    name: "candles",
+                    type: "candlestick",
+                    barMinWidth: "80%",
+                    itemStyle: {
+                        color: bullishColor,
+                        color0: bearlishColor,
+                        borderColor: "#008F28",
+                        borderColor0: "#8A0000",
+                    },
+                    markLine: {
+                        symbol: ["none"],
+                        data: [
+                            {
+                                name: "min line on close",
+                                yAxis: data.runningCandleStick.close,
+                            },
+                        ],
+                        label: {
+                            backgroundColor: data.runningCandleStick.close > data.runningCandleStick.open ? bullishColor : bearlishColor,
+                            color: data.runningCandleStick.close > data.runningCandleStick.open ? "black" : "white",
+                            padding: [5, 5, 5, 5],
+                        },
+                        lineStyle: {
+                            color: data.runningCandleStick.close > data.runningCandleStick.open ? bullishColor : bearlishColor,
+                        },
+                    },
+                },
+                {
+                    name: "Binance",
+                    type: "line",
+                    data: calculateMA6(data.binance, times),
+                    smooth: true,
+                    lineStyle: {
+                        opacity: 0.5,
+                        type: "dotted",
+                    },
+                },
+                {
+                    name: "Huobi",
+                    type: "line",
+                    data: calculateMA6(data.huobi, times),
+                    smooth: true,
+                    lineStyle: {
+                        opacity: 0.5,
+                        type: "dotted",
+                    },
+                },
+                {
+                    name: "Mexc",
+                    type: "line",
+                    data: calculateMA6(data.mexc, times),
+                    smooth: true,
+                    lineStyle: {
+                        opacity: 0.5,
+                        type: "dotted",
+                    },
+                },
+                {
+                    name: "Okex",
+                    type: "line",
+                    data: calculateMA6(data.okex, times),
+                    smooth: true,
+                    lineStyle: {
+                        opacity: 0.5,
+                        type: "dotted",
+                    },
+                },
+            ],
+        };
+
+        if (chart.getOption()) {
+            chart.setOption({ ...dynamicOption });
+        } else {
+            chart.setOption({ ...defaultChartOption, ...dynamicOption });
+        }
+    }
+
+    function initChart(socketInfo) {
+        const socket = io(socketInfo.socket, {
+            path: socketInfo.socketPath,
+            transports: ["websocket"],
+        });
+
+        const chart = echarts.init(document.getElementById("main"), "dark");
+        socket.on("connect", () => {
+            const searchParam = new URLSearchParams(window.location.search);
+            socket.emit("signinchart", { ss: searchParam.get("ss") });
+
+            socket.on("BitcoinMaster", (data) => {
+                updateChart(chart, data);
+            });
+            socket.on("disconnect", () => {
+                socket.close();
+            });
+        });
+    }
+
+    function init() {
+        const request = new XMLHttpRequest();
+        request.open("get", "chart-config");
+        request.send();
+
+        request.onloadend = function (event) {
+            const res = JSON.parse(event.target.response);
+            initChart(res.socketInfo);
+        };
+    }
+
+    init();
+})();
