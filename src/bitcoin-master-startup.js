@@ -12,6 +12,7 @@ export default class BitcoinMasterStartup extends Core.BaseStartup {
         });
 
         if (process.env.NODE_ENV === "production") {
+            app.use(compression());
             app.use(minify({ cache: "public" }));
             app.use(
                 helmet.contentSecurityPolicy({
