@@ -6,6 +6,7 @@
     "scripts": {
         "test": "jest",
         "test-coverage": "jest --collect-coverage",
+        "uglify": "uglifyjs ./public/chart.js -o ./public/chart.js  --compress --mangle",
         "dev": "SET NODE_ENV=development&& nodemon --es-module-specifier-resolution=node --watch ./src --ignore src/public/  ./src/app.js",
         "debug": "nodemon --es-module-specifier-resolution=node --watch ./ --inspect ./src/app.js",
         "prod": "node --max-old-space-size=8192 --es-module-specifier-resolution=node ./src/app.js",
