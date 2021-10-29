@@ -1,5 +1,6 @@
 import { Core } from "sc-game-base";
 import minify from "express-minify";
+import compression from "compression";
 import express from "express";
 import appConfigs from "./app-configs";
 import helmet from "helmet";
