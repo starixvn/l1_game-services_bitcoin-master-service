@@ -84,7 +84,7 @@ export default class BitcoinMasterGameCron extends GameCron {
                 this.gameData.open = open;
             }
 
-            this.runningRoundInfoPublisher.publishToAllUsers({ close });
+            this.runningRoundInfoPublisher.publishToAllUsers({ open, close });
             this.chartClientPublisher.publishToAllClients(this.gameData.cryptoExchange);
         }
 
