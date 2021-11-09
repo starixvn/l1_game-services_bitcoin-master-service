@@ -37,16 +37,22 @@
                 Okex: false,
             },
             bottom: 0,
+            textStyle: {
+                fontSize: 14,
+            },
         },
         grid: {
             left: 50,
             top: 50,
             right: 70,
-            bottom: 60
+            bottom: 60,
         },
         yAxis: {
             scale: true,
             position: "right",
+            axisLabel: {
+                fontSize: 14,
+            },
         },
         xAxis: {
             type: "time",
@@ -54,6 +60,9 @@
             splitLine: { show: false },
             max: function (value) {
                 return value.max + 60000;
+            },
+            axisLabel: {
+                fontSize: 14,
             },
         },
     };
@@ -104,6 +113,7 @@
                             backgroundColor: data.runningCandleStick.close > data.runningCandleStick.open ? bullishColor : bearlishColor,
                             color: data.runningCandleStick.close > data.runningCandleStick.open ? "black" : "white",
                             padding: [5, 5, 5, 5],
+                            fontSize: 14
                         },
                         lineStyle: {
                             color: data.runningCandleStick.close > data.runningCandleStick.open ? bullishColor : bearlishColor,

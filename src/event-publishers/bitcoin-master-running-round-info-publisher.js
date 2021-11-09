@@ -12,6 +12,7 @@ export default class BitcoinMasterRunningRoundInfoPublisher extends RunningRound
 
     calculatePercentageOnChoicePair(betPercentage, choices) {
         const { betCount } = this.gameData;
+        console.log(betCount);
         const totalBetCount = (betCount[choices[0]] ?? 0) + (betCount[choices[1]] ?? 0);
 
         if (totalBetCount > 0) {
