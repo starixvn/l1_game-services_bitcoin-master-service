@@ -16,12 +16,12 @@ export default class BitcoinMasterStartup extends Core.BaseStartup {
                     useDefaults: true,
                     directives: {
                         frameAncestors: appConfigs.chartConfig.allows,
-                        connectSrc: ["*"]
+                        connectSrc: ["*"],
                     },
                 })
             );
         }
-        
+
         app.use(express.static("public"));
     }
 }

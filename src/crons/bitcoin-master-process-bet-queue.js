@@ -1,6 +1,21 @@
 import { ProcessBetQueue } from "sc-pool-betting-game-base";
 
 export default class BitcoinMasterProcessBetQueue extends ProcessBetQueue {
+    async upsertBet(player, roundId, bet) {
+        const configs = this.gameData.gameConfigs;
+        const existingBetFilter = { uid: player.UID, phien: roundId };
+        const existingBet = await this.betsRepository.findOne(existingBetFilter).exec();
+        if (existingBet) {
+            await this.updateBet(existingBet, bet);
+        } else {
+            await this.insertBet(player, bet, roundId, configs);
+        }
+
+        if (!this.isUUSAccount(player) && (!existingBet || existingBet[bet.betChoice] - bet.amount === 0)) {
+            this.gameData.betCount[bet.betChoice] = (this.gameData.betCount[bet.betChoice] ?? 0) + 1;
+        }
+    }
+
     async insertBet(player, bet, roundId, configs) {
         const newBet = {
             uid: player.UID,
