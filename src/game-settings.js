@@ -6,7 +6,6 @@ export default {
         placingBets: 104,
         balancingBetTime: 69,
         lockingBet: 65,
-        waitingResult: 59,
         snapshotOpenPrice: 58
     },
     choices: ["even", "odd", "up", "down"],

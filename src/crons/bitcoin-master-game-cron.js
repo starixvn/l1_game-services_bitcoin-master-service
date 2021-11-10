@@ -67,15 +67,8 @@ export default class BitcoinMasterGameCron extends GameCron {
     }
 
     async proceed() {
-        const { durations } = this.definition;
-
-        if (this.gameData.remainingTime === durations.wholeRound) {
-            await this.checkGameStatus();
-        }
-
+        await super.proceed();
         if (!this.gameData.disabled) {
-            this.gameData.remainingTime--;
-
             await this.updateCryptoExchangeData();
             const { open, close } = this.gameData.cryptoExchange.runningCandleStick;
 
@@ -86,20 +79,6 @@ export default class BitcoinMasterGameCron extends GameCron {
 
             this.runningRoundInfoPublisher.publishToAllUsers({ open, close });
             this.chartClientPublisher.publishToAllClients(this.gameData.cryptoExchange);
-        }
-
-        if (this.isStartingTime(this.gameData.remainingTime, durations)) {
-            this.resetForNewRound();
-            this.bot && (await this.bot.reset());
-        }
-
-        if (this.gameData.remainingTime < 0) {
-            this.gameData.remainingTime = durations.wholeRound;
-
-            await this.settleGameRoundConsumer.settleRound(this.gameData);
-        } else if (this.gameData.remainingTime < durations.placingBets && this.gameData.remainingTime > durations.waitingResult) {
-            this.bot && (await this.bot.run());
-            this.runningRoundInfoPublisher.publish();
         }
     }
 
