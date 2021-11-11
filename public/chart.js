@@ -36,9 +36,9 @@
                 const low = `L: <span style="color:${textColor}">${numberFormatter.format(item[3])}</span>`;
                 const high = `H: <span style="color:${textColor}">${numberFormatter.format(item[4])}</span>`;
                 const icon = sub > 0 ? "▲" : "▼";
-                const percentage = `<span style="color:${textColor}">${icon}${numberFormatter.format(sub)}(${percentFormatter.format(
-                    (sub * 100) / number
-                )})</span>`;
+                const percentage = `<span style="color:${textColor}">${icon}${numberFormatter.format(
+                    Math.abs(sub)
+                )}(${percentFormatter.format((sub * 100) / number)})</span>`;
 
                 return `${open} ${high} ${low} ${close} ${percentage}`;
             },
