@@ -1,5 +1,7 @@
 (function () {
-    var numberFormatter = new Intl.NumberFormat("en-US", { style: "decimal", signDisplay: "always", maximumFractionDigits: 2 });
+    var percentFormatter = new Intl.NumberFormat("en-US", { style: "percent", signDisplay: "always", maximumFractionDigits: 2 });
+    var numberFormatter = new Intl.NumberFormat("en-US", { style: "decimal", signDisplay: "auto", maximumFractionDigits: 2 });
+
     const bullishColor = "#0ecb81";
     const bearlishColor = "#f6465d";
 
@@ -9,6 +11,18 @@
             trigger: "axis",
             axisPointer: {
                 type: "cross",
+                label: {
+                    fontSize: 14,
+                    formatter: function (params) {
+                        if (params.axisDimension === "x") {
+                            return echarts.format.formatTime("hh:mm", params.value);
+                        }
+
+                        if (params.axisDimension === "y") {
+                            return numberFormatter.format(params.value);
+                        }
+                    },
+                },
             },
             position: [40, 0],
             formatter: function (params, ticket, callback) {
@@ -17,13 +31,13 @@
                 const number = sub > 0 ? item[2] : item[1];
                 const textColor = sub > 0 ? bullishColor : bearlishColor;
 
-                const open = `O: <span style="color:${textColor}">${item[1]}</span>`;
-                const close = `C: <span style="color:${textColor}">${item[2]}</span>`;
-                const low = `L: <span style="color:${textColor}">${item[3]}</span>`;
-                const high = `H: <span style="color:${textColor}">${item[4]}</span>`;
-                const percentage = `<span style="color:${textColor}">${numberFormatter.format(sub)}(${numberFormatter.format(
+                const open = `O: <span style="color:${textColor}">${numberFormatter.format(item[1])}</span>`;
+                const close = `C: <span style="color:${textColor}">${numberFormatter.format(item[2])}</span>`;
+                const low = `L: <span style="color:${textColor}">${numberFormatter.format(item[3])}</span>`;
+                const high = `H: <span style="color:${textColor}">${numberFormatter.format(item[4])}</span>`;
+                const percentage = `<span style="color:${textColor}">${numberFormatter.format(sub)}(${percentFormatter.format(
                     (sub * 100) / number
-                )}%)</span>`;
+                )})</span>`;
 
                 return `${open} ${high} ${low} ${close} ${percentage}`;
             },
@@ -44,7 +58,7 @@
         grid: {
             left: 50,
             top: 50,
-            right: 70,
+            right: 80,
             bottom: 60,
         },
         yAxis: {
@@ -63,6 +77,7 @@
             },
             axisLabel: {
                 fontSize: 14,
+                formatter: "{HH}:{mm}",
             },
         },
     };
@@ -106,14 +121,14 @@
                         data: [
                             {
                                 name: "min line on close",
-                                yAxis: data.runningCandleStick.close,
+                                yAxis: numberFormatter.format(data.runningCandleStick.close),
                             },
                         ],
                         label: {
                             backgroundColor: data.runningCandleStick.close > data.runningCandleStick.open ? bullishColor : bearlishColor,
                             color: data.runningCandleStick.close > data.runningCandleStick.open ? "black" : "white",
                             padding: [5, 5, 5, 5],
-                            fontSize: 14
+                            fontSize: 14,
                         },
                         lineStyle: {
                             color: data.runningCandleStick.close > data.runningCandleStick.open ? bullishColor : bearlishColor,
