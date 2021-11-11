@@ -1,5 +1,5 @@
 (function () {
-    var percentFormatter = new Intl.NumberFormat("en-US", { style: "percent", signDisplay: "always", maximumFractionDigits: 2 });
+    var percentFormatter = new Intl.NumberFormat("en-US", { style: "percent", signDisplay: "auto", maximumFractionDigits: 2 });
     var numberFormatter = new Intl.NumberFormat("en-US", { style: "decimal", signDisplay: "auto", maximumFractionDigits: 2 });
 
     const bullishColor = "#0ecb81";
@@ -38,7 +38,7 @@
                 const icon = sub > 0 ? "▲" : "▼";
                 const percentage = `<span style="color:${textColor}">${icon}${numberFormatter.format(
                     Math.abs(sub)
-                )}(${percentFormatter.format((sub * 100) / number)})</span>`;
+                )}(${percentFormatter.format((Math.abs(sub) * 100) / number)})</span>`;
 
                 return `${open} ${high} ${low} ${close} ${percentage}`;
             },
