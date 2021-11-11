@@ -122,7 +122,7 @@
                         data: [
                             {
                                 name: "min line on close",
-                                yAxis: numberFormatter.format(data.runningCandleStick.close),
+                                yAxis: data.runningCandleStick.close,
                             },
                         ],
                         label: {
@@ -130,6 +130,9 @@
                             color: data.runningCandleStick.close > data.runningCandleStick.open ? "black" : "white",
                             padding: [5, 5, 5, 5],
                             fontSize: 14,
+                            formatter: function (params) {
+                                return numberFormatter.format(params.value);
+                            },
                         },
                         lineStyle: {
                             color: data.runningCandleStick.close > data.runningCandleStick.open ? bullishColor : bearlishColor,
