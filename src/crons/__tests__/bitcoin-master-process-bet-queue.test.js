@@ -10,19 +10,20 @@ gameData.gameConfigs = gameConfigs;
 gameData.roundId = 1;
 
 const betsRepository = {
+    execFn: jest.fn(),
     create: jest.fn(),
+    findOne: () => ({
+        exec: betsRepository.execFn,
+    }),
 };
 
-const processBetQueue = new BitcoinMasterProcessBetQueue({ definition, gameConfigs, betsRepository });
+const processBetQueue = new BitcoinMasterProcessBetQueue({ definition, gameData, gameConfigs, betsRepository });
+
+const player = { UID: 1, profile: { name: "player" }, session: { memberId: 100, siteId: "lumi" } };
 
 describe("insert bet tests", () => {
     it("insert bet correctly", async () => {
-        await processBetQueue.insertBet(
-            { UID: 1, profile: { name: "player" }, session: { memberId: 100, siteId: "lumi" } },
-            { betChoice: "up", amount: 100 },
-            1,
-            gameConfigs
-        );
+        await processBetQueue.insertBet(player, { betChoice: "up", amount: 100 }, 1, gameConfigs);
 
         expect(betsRepository.create).toHaveBeenCalled();
     });
@@ -37,4 +38,29 @@ describe("update bet tests", () => {
         expect(existingBet.up).toEqual(120);
         expect(existingBet.totalAmount).toEqual(120);
     });
+});
+
+describe("upsertBet bet tests", () => {
+    it("bet exists - should call updatebet", async () => {
+        const existingBet = { up: 100, totalAmount: 100, save: jest.fn() };
+        betsRepository.findOne().exec.mockReturnValueOnce(existingBet);
+
+        await processBetQueue.upsertBet(player, 1, { betChoice: "up", amount: 20 });
+
+        expect(existingBet.save).toHaveBeenCalled();
+        expect(existingBet.up).toEqual(120);
+        expect(existingBet.totalAmount).toEqual(120);
+    });
+
+    it("bet doesnt exist - should call insert bet & update betcount", async () => {
+        betsRepository.findOne().exec.mockReturnValueOnce(null);
+
+        await processBetQueue.upsertBet(player, 1, { betChoice: "up", amount: 20 });
+        expect(betsRepository.create).toHaveBeenCalled();
+        expect(gameData.betCount.up).toEqual(1);
+    });
+});
+
+afterEach(() => {
+    jest.clearAllMocks();
 });
