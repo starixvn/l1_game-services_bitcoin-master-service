@@ -35,7 +35,8 @@
                 const close = `C: <span style="color:${textColor}">${numberFormatter.format(item[2])}</span>`;
                 const low = `L: <span style="color:${textColor}">${numberFormatter.format(item[3])}</span>`;
                 const high = `H: <span style="color:${textColor}">${numberFormatter.format(item[4])}</span>`;
-                const percentage = `<span style="color:${textColor}">${numberFormatter.format(sub)}(${percentFormatter.format(
+                const icon = sub > 0 ? "▲" : "▼";
+                const percentage = `<span style="color:${textColor}">${icon}${numberFormatter.format(sub)}(${percentFormatter.format(
                     (sub * 100) / number
                 )})</span>`;
 
@@ -43,7 +44,7 @@
             },
         },
         legend: {
-            data: ["", "Binance", "Huobi", "Mexc", "Okex"],
+            data: ["", "MA", "Binance", "Huobi", "Mexc", "Okex"],
             selected: {
                 Binance: false,
                 Huobi: false,
@@ -136,9 +137,15 @@
                     },
                 },
                 {
-                    name: "Binance",
+                    name: "MA",
                     type: "line",
                     data: calculateMA6(data.binance, times),
+                    smooth: true,
+                },
+                {
+                    name: "Binance",
+                    type: "line",
+                    data: calculateMA6(data.averageCandleSticks, times),
                     smooth: true,
                     lineStyle: {
                         opacity: 0.5,
