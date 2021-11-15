@@ -50,7 +50,7 @@
             },
         },
         legend: {
-            data: ["", "MA", "Binance", "Huobi", "Okex", "Mexc"],
+            data: ["", "Bitcoin Master", "Binance", "Huobi", "Okex", "Mexc"],
             selected: {
                 Binance: false,
                 Huobi: false,
@@ -61,9 +61,11 @@
             textStyle: {
                 fontSize: 14,
             },
+            itemGap: 20,
+            itemWidth: 40,
         },
         grid: {
-            left: 50,
+            left: 20,
             top: 50,
             right: 80,
             bottom: 60,
@@ -146,7 +148,7 @@
                     },
                 },
                 {
-                    name: "MA",
+                    name: "Bitcoin Master",
                     type: "line",
                     data: calculateMA6(data.binance, times),
                     smooth: true,
