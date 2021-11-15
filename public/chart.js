@@ -60,10 +60,10 @@
             },
             bottom: 0,
             textStyle: {
-                fontSize: 25,
+                fontSize: 20,
             },
-            itemGap: 60,
-            itemHeight: 25
+            itemGap: 30,
+            itemHeight: 20
         },
         grid: {
             left: 20,
