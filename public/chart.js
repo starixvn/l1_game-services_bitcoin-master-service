@@ -59,7 +59,7 @@
             },
             bottom: 0,
             textStyle: {
-                fontSize: 14,
+                fontSize: 16,
             },
             itemGap: 20,
             itemWidth: 40,
@@ -135,7 +135,7 @@
                         ],
                         label: {
                             backgroundColor: data.runningCandleStick.close > data.runningCandleStick.open ? bullishColor : bearlishColor,
-                            color: data.runningCandleStick.close > data.runningCandleStick.open ? "black" : "white",
+                            color: "white",
                             padding: [5, 5, 5, 5],
                             fontSize: 14,
                             formatter: function (params) {
