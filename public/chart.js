@@ -59,10 +59,9 @@
             },
             bottom: 0,
             textStyle: {
-                fontSize: 16,
+                fontSize: 18,
             },
             itemGap: 20,
-            itemWidth: 40,
         },
         grid: {
             left: 20,
