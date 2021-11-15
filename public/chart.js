@@ -50,6 +50,7 @@
             },
         },
         legend: {
+            icon: "circle",
             data: ["", "Bitcoin Master", "Binance", "Huobi", "Okex", "Mexc"],
             selected: {
                 Binance: false,
@@ -59,9 +60,10 @@
             },
             bottom: 0,
             textStyle: {
-                fontSize: 18,
+                fontSize: 25,
             },
-            itemGap: 20,
+            itemGap: 60,
+            itemHeight: 25
         },
         grid: {
             left: 20,
