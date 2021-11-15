@@ -1,6 +1,12 @@
 (function () {
     var percentFormatter = new Intl.NumberFormat("en-US", { style: "percent", signDisplay: "auto", maximumFractionDigits: 2 });
     var numberFormatter = new Intl.NumberFormat("en-US", { style: "decimal", signDisplay: "auto", maximumFractionDigits: 2 });
+    var fractionFormatter = new Intl.NumberFormat("en-US", {
+        style: "decimal",
+        signDisplay: "auto",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
 
     const bullishColor = "#0ecb81";
     const bearlishColor = "#f6465d";
@@ -13,6 +19,7 @@
                 type: "cross",
                 label: {
                     fontSize: 14,
+                    color: "blue",
                     formatter: function (params) {
                         if (params.axisDimension === "x") {
                             return echarts.format.formatTime("hh:mm", params.value);
@@ -25,26 +32,25 @@
                 },
             },
             position: [40, 0],
-            formatter: function (params, ticket, callback) {
+            formatter: function (params) {
                 const { data: item } = params[0];
                 const sub = item[2] - item[1];
-                const number = sub > 0 ? item[2] : item[1];
                 const textColor = sub > 0 ? bullishColor : bearlishColor;
 
-                const open = `O: <span style="color:${textColor}">${numberFormatter.format(item[1])}</span>`;
-                const close = `C: <span style="color:${textColor}">${numberFormatter.format(item[2])}</span>`;
-                const low = `L: <span style="color:${textColor}">${numberFormatter.format(item[3])}</span>`;
-                const high = `H: <span style="color:${textColor}">${numberFormatter.format(item[4])}</span>`;
+                const open = `<strong>O:</strong> <span style="color:${textColor}">${numberFormatter.format(item[1])}</span>`;
+                const close = `<strong>C:</strong> <span style="color:${textColor}">${numberFormatter.format(item[2])}</span>`;
+                const low = `<strong>L:</strong> <span style="color:${textColor}">${numberFormatter.format(item[3])}</span>`;
+                const high = `<strong>H:</strong> <span style="color:${textColor}">${numberFormatter.format(item[4])}</span>`;
                 const icon = sub > 0 ? "▲" : "▼";
                 const percentage = `<span style="color:${textColor}">${icon}${numberFormatter.format(
                     Math.abs(sub)
-                )}(${percentFormatter.format((Math.abs(sub) * 100) / number)})</span>`;
+                )}(${percentFormatter.format((Math.abs(sub) * 100) / item[1])})</span>`;
 
                 return `${open} ${high} ${low} ${close} ${percentage}`;
             },
         },
         legend: {
-            data: ["", "MA", "Binance", "Huobi", "Mexc", "Okex"],
+            data: ["", "MA", "Binance", "Huobi", "Okex", "Mexc"],
             selected: {
                 Binance: false,
                 Huobi: false,
@@ -131,7 +137,7 @@
                             padding: [5, 5, 5, 5],
                             fontSize: 14,
                             formatter: function (params) {
-                                return numberFormatter.format(params.value);
+                                return fractionFormatter.format(params.value);
                             },
                         },
                         lineStyle: {
@@ -166,9 +172,9 @@
                     },
                 },
                 {
-                    name: "Mexc",
+                    name: "Okex",
                     type: "line",
-                    data: calculateMA6(data.mexc, times),
+                    data: calculateMA6(data.okex, times),
                     smooth: true,
                     lineStyle: {
                         opacity: 0.5,
@@ -176,9 +182,9 @@
                     },
                 },
                 {
-                    name: "Okex",
+                    name: "Mexc",
                     type: "line",
-                    data: calculateMA6(data.okex, times),
+                    data: calculateMA6(data.mexc, times),
                     smooth: true,
                     lineStyle: {
                         opacity: 0.5,
