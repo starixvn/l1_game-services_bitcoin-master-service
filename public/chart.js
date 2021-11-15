@@ -44,7 +44,7 @@
                 const icon = sub > 0 ? "▲" : "▼";
                 const percentage = `<span style="color:${textColor}">${icon}${numberFormatter.format(
                     Math.abs(sub)
-                )}(${percentFormatter.format((Math.abs(sub) * 100) / item[1])})</span>`;
+                )} (${percentFormatter.format((Math.abs(sub) * 100) / item[1])})</span>`;
 
                 return `${open} ${high} ${low} ${close} ${percentage}`;
             },
