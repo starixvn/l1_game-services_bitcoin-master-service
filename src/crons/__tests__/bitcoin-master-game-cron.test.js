@@ -106,6 +106,11 @@ describe("updateCryptoExchangeData tests", () => {
 describe("proceed tests", () => {
     it("should snapshot open price and send to clients when remaining time = snapshot open price time", async () => {
         const data = {
+            averageCandleSticks: [],
+            binance: [],
+            huobi: [],
+            mexc: [],
+            okex: [],
             runningCandleStick: {
                 time: new Date(),
                 open: 100,
@@ -122,11 +127,16 @@ describe("proceed tests", () => {
         await cron.proceed();
 
         expect(runningRoundInfoPublisher.publishToAllUsers).toHaveBeenCalledWith({ open: gameData.open });
-        expect(chartClientPublisher.publishToAllClients).toHaveBeenCalledWith(data);
+        expect(chartClientPublisher.publishToAllClients).toHaveBeenCalled();
     });
 
     it("should not snapshot open price and send to clients when remaining time <> snapshot open price time", async () => {
         const data = {
+            averageCandleSticks: [],
+            binance: [],
+            huobi: [],
+            mexc: [],
+            okex: [],
             runningCandleStick: {
                 time: new Date(),
                 open: 100,
@@ -143,7 +153,7 @@ describe("proceed tests", () => {
         await cron.proceed();
 
         expect(runningRoundInfoPublisher.publishToAllUsers).not.toHaveBeenCalledWith();
-        expect(chartClientPublisher.publishToAllClients).toHaveBeenCalledWith(data);
+        expect(chartClientPublisher.publishToAllClients).toHaveBeenCalled();
     });
 });
 
@@ -225,5 +235,5 @@ describe("checkGameStatus tests", () => {
 });
 
 afterEach(() => {
-   jest.clearAllMocks();
+    jest.clearAllMocks();
 });

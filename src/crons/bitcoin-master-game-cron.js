@@ -85,7 +85,7 @@ export default class BitcoinMasterGameCron extends GameCron {
             }
 
             this.runningRoundInfoPublisher.publishToAllUsers({ open, close });
-            this.chartClientPublisher.publishToAllClients(this.gameData.cryptoExchange);
+            this.chartClientPublisher.publishToAllClients(this.getChartData());
         }
 
         if (this.isStartingTime(this.gameData.remainingTime, durations)) {
@@ -161,5 +161,28 @@ export default class BitcoinMasterGameCron extends GameCron {
                 await this.settleGameRoundConsumer.settleRound();
             }, Math.max(settleTime.getTime() - now.getTime(), 0));
         }
+    }
+
+    getChartData() {
+        const { cryptoExchange } = this.gameData;
+
+        return {
+            averageCandleSticks: cryptoExchange.averageCandleSticks.map((x) => this.compressCandleStick(x)),
+            binance: cryptoExchange.binance.map((x) => this.compressCandleStick(x)),
+            huobi: cryptoExchange.huobi.map((x) => this.compressCandleStick(x)),
+            mexc: cryptoExchange.mexc.map((x) => this.compressCandleStick(x)),
+            okex: cryptoExchange.okex.map((x) => this.compressCandleStick(x)),
+            runningCandleStick: this.compressCandleStick(cryptoExchange.runningCandleStick),
+        };
+    }
+
+    compressCandleStick(data) {
+        return {
+            t: data.time,
+            o: data.open,
+            c: data.close,
+            h: data.high,
+            l: data.low,
+        };
     }
 }

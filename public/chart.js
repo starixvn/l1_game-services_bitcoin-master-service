@@ -105,7 +105,7 @@
         for (let i = 5; i < data.length; i++) {
             let sum = 0;
             for (var j = i - 5; j <= i; j++) {
-                sum += data[j].close;
+                sum += data[j].c;
             }
             result.push([times[i], sum / 6]);
         }
@@ -113,10 +113,10 @@
     }
 
     function updateChart(chart, data) {
-        const times = data.averageCandleSticks.map((x) => x.time);
+        const times = data.averageCandleSticks.map((x) => x.t);
         const dynamicOption = {
             dataset: {
-                source: data.averageCandleSticks.map((x) => [x.time, x.open, x.close, x.low, x.high]),
+                source: data.averageCandleSticks.map((x) => [x.t, x.o, x.c, x.l, x.h]),
             },
             series: [
                 {
@@ -135,11 +135,11 @@
                         data: [
                             {
                                 name: "min line on close",
-                                yAxis: data.runningCandleStick.close,
+                                yAxis: data.runningCandleStick.c,
                             },
                         ],
                         label: {
-                            backgroundColor: data.runningCandleStick.close > data.runningCandleStick.open ? bullishColor : bearlishColor,
+                            backgroundColor: data.runningCandleStick.c > data.runningCandleStick.o ? bullishColor : bearlishColor,
                             color: "white",
                             padding: [5, 5, 5, 5],
                             fontSize: 14,
@@ -148,20 +148,20 @@
                             },
                         },
                         lineStyle: {
-                            color: data.runningCandleStick.close > data.runningCandleStick.open ? bullishColor : bearlishColor,
+                            color: data.runningCandleStick.c > data.runningCandleStick.o ? bullishColor : bearlishColor,
                         },
                     },
                 },
                 {
                     name: "Bitcoin Master",
                     type: "line",
-                    data: calculateMA6(data.binance, times),
+                    data: calculateMA6(data.averageCandleSticks, times),
                     smooth: true,
                 },
                 {
                     name: "Binance",
                     type: "line",
-                    data: calculateMA6(data.averageCandleSticks, times),
+                    data: calculateMA6(data.binance, times),
                     smooth: true,
                     lineStyle: {
                         opacity: 0.5,
