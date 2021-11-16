@@ -1,7 +1,11 @@
 (function () {
-    var percentFormatter = new Intl.NumberFormat("en-US", { style: "percent", signDisplay: "auto", maximumFractionDigits: 2 });
-    var numberFormatter = new Intl.NumberFormat("en-US", { style: "decimal", signDisplay: "auto", maximumFractionDigits: 2 });
-    var fractionFormatter = new Intl.NumberFormat("en-US", {
+    var percentFormatter = new Intl.NumberFormat("en-US", {
+        style: "percent",
+        signDisplay: "auto",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
+    var numberFormatter = new Intl.NumberFormat("en-US", {
         style: "decimal",
         signDisplay: "auto",
         minimumFractionDigits: 2,
@@ -63,7 +67,7 @@
                 fontSize: 20,
             },
             itemGap: 20,
-            itemHeight: 20
+            itemHeight: 20,
         },
         grid: {
             left: 20,
@@ -140,7 +144,7 @@
                             padding: [5, 5, 5, 5],
                             fontSize: 14,
                             formatter: function (params) {
-                                return fractionFormatter.format(params.value);
+                                return numberFormatter.format(params.value);
                             },
                         },
                         lineStyle: {
