@@ -1,4 +1,5 @@
 (function () {
+    let chartData;
     var percentFormatter = new Intl.NumberFormat("en-US", {
         style: "percent",
         signDisplay: "auto",
@@ -113,10 +114,12 @@
     }
 
     function updateChart(chart, data) {
-        const times = data.averageCandleSticks.map((x) => x.t);
+        const times = data.a.map((x) => x.t);
+        const runningCandleStick = data.a[data.a.length - 1];
+
         const dynamicOption = {
             dataset: {
-                source: data.averageCandleSticks.map((x) => [x.t, x.o, x.c, x.l, x.h]),
+                source: data.a.map((x) => [x.t, x.o, x.c, x.l, x.h]),
             },
             series: [
                 {
@@ -135,11 +138,11 @@
                         data: [
                             {
                                 name: "min line on close",
-                                yAxis: data.runningCandleStick.c,
+                                yAxis: runningCandleStick.c,
                             },
                         ],
                         label: {
-                            backgroundColor: data.runningCandleStick.c > data.runningCandleStick.o ? bullishColor : bearlishColor,
+                            backgroundColor: runningCandleStick.c > runningCandleStick.o ? bullishColor : bearlishColor,
                             color: "white",
                             padding: [5, 5, 5, 5],
                             fontSize: 14,
@@ -148,20 +151,20 @@
                             },
                         },
                         lineStyle: {
-                            color: data.runningCandleStick.c > data.runningCandleStick.o ? bullishColor : bearlishColor,
+                            color: runningCandleStick.c > runningCandleStick.o ? bullishColor : bearlishColor,
                         },
                     },
                 },
                 {
                     name: "Bitcoin Master",
                     type: "line",
-                    data: calculateMA6(data.averageCandleSticks, times),
+                    data: calculateMA6(data.a, times),
                     smooth: true,
                 },
                 {
                     name: "Binance",
                     type: "line",
-                    data: calculateMA6(data.binance, times),
+                    data: calculateMA6(data.b, times),
                     smooth: true,
                     lineStyle: {
                         opacity: 0.5,
@@ -171,7 +174,7 @@
                 {
                     name: "Huobi",
                     type: "line",
-                    data: calculateMA6(data.huobi, times),
+                    data: calculateMA6(data.h, times),
                     smooth: true,
                     lineStyle: {
                         opacity: 0.5,
@@ -181,7 +184,7 @@
                 {
                     name: "Okex",
                     type: "line",
-                    data: calculateMA6(data.okex, times),
+                    data: calculateMA6(data.o, times),
                     smooth: true,
                     lineStyle: {
                         opacity: 0.5,
@@ -191,7 +194,7 @@
                 {
                     name: "Mexc",
                     type: "line",
-                    data: calculateMA6(data.mexc, times),
+                    data: calculateMA6(data.m, times),
                     smooth: true,
                     lineStyle: {
                         opacity: 0.5,
@@ -208,6 +211,15 @@
         }
     }
 
+    function addNewCandleStick(array, data) {
+        array.shift();
+        array.push(data);
+    }
+
+    function updateLatestCandleStick(array, data) {
+        array[array.length - 1] = data;
+    }
+
     function initChart(socketInfo) {
         const socket = io(socketInfo.socket, {
             path: socketInfo.socketPath,
@@ -220,7 +232,19 @@
             socket.emit("signinchart", { ss: searchParam.get("ss") });
 
             socket.on("BitcoinMaster", (data) => {
-                updateChart(chart, data);
+                if (data.init) {
+                    chartData = data.init;
+                }
+
+                if (data.n && chartData) {
+                    Object.keys(chartData).forEach((key) => addNewCandleStick(chartData[key], data.n[key]));
+                }
+
+                if (data.u && chartData) {
+                    Object.keys(chartData).forEach((key) => updateLatestCandleStick(chartData[key], data.u[key]));
+                }
+
+                updateChart(chart, chartData);
             });
             socket.on("disconnect", () => {
                 socket.close();

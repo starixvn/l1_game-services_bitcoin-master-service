@@ -1,5 +1,6 @@
 import { GameCron } from "sc-pool-betting-game-base";
 import cron from "cron";
+import { uglifyCandleStick } from "../helpers/chart-helper";
 
 export default class BitcoinMasterGameCron extends GameCron {
     constructor({
@@ -69,6 +70,8 @@ export default class BitcoinMasterGameCron extends GameCron {
     async proceed() {
         const { durations } = this.definition;
 
+        await this.updateCryptoExchangeData();
+
         if (this.gameData.remainingTime === durations.wholeRound) {
             await this.checkGameStatus();
         }
@@ -76,7 +79,6 @@ export default class BitcoinMasterGameCron extends GameCron {
         if (!this.gameData.disabled) {
             this.gameData.remainingTime--;
 
-            await this.updateCryptoExchangeData();
             const { open, close } = this.gameData.cryptoExchange.runningCandleStick;
 
             if (this.gameData.remainingTime === this.definition.durations.snapshotOpenPrice) {
@@ -85,7 +87,6 @@ export default class BitcoinMasterGameCron extends GameCron {
             }
 
             this.runningRoundInfoPublisher.publishToAllUsers({ open, close });
-            this.chartClientPublisher.publishToAllClients(this.getChartData());
         }
 
         if (this.isStartingTime(this.gameData.remainingTime, durations)) {
@@ -134,10 +135,6 @@ export default class BitcoinMasterGameCron extends GameCron {
         }
     }
 
-    async updateCryptoExchangeData() {
-        this.gameData.cryptoExchange = await this.cryptoExchangesRepository.findOne(null, { _id: false }).lean();
-    }
-
     async processUnsettledBets(lastRound) {
         const unsettledBet = await this.betsRepository.exists({ thanhtoan: false, phien: lastRound.id + 1 });
 
@@ -163,26 +160,35 @@ export default class BitcoinMasterGameCron extends GameCron {
         }
     }
 
-    getChartData() {
-        const { cryptoExchange } = this.gameData;
+    async updateCryptoExchangeData() {
+        const { runningCandleStick } = this.gameData.cryptoExchange;
 
-        return {
-            averageCandleSticks: cryptoExchange.averageCandleSticks.map((x) => this.compressCandleStick(x)),
-            binance: cryptoExchange.binance.map((x) => this.compressCandleStick(x)),
-            huobi: cryptoExchange.huobi.map((x) => this.compressCandleStick(x)),
-            mexc: cryptoExchange.mexc.map((x) => this.compressCandleStick(x)),
-            okex: cryptoExchange.okex.map((x) => this.compressCandleStick(x)),
-            runningCandleStick: this.compressCandleStick(cryptoExchange.runningCandleStick),
-        };
+        this.gameData.cryptoExchange = await this.cryptoExchangesRepository.findOne(null, { _id: false }).lean();
+
+        if (runningCandleStick) {
+            const { cryptoExchange } = this.gameData;
+
+            if (runningCandleStick.time.getTime() === cryptoExchange.runningCandleStick.time.getTime()) {
+                this.publishChartDataToClients("u");
+            } else {
+                this.publishChartDataToClients("n");
+            }
+        }
     }
 
-    compressCandleStick(data) {
+    publishChartDataToClients(action) {
+        this.chartClientPublisher.publishToAllClients({ [action]: this.getChartData() });
+    }
+
+    getChartData() {
+        const { averageCandleSticks, binance, huobi, mexc, okex } = this.gameData.cryptoExchange;
+
         return {
-            t: data.time,
-            o: data.open,
-            c: data.close,
-            h: data.high,
-            l: data.low,
+            a: uglifyCandleStick(averageCandleSticks[averageCandleSticks.length - 1]),
+            b: uglifyCandleStick(binance[binance.length - 1]),
+            h: uglifyCandleStick(huobi[huobi.length - 1]),
+            m: uglifyCandleStick(mexc[mexc.length - 1]),
+            o: uglifyCandleStick(okex[okex.length - 1]),
         };
     }
 }

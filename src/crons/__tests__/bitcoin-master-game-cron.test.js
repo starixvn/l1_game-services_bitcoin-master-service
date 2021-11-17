@@ -22,6 +22,7 @@ const gameConfigs = { enabled: true, odds: { odd: 1.98, even: 1.98, up: 1.98, do
 const gameData = new GameData(gameSettings.durations.wholeRound);
 gameData.gameConfigs = gameConfigs;
 gameData.roundId = 1;
+
 const settleGameRoundConsumer = new BitcoinMasterSettleGameRoundConsumer();
 const runningRoundInfoPublisher = new BitcoinMasterRunningRoundInfoPublisher();
 const chartClientPublisher = new ChartClientPublisher();
@@ -85,41 +86,75 @@ const cron = new BitcoinMasterGameCron({
     gameConfigsRepository,
 });
 
-describe("updateCryptoExchangeData tests", () => {
-    it("should get crypto exchange and update to gameData", async () => {
-        const data = {
-            runningCandleSticks: {
-                time: new Date(),
-                open: 100,
-                close: 200,
-                high: 250,
-                low: 100,
-            },
-        };
-        mockLeanFnc.mockReturnValueOnce(data);
-
-        await cron.updateCryptoExchangeData();
-        expect(gameData.cryptoExchange).toEqual(data);
-    });
+beforeEach(() => {
+    gameData.cryptoExchange.runningCandleStick = {
+        time: new Date(),
+        open: 100,
+        close: 200,
+        high: 250,
+        low: 100,
+    };
 });
 
+
 describe("proceed tests", () => {
-    it("should snapshot open price and send to clients when remaining time = snapshot open price time", async () => {
-        const data = {
-            averageCandleSticks: [],
-            binance: [],
-            huobi: [],
-            mexc: [],
-            okex: [],
-            runningCandleStick: {
+    const exchangeData = {
+        averageCandleSticks: [
+            {
                 time: new Date(),
                 open: 100,
                 close: 200,
                 high: 250,
                 low: 100,
             },
-        };
-        mockLeanFnc.mockReturnValueOnce(data);
+        ],
+        binance: [
+            {
+                time: new Date(),
+                open: 100,
+                close: 200,
+                high: 250,
+                low: 100,
+            },
+        ],
+        huobi: [
+            {
+                time: new Date(),
+                open: 100,
+                close: 200,
+                high: 250,
+                low: 100,
+            },
+        ],
+        mexc: [
+            {
+                time: new Date(),
+                open: 100,
+                close: 200,
+                high: 250,
+                low: 100,
+            },
+        ],
+        okex: [
+            {
+                time: new Date(),
+                open: 100,
+                close: 200,
+                high: 250,
+                low: 100,
+            },
+        ],
+        runningCandleStick: {
+            time: new Date(),
+            open: 100,
+            close: 200,
+            high: 250,
+            low: 100,
+        },
+    };
+
+    it("should snapshot open price and send to clients when remaining time = snapshot open price time", async () => {
+        mockLeanFnc.mockReturnValueOnce(exchangeData);
 
         gameData.disabled = false;
         gameData.remainingTime = gameSettings.durations.snapshotOpenPrice + 1;
@@ -131,21 +166,7 @@ describe("proceed tests", () => {
     });
 
     it("should not snapshot open price and send to clients when remaining time <> snapshot open price time", async () => {
-        const data = {
-            averageCandleSticks: [],
-            binance: [],
-            huobi: [],
-            mexc: [],
-            okex: [],
-            runningCandleStick: {
-                time: new Date(),
-                open: 100,
-                close: 200,
-                high: 250,
-                low: 100,
-            },
-        };
-        mockLeanFnc.mockReturnValueOnce(data);
+        mockLeanFnc.mockReturnValueOnce(exchangeData);
 
         gameData.disabled = false;
         gameData.remainingTime = gameSettings.durations.snapshotOpenPrice + 1;

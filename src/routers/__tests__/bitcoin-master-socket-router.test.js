@@ -8,6 +8,60 @@ jest.mock("sc-game-base/src/core/event-consumers/user-disconnect-consumer");
 
 const gameData = new GameData(gameSettings.durations.wholeRound);
 gameData.roundId = 1;
+gameData.cryptoExchange = {
+    averageCandleSticks: [
+        {
+            time: new Date(),
+            open: 100,
+            close: 200,
+            high: 250,
+            low: 100,
+        },
+    ],
+    binance: [
+        {
+            time: new Date(),
+            open: 100,
+            close: 200,
+            high: 250,
+            low: 100,
+        },
+    ],
+    huobi: [
+        {
+            time: new Date(),
+            open: 100,
+            close: 200,
+            high: 250,
+            low: 100,
+        },
+    ],
+    mexc: [
+        {
+            time: new Date(),
+            open: 100,
+            close: 200,
+            high: 250,
+            low: 100,
+        },
+    ],
+    okex: [
+        {
+            time: new Date(),
+            open: 100,
+            close: 200,
+            high: 250,
+            low: 100,
+        },
+    ],
+    runningCandleStick: {
+        time: new Date(),
+        open: 100,
+        close: 200,
+        high: 250,
+        low: 100,
+    },
+};
 const definition = new Core.GameDefinition(gameSettings);
 const userDisconnectConsumer = new UserDisconnectConsumer();
 const socketClient = {
@@ -69,8 +123,8 @@ describe("handleSignInChart tests", () => {
         socketRouter.handleSignInChart({ ss: 2 });
 
         expect(gameData.chartClients).toBeEmpty();
-        expect(socketClient.disconnect).toBeCalledWith(true)
-        expect(socketClient.emit).toBeCalledWith("message", { unauthorized: true })
+        expect(socketClient.disconnect).toBeCalledWith(true);
+        expect(socketClient.emit).toBeCalledWith("message", { unauthorized: true });
     });
 });
 
