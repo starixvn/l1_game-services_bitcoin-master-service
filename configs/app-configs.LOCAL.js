@@ -57,10 +57,11 @@ export default {
         "https://admin.lumigame.com",
         "http://l1-m.lumigame.com",
         "https://l1-m.lumigame.com",
+        "https://l1-proxy.lumigame.com",
     ],
     chartConfig: {
         socket: "wss://l1-proxy.lumigame.com/user/bitcoinmaster",
         socketPath: "/bitcoinmaster/socket.io",
-        allows: ["http://localhost:7456", "http://localhost:7000", "https://games.lumigame.com", "https://l1-m.lumigame.com", "https://l1-proxy.lumigame.com"],
+        allows: ["http://localhost:7456", "http://localhost:7000", "https://games.lumigame.com", "https://l1-m.lumigame.com"],
     },
 };
