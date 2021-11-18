@@ -20,7 +20,7 @@
         textStyle: {
             fontFamily: "binance",
         },
-        backgroundColor: "rgba(16, 12, 42, 1)",
+        backgroundColor: "rgba(16, 12, 42, 0.2)",
         tooltip: {
             trigger: "axis",
             axisPointer: {
