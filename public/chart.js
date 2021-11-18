@@ -19,7 +19,6 @@
     const defaultChartOption = {
         textStyle: {
             fontFamily: "binance",
-            color: "#fff",
         },
         backgroundColor: "rgba(16, 12, 42, 0.2)",
         tooltip: {
