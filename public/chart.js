@@ -21,7 +21,7 @@
             fontFamily: "binance",
             color: "#b7bdc6",
         },
-        backgroundColor: "rgba(16, 12, 42, 1)",
+        backgroundColor: "rgba(16, 12, 42, 0.2)",
         tooltip: {
             trigger: "axis",
             axisPointer: {
@@ -226,7 +226,6 @@
 
         if (chart.getOption()) {
             chart.setOption({ ...dynamicOption });
-            console.log(chart.getOption());
         } else {
             chart.setOption({ ...defaultChartOption, ...dynamicOption });
         }
