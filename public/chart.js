@@ -19,8 +19,9 @@
     const defaultChartOption = {
         textStyle: {
             fontFamily: "binance",
+            color: "#b7bdc6",
         },
-        backgroundColor: "rgba(16, 12, 42, 0.2)",
+        backgroundColor: "rgba(16, 12, 42, 1)",
         tooltip: {
             trigger: "axis",
             axisPointer: {
@@ -86,6 +87,15 @@
             axisLabel: {
                 fontSize: 14,
             },
+            axisLine: {
+                show: true,
+                lineStyle: {
+                    color: "#484753",
+                },
+            },
+            axisTick: {
+                show: true,
+            },
         },
         xAxis: {
             type: "time",
@@ -97,6 +107,12 @@
             axisLabel: {
                 fontSize: 14,
                 formatter: "{HH}:{mm}",
+            },
+            axisLine: {
+                show: true,
+                lineStyle: {
+                    color: "#484753",
+                },
             },
         },
     };
@@ -210,6 +226,7 @@
 
         if (chart.getOption()) {
             chart.setOption({ ...dynamicOption });
+            console.log(chart.getOption());
         } else {
             chart.setOption({ ...defaultChartOption, ...dynamicOption });
         }
