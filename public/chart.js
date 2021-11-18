@@ -17,7 +17,10 @@
     const bearlishColor = "#f6465d";
 
     const defaultChartOption = {
-        backgroundColor: "rgba(16, 12, 42, 0.2)",
+        textStyle: {
+            fontFamily: "binance",
+        },
+        backgroundColor: "rgba(16, 12, 42, 1)",
         tooltip: {
             trigger: "axis",
             axisPointer: {
