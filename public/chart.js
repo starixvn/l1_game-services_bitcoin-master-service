@@ -19,8 +19,9 @@
     const defaultChartOption = {
         textStyle: {
             fontFamily: "binance",
+            color: "#fff",
         },
-        backgroundColor: "rgba(16, 12, 42, 0.2)",
+        backgroundColor: "rgba(16, 12, 42, 1)",
         tooltip: {
             trigger: "axis",
             axisPointer: {
@@ -69,8 +70,9 @@
             bottom: 0,
             textStyle: {
                 fontSize: 20,
+                color: "#fff",
             },
-            itemGap: 20,
+            itemGap: 30,
             itemHeight: 20,
         },
         grid: {
