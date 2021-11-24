@@ -28,10 +28,10 @@ const runningRoundInfoPublisher = new BitcoinMasterRunningRoundInfoPublisher();
 const chartClientPublisher = new ChartClientPublisher();
 const gameStatusPublisher = new GameStatusPublisher();
 
-const mockLeanFnc = jest.fn();
 const cryptoExchangesRepository = {
+    mockLeanFnc: jest.fn(),
     findOne: () => ({
-        lean: mockLeanFnc,
+        lean: cryptoExchangesRepository.mockLeanFnc,
     }),
 };
 
@@ -86,75 +86,67 @@ const cron = new BitcoinMasterGameCron({
     gameConfigsRepository,
 });
 
-beforeEach(() => {
-    gameData.cryptoExchange.runningCandleStick = {
-        time: new Date(),
-        open: 100,
-        close: 200,
-        high: 250,
-        low: 100,
-    };
-});
-
-
-describe("proceed tests", () => {
-    const exchangeData = {
-        averageCandleSticks: [
-            {
-                time: new Date(),
-                open: 100,
-                close: 200,
-                high: 250,
-                low: 100,
-            },
-        ],
-        binance: [
-            {
-                time: new Date(),
-                open: 100,
-                close: 200,
-                high: 250,
-                low: 100,
-            },
-        ],
-        huobi: [
-            {
-                time: new Date(),
-                open: 100,
-                close: 200,
-                high: 250,
-                low: 100,
-            },
-        ],
-        mexc: [
-            {
-                time: new Date(),
-                open: 100,
-                close: 200,
-                high: 250,
-                low: 100,
-            },
-        ],
-        okex: [
-            {
-                time: new Date(),
-                open: 100,
-                close: 200,
-                high: 250,
-                low: 100,
-            },
-        ],
-        runningCandleStick: {
+const exchangeData = {
+    averageCandleSticks: [
+        {
             time: new Date(),
             open: 100,
             close: 200,
             high: 250,
             low: 100,
         },
-    };
+    ],
+    binance: [
+        {
+            time: new Date(),
+            open: 100,
+            close: 200,
+            high: 250,
+            low: 100,
+        },
+    ],
+    huobi: [
+        {
+            time: new Date(),
+            open: 100,
+            close: 200,
+            high: 250,
+            low: 100,
+        },
+    ],
+    mexc: [
+        {
+            time: new Date(),
+            open: 100,
+            close: 200,
+            high: 250,
+            low: 100,
+        },
+    ],
+    okex: [
+        {
+            time: new Date(),
+            open: 100,
+            close: 200,
+            high: 250,
+            low: 100,
+        },
+    ],
+    runningCandleStick: {
+        time: new Date(),
+        open: 100,
+        close: 200,
+        high: 250,
+        low: 100,
+    },
+};
 
+
+cryptoExchangesRepository.mockLeanFnc.mockReturnValue(exchangeData);
+
+describe("proceed tests", () => {
+ 
     it("should snapshot open price and send to clients when remaining time = snapshot open price time", async () => {
-        mockLeanFnc.mockReturnValueOnce(exchangeData);
 
         gameData.disabled = false;
         gameData.remainingTime = gameSettings.durations.snapshotOpenPrice + 1;
@@ -162,19 +154,15 @@ describe("proceed tests", () => {
         await cron.proceed();
 
         expect(runningRoundInfoPublisher.publishToAllUsers).toHaveBeenCalledWith({ open: gameData.open });
-        expect(chartClientPublisher.publishToAllClients).toHaveBeenCalled();
     });
 
     it("should not snapshot open price and send to clients when remaining time <> snapshot open price time", async () => {
-        mockLeanFnc.mockReturnValueOnce(exchangeData);
-
         gameData.disabled = false;
         gameData.remainingTime = gameSettings.durations.snapshotOpenPrice + 1;
 
         await cron.proceed();
 
         expect(runningRoundInfoPublisher.publishToAllUsers).not.toHaveBeenCalledWith();
-        expect(chartClientPublisher.publishToAllClients).toHaveBeenCalled();
     });
 });
 

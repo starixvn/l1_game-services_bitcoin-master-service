@@ -1,6 +1,6 @@
 import { GameCron } from "sc-pool-betting-game-base";
 import cron from "cron";
-import { uglifyCandleStick } from "../helpers/chart-helper";
+import { getAll, getLatest, uglifyCandleStick } from "../helpers/chart-helper";
 
 export default class BitcoinMasterGameCron extends GameCron {
     constructor({
@@ -66,7 +66,7 @@ export default class BitcoinMasterGameCron extends GameCron {
                 job.start();
             }
         );
-        
+
         job.start();
     }
 
@@ -152,15 +152,18 @@ export default class BitcoinMasterGameCron extends GameCron {
             setTimeout(async () => {
                 const { average } = await this.cryptoCandleSticksRepository.findOne({ time }, "average").lean();
 
-                this.gameData.cryptoExchange = {
-                    runningCandleStick: average,
-                };
-
+                this.gameData.cryptoExchange.runningCandleStick = average;
                 this.gameData.open = average.open;
 
                 await this.settleGameRoundConsumer.settleRound();
+
+                await this.updateCryptoExchangeData();
+                this.chartClientPublisher.publishToAllClients({ init: getAll(this.gameData.cryptoExchange) });
+
                 this.initCronJob();
             }, Math.max(settleTime.getTime() - now.getTime(), 0));
+
+            await this.updateCryptoExchangeData();
         } else {
             this.initCronJob();
         }
@@ -175,26 +178,10 @@ export default class BitcoinMasterGameCron extends GameCron {
             const { cryptoExchange } = this.gameData;
 
             if (runningCandleStick.time.getTime() === cryptoExchange.runningCandleStick.time.getTime()) {
-                this.publishChartDataToClients("u");
+                this.chartClientPublisher.publishLatestCandleToAllClients();
             } else {
-                this.publishChartDataToClients("n");
+                this.chartClientPublisher.publishNewCandleToAllClients();
             }
         }
-    }
-
-    publishChartDataToClients(action) {
-        this.chartClientPublisher.publishToAllClients({ [action]: this.getChartData() });
-    }
-
-    getChartData() {
-        const { averageCandleSticks, binance, huobi, mexc, okex } = this.gameData.cryptoExchange;
-
-        return {
-            a: uglifyCandleStick(averageCandleSticks[averageCandleSticks.length - 1]),
-            b: uglifyCandleStick(binance[binance.length - 1]),
-            h: uglifyCandleStick(huobi[huobi.length - 1]),
-            m: uglifyCandleStick(mexc[mexc.length - 1]),
-            o: uglifyCandleStick(okex[okex.length - 1]),
-        };
     }
 }
