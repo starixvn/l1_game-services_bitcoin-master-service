@@ -46,6 +46,16 @@ export default class BitcoinMasterGameCron extends GameCron {
             .lean()
             .exec();
 
+        if (lastRound) {
+            this.gameData.roundId = lastRound.id + 1;
+            await this.processUnsettledBets(lastRound);
+        } else {
+            this.gameData.roundId = await this.getLastArchiveRound();
+            this.initCronJob();
+        }
+    }
+
+    initCronJob() {
         const job = new cron.CronJob(
             "* * * * * *",
             () => this.proceed().catch(this.logService.logError),
@@ -56,14 +66,7 @@ export default class BitcoinMasterGameCron extends GameCron {
                 job.start();
             }
         );
-
-        if (lastRound) {
-            this.gameData.roundId = lastRound.id + 1;
-            await this.processUnsettledBets(lastRound);
-        } else {
-            this.gameData.roundId = await this.getLastArchiveRound();
-        }
-
+        
         job.start();
     }
 
@@ -156,7 +159,10 @@ export default class BitcoinMasterGameCron extends GameCron {
                 this.gameData.open = average.open;
 
                 await this.settleGameRoundConsumer.settleRound();
+                this.initCronJob();
             }, Math.max(settleTime.getTime() - now.getTime(), 0));
+        } else {
+            this.initCronJob();
         }
     }
 
