@@ -1,4 +1,6 @@
-import { CryptoProTraderBetLogs, CryptoProTraderBets } from "./crypto-pro-trader-bets";
-import { CryptoProTraderRounds } from "./crypto-pro-trader-rounds";
+import { BitcoinMasterBetLogs, BitcoinMasterBets } from "./bitcoin-master-bets";
+import { BitcoinMasterRounds } from "./bitcoin-master-rounds";
+import CryptoExchanges from "./crypto-exchanges";
+import CryptoCandleSticks from "./crypto-candlesticks";
 
-export { CryptoProTraderRounds, CryptoProTraderBets, CryptoProTraderBetLogs };
+export { BitcoinMasterRounds, BitcoinMasterBets, BitcoinMasterBetLogs, CryptoExchanges, CryptoCandleSticks };

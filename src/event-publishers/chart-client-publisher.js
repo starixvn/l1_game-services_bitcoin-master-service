@@ -1,0 +1,24 @@
+import { getLatest } from "../helpers/chart-helper";
+
+export default class ChartClientPublisher {
+    constructor(gameName, gameData) {
+        this.gameName = gameName;
+        this.gameData = gameData;
+    }
+
+    publishToAllClients(payload) {
+        const socketClients = Object.values(this.gameData.chartClients);
+
+        socketClients.forEach((socket) => {
+            socket && socket.emit(this.gameName, payload);
+        });
+    }
+
+    publishLatestCandleToAllClients() {
+        this.publishToAllClients({ u: getLatest(this.gameData.cryptoExchange) });
+    }
+
+    publishNewCandleToAllClients() {
+        this.publishToAllClients({ n: getLatest(this.gameData.cryptoExchange) });
+    }
+}

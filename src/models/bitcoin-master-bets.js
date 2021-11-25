@@ -23,14 +23,14 @@ const betSchema = new mongoose.Schema({
     name: { type: String, required: true },
     phien: { type: Number, required: true },
 
-    over: { type: Number, required: true, default: 0 },
-    under: { type: Number, required: true, default: 0 },
+    up: { type: Number, required: true, default: 0 },
+    down: { type: Number, required: true, default: 0 },
     odd: { type: Number, required: true, default: 0 },
     even: { type: Number, required: true, default: 0 },
+    totalAmount: { type: Number, required: true, default: 0 },
 
     thanhtoan: { type: Boolean, default: false },
     refund: { type: Number, default: 0 },
-    win: { type: Boolean, default: false },
     betwin: { type: Number, default: 0 },
     time: { type: Date },
     odds: { type: Object },
@@ -39,7 +39,7 @@ const betSchema = new mongoose.Schema({
     siteId: { type: String },
 });
 
-const CryptoProTraderBets = mongoose.model("cryptoprotrader_one", betSchema);
-const CryptoProTraderBetLogs = mongoose.model("cryptoprotrader_cuoc", betLogSchema);
+const BitcoinMasterBets = mongoose.model("bitcoinmaster_bet", betSchema);
+const BitcoinMasterBetLogs = mongoose.model("bitcoinmaster_betlog", betLogSchema);
 
-export { CryptoProTraderBets, CryptoProTraderBetLogs };
+export { BitcoinMasterBets, BitcoinMasterBetLogs };

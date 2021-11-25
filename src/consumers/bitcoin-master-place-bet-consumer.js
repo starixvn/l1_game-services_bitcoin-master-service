@@ -1,12 +1,12 @@
-import { PlaceBetConsumer } from "sc-pool-betting-game-base";
+import { Core } from "sc-game-base";
 import notices from "sc-pool-betting-game-base/src/constants/notices";
 
-export default class CryptoProTraderPlaceBetConsumer extends PlaceBetConsumer {
+export default class BitcoinMasterPlaceBetConsumer extends Core.BaseEventConsumers.PlaceBetConsumer {
     balanceChoiceMapper = {
         odd: "even",
         even: "odd",
-        over: "under",
-        under: "over",
+        up: "down",
+        down: "up",
     };
 
     composeValidationCriteria(player, betChoice, amount, freeBet, roundId) {

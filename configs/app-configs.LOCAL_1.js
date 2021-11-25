@@ -42,7 +42,7 @@ export default {
     },
     sentry: {
         sentryUrl: "https://13f39b8359404ed5aec23655e64ccf78@sentry.lumigame.com/2",
-        logIdentifier: "crypto-pro-trader",
+        logIdentifier: "bitcoin-master",
         env: "LOCAL-1",
     },
     authenticateSettings: {
@@ -57,5 +57,11 @@ export default {
         "https://l1-admin1.lumigame.com",
         "http://l1-m1.lumigame.com",
         "https://l1-m1.lumigame.com",
+        "https://l1-proxy1.lumigame.com",
     ],
+    chartConfig: {
+        socket: "wss://l1-proxy1.lumigame.com/user/bitcoinmaster",
+        socketPath: "/bitcoinmaster/socket.io",
+        allows: ["http://localhost:7456", "http://localhost:7000", "https://l1-games1.lumigame.com", "https://l1-m1.lumigame.com"],
+    },
 };

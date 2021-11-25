@@ -41,7 +41,7 @@ export default {
     },
     sentry: {
         sentryUrl: "http://52368c4019044019885440599c180bda@10.2.190.51:9009/24",
-        logIdentifier: "crypto-pro-trader",
+        logIdentifier: "bitcoin-master",
         env: "SIT",
     },
     authenticateSettings: {
@@ -64,5 +64,11 @@ export default {
         "https://l1sitm.sgamesuat.com",
         "http://l1sit.sgamesuat.com",
         "https://l1sit.sgamesuat.com",
+        "https://l1uatproxy.sgamesuat.com",
     ],
+    chartConfig: {
+        socket: "wss://l1uatproxy.sgamesuat.com/user/bitcoinmaster",
+        socketPath: "/sit/bitcoinmaster/socket.io",
+        allows: ["https://l1sit.sgamesuat.com", "https://l1sitm.sgamesuat.com"],
+    },
 };

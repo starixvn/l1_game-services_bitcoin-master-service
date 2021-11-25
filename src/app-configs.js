@@ -34,7 +34,7 @@ export default {
     database: {
         url: "mongodb://localhost:27017",
         options: {
-            dbName: "admin",
+            dbName: "minigame",
             useNewUrlParser: true,
             useUnifiedTopology: true,
             auto_reconnect: true,
@@ -42,7 +42,7 @@ export default {
     },
     sentry: {
         sentryUrl: "https://8c8a6d0dd58d4d18aa41e703bde72db3@sentryuat.sabagame.com/134",
-        logIdentifier: "crypto-pro-trader",
+        logIdentifier: "bitcoin-master",
         env: "LOCAL",
     },
     authenticateSettings: {
@@ -50,5 +50,10 @@ export default {
     },
     adminSecretKey: "asWDEerfOIdgsdqRTFabvmgh",
     enableCorsWs: false,
-    corsUrls: ["http://localhost:7456", "http://localhost:7000", "http://games.lumigame.com", "http://admin.lumigame.com"],
+    corsUrls: ["http://localhost:7456", "http://localhost:7000", "http://games.lumigame.com", "http://admin.lumigame.com", "http://localhost:8084"],
+    chartConfig: {
+        socket: "ws://localhost:8084/user/bitcoinmaster",
+        socketPath: "/socket.io",
+        allows: ["http://localhost:7456", "http://localhost:7000"],
+    },
 };

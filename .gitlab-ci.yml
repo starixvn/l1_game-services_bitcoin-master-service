@@ -1,4 +1,4 @@
 include:
-  - project: "ci/repos-ci/pentagon_l1_special_sedie_service"
+  - project: "ci/repos-ci/pentagon_l1_bitcoin_master_service"
     ref: master
     file: "gitlab-ci.yml"

@@ -1,33 +1,23 @@
 import { SettleGameRoundConsumer } from "sc-pool-betting-game-base";
 
-export default class CryptoTraderSettleGameRoundConsumer extends SettleGameRoundConsumer {
-    async settleRound() {
+export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoundConsumer {
+    generateResult() {
+        const resultFromAdmin = this.gameData.settlementResultFromAdmin;
+
         const { runningCandleStick } = this.gameData.cryptoExchange;
+
         const result = {
-            open: runningCandleStick.open,
+            time: runningCandleStick.time,
+            open: this.gameData.open,
             close: runningCandleStick.close,
         };
 
-        const settlementResult = this.definition.settle(result);
-        const newRound = await this.roundsRepository.create({
-            id: this.gameData.roundId,
-            result,
-            settlementResult,
-            time: new Date(),
-        });
-
-        if (newRound) {
-            const finish = {
-                settlementResult,
-                result,
-                roundId: newRound.id,
-                time: newRound.time,
-            };
-
-            this.gameData.roundId = finish.roundId + 1;
-
-            await this.settleBets(finish);
-        }
+        return this.gameData.roundId === resultFromAdmin.roundId
+            ? {
+                  time: result.time,
+                  ...resultFromAdmin.result,
+              }
+            : result;
     }
 
     async settleBets({ result, settlementResult, roundId, time }) {
@@ -37,14 +27,17 @@ export default class CryptoTraderSettleGameRoundConsumer extends SettleGameRound
             const uusUsers = await this.userInfosRepository.find({ currency: "UUS" }, "id").lean().exec();
             const uusUserIds = uusUsers.map((user) => user.id);
 
-            await Promise.all(this.settleOverUnder(uusUserIds, bets, roundId, settlementResult));
+            await Promise.all(this.settleUpDown(uusUserIds, bets, roundId, settlementResult));
             await Promise.all(this.settleOddEven(uusUserIds, bets, roundId, settlementResult));
 
             const settledBets = await this.querySettledBets(roundId);
 
             await Promise.all(
                 settledBets.map(async (bet) => {
-                    const betResult = this.calculateBetResult(bet);
+                    const betResult = this.calculateBetResult(
+                        bet,
+                        bets.filter((x) => x.phien === bet.phien && x.uid === bet.uid)
+                    );
 
                     await this.callEndGame(bet, roundId, time, betResult);
                     this.captureBetResult(bet.uid, betResult);
@@ -59,10 +52,35 @@ export default class CryptoTraderSettleGameRoundConsumer extends SettleGameRound
         this.roundResultPublisher.publishRoundResult(this.collectRoundResult(result, settlementResult, roundId));
     }
 
-    settleOverUnder(uusUserIds, bets, roundId, settlementResult) {
-        const choices = ["over", "under"];
+    calculateBetResult(bet, betLogs) {
+        return betLogs.reduce(
+            (result, betLog) => {
+                if (betLog.win) {
+                    result.totalWin += betLog.betwin + betLog.amount;
+                    result.winningByChoices[betLog.choice] = (result.winningByChoices[betLog.choice] ?? 0) + betLog.betwin + betLog.amount;
+                    result.netWin += betLog.betwin;
+                } else {
+                    result.totalWin += betLog.refund;
+                    result.winningByChoices[betLog.choice] = (result.winningByChoices[betLog.choice] ?? 0) + betLog.refund;
+                    result.totalLost += betLog.amount - betLog.refund;
+                }
 
-        if (settlementResult.over || settlementResult.under) {
+                return result;
+            },
+            {
+                totalBetAmount: bet.totalAmount,
+                totalWin: 0,
+                totalLost: 0,
+                netWin: 0,
+                winningByChoices: {},
+            }
+        );
+    }
+
+    settleUpDown(uusUserIds, bets, roundId, settlementResult) {
+        const choices = ["up", "down"];
+
+        if (settlementResult.up || settlementResult.down) {
             const realBets = bets.filter((bet) => !uusUserIds.includes(bet.uid) && choices.includes(bet.choice));
             const uusBets = bets.filter((bet) => uusUserIds.includes(bet.uid) && choices.includes(bet.choice));
             const realBetProcessors = this.settleBetsByGroup(realBets, roundId, settlementResult, this.gameData.totalBets, choices);
@@ -70,9 +88,9 @@ export default class CryptoTraderSettleGameRoundConsumer extends SettleGameRound
 
             return realBetProcessors.concat(uusBetProcessors);
         } else {
-            const overUnderBets = bets.filter((bet) => choices.includes(bet.choice));
+            const upDownBets = bets.filter((bet) => choices.includes(bet.choice));
 
-            return overUnderBets.map((bet) => this.settleBet(bet, roundId, settlementResult, { choice: bet.choice, amount: bet.amount }));
+            return upDownBets.map((bet) => this.settleBet(bet, roundId, settlementResult, { choice: bet.choice, amount: bet.amount }));
         }
     }
 

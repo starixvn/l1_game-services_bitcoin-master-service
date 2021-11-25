@@ -8,8 +8,10 @@ RUN mkdir /app && chown node:node /app
 
 WORKDIR /app
 COPY package.json yarn.lock ./
+COPY public ./public
 RUN npm run reg
 RUN yarn install --production
+RUN npm run uglify
 ENV PATH /app/node_modules/.bin:$PATH
 
 COPY ./src/ .

@@ -42,7 +42,7 @@ export default {
     },
     sentry: {
         sentryUrl: "http://58fc00e79ab34a3bab04a79038760cb8@10.2.189.50:9009/8",
-        logIdentifier: "crypto-pro-trader",
+        logIdentifier: "bitcoin-master",
         env: "PROD",
     },
     authenticateSettings: {
@@ -67,5 +67,18 @@ export default {
         "https://m.sabagame.com",
         "http://m.gamesaba.com",
         "https://m.gamesaba.com",
+        "https://proxy.sabagame.com",
     ],
+    chartConfig: {
+        socket: "wss://proxy.sabagame.com/user/bitcoinmaster",
+        socketPath: "/bitcoinmaster/socket.io",
+        allows: [
+            "https://www.sabagame.com",
+            "https://www.gamesaba.com",
+            "https://sabagame.com",
+            "https://gamesaba.com",
+            "https://m.sabagame.com",
+            "https://m.gamesaba.com",
+        ],
+    },
 };
