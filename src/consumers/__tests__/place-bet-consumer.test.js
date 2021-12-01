@@ -15,23 +15,30 @@ describe("composeValidationCriteria tests", () => {
         },
         session: {
             currency: "US",
+            currencyGroupId: "g1",
         },
     };
 
     const definition = new Core.GameDefinition(gameSettings, null);
     const gameConfigs = {
         odds: { odd: 1.98, even: 1.98, up: 1.98, down: 1.98 },
-        choices_maxbet: {
-            odd: 2000,
-            even: 2000,
-            up: 2000,
-            down: 2000,
-        },
     };
     const gameData = new BitcoinMasterGameData(119);
     gameData.gameConfigs = gameConfigs;
     gameData.roundId = 1;
-
+    gameData.currencyGroupGames = [
+        {
+            groupId: "g1",
+            minBet: 1,
+            maxBet: 2000,
+            maxBetPerChoices: {
+                odd: 2000,
+                even: 2000,
+                up: 2000,
+                down: 2000,
+            },
+        },
+    ];
     const consumer = new BitcoinMasterPlaceBetConsumer(definition, gameData);
 
     it("criteons has true item if user bet the opposite pair choice", () => {
