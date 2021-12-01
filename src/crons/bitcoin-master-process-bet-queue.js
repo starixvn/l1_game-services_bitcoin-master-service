@@ -1,12 +1,5 @@
 import { ProcessBetQueue } from "sc-pool-betting-game-base";
 
-const baseChoiceMapper = {
-    up: "baseUp",
-    down: "baseDown",
-    odd: "baseOdd",
-    eve: "baseEven",
-};
-
 export default class BitcoinMasterProcessBetQueue extends ProcessBetQueue {
     async upsertBet(player, roundId, bet, rate) {
         const configs = this.gameData.gameConfigs;
@@ -31,8 +24,8 @@ export default class BitcoinMasterProcessBetQueue extends ProcessBetQueue {
             time: new Date(),
             odds: configs.odds,
             [bet.betChoice]: bet.amount,
-            [baseChoiceMapper[bet.betChoice]]: bet.amount * rate,
             totalAmount: bet.amount,
+            baseTotalAmount: bet.amount * rate
         };
 
         if (player.session) {
@@ -48,8 +41,8 @@ export default class BitcoinMasterProcessBetQueue extends ProcessBetQueue {
 
     async updateBet(existingBet, bet, rate) {
         existingBet[bet.betChoice] += bet.amount;
-        existingBet[baseChoiceMapper[bet.betChoice]] += bet.amount * rate;
         existingBet.totalAmount += bet.amount;
+        existingBet.baseTotalAmount += bet.amount * rate;
 
         await existingBet.save();
     }

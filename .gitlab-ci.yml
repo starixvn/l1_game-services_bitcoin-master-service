@@ -1,5 +1,5 @@
 variables:
-  SMOKE_PRODUCT_NAME: BitcoinMaster
+  SMOKE_PRODUCT_NAME: BitCoin
 
 include:
   - project: "ci/repos-ci/pentagon_l1_bitcoin_master_service"

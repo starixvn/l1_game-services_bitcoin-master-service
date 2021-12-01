@@ -34,18 +34,12 @@ const betSchema = new mongoose.Schema({
     phien: { type: Number, required: true },
 
     up: { type: Number, required: true, default: 0 },
-    baseUp: { type: Number, required: true, default: 0 },
-    
     down: { type: Number, required: true, default: 0 },
-    baseDown: { type: Number, required: true, default: 0 },
-
     odd: { type: Number, required: true, default: 0 },
-    baseOdd: { type: Number, required: true, default: 0 },
-
     even: { type: Number, required: true, default: 0 },
-    baseEven: { type: Number, required: true, default: 0 },
 
     totalAmount: { type: Number, required: true, default: 0 },
+    baseTotalAmount: { type: Number, required: true, default: 0 },
 
     totalWin: { type: Number, required: true, default: 0 },
     baseTotalWin: { type: Number, default: 0 },
