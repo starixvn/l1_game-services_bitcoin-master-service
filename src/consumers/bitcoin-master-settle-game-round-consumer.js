@@ -24,11 +24,10 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
         const bets = await this.queryBets(roundId);
 
         if (bets && bets.length) {
-            const uusUsers = await this.userInfosRepository.find({ currency: "UUS" }, "id").lean().exec();
-            const uusUserIds = uusUsers.map((user) => user.id);
+            const testCurrencies = await this.currencyRepository.find({ isTest: true }, "name partnerId").lean().exec();
 
-            await Promise.all(this.settleUpDown(uusUserIds, bets, roundId, settlementResult));
-            await Promise.all(this.settleOddEven(uusUserIds, bets, roundId, settlementResult));
+            await Promise.all(this.settleUpDown(testCurrencies, bets, roundId, settlementResult));
+            await Promise.all(this.settleOddEven(testCurrencies, bets, roundId, settlementResult));
 
             const settledBets = await this.querySettledBets(roundId);
 
@@ -77,14 +76,22 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
         );
     }
 
-    settleUpDown(uusUserIds, bets, roundId, settlementResult) {
+    settleUpDown(testCurrencies, bets, roundId, settlementResult) {
         const choices = ["up", "down"];
 
         if (settlementResult.up || settlementResult.down) {
-            const realBets = bets.filter((bet) => !uusUserIds.includes(bet.uid) && choices.includes(bet.choice));
-            const uusBets = bets.filter((bet) => uusUserIds.includes(bet.uid) && choices.includes(bet.choice));
+            const realBets = bets.filter(
+                (bet) =>
+                    !testCurrencies.some((currency) => currency.name === bet.currency && currency.partnerId === bet.partnerId) &&
+                    choices.includes(bet.choice)
+            );
+            const uusBets = bets.filter(
+                (bet) =>
+                    testCurrencies.some((currency) => currency.name === bet.currency && currency.partnerId === bet.partnerId) &&
+                    choices.includes(bet.choice)
+            );
             const realBetProcessors = this.settleBetsByGroup(realBets, roundId, settlementResult, this.gameData.totalBets, choices);
-            const uusBetProcessors = this.settleBetsByGroup(uusBets, roundId, settlementResult, this.gameData.totalUUSBets, choices);
+            const uusBetProcessors = this.settleBetsByGroup(uusBets, roundId, settlementResult, this.gameData.totalTestBets, choices);
 
             return realBetProcessors.concat(uusBetProcessors);
         } else {
@@ -94,13 +101,22 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
         }
     }
 
-    settleOddEven(uusUserIds, bets, roundId, settlementResult) {
+    settleOddEven(testCurrencies, bets, roundId, settlementResult) {
         const choices = ["odd", "even"];
 
-        const realBets = bets.filter((bet) => !uusUserIds.includes(bet.uid) && choices.includes(bet.choice));
-        const uusBets = bets.filter((bet) => uusUserIds.includes(bet.uid) && choices.includes(bet.choice));
+        const realBets = bets.filter(
+            (bet) =>
+                !testCurrencies.some((currency) => currency.name === bet.currency && currency.partnerId === bet.partnerId) &&
+                choices.includes(bet.choice)
+        );
+        const uusBets = bets.filter(
+            (bet) =>
+                testCurrencies.some((currency) => currency.name === bet.currency && currency.partnerId === bet.partnerId) &&
+                choices.includes(bet.choice)
+        );
+
         const realBetProcessors = this.settleBetsByGroup(realBets, roundId, settlementResult, this.gameData.totalBets, choices);
-        const uusBetProcessors = this.settleBetsByGroup(uusBets, roundId, settlementResult, this.gameData.totalUUSBets, choices);
+        const uusBetProcessors = this.settleBetsByGroup(uusBets, roundId, settlementResult, this.gameData.totalTestBets, choices);
 
         return realBetProcessors.concat(uusBetProcessors);
     }

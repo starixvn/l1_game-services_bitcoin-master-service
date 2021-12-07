@@ -15,6 +15,11 @@ export default class BitcoinMasterGameCron extends GameCron {
         roundsRepository,
         archiveStatusesRepository,
         notificationRepository,
+        exchangeRatesRepository,
+        currencyGroupGamesRepository,
+        partnerConfigRepository,
+        currencyGroupRepository,
+        currencyRepository,
         cryptoExchangesRepository,
         cryptoCandleSticksRepository,
         betsRepository,
@@ -32,6 +37,11 @@ export default class BitcoinMasterGameCron extends GameCron {
             roundsRepository,
             archiveStatusesRepository,
             notificationRepository,
+            exchangeRatesRepository,
+            currencyGroupGamesRepository,
+            partnerConfigRepository,
+            currencyGroupRepository,
+            currencyRepository,
         });
 
         this.cryptoExchangesRepository = cryptoExchangesRepository;
@@ -53,6 +63,9 @@ export default class BitcoinMasterGameCron extends GameCron {
             this.gameData.roundId = await this.getLastArchiveRound();
             this.initCronJob();
         }
+
+        await this.getSettingForNewRound();
+        await this.updateExchangeRates();
     }
 
     initCronJob() {
@@ -126,6 +139,13 @@ export default class BitcoinMasterGameCron extends GameCron {
 
         this.gameData.gameConfigs = configs ?? {};
         this.gameData.disabled = configuredlyDisabled || this.gameData.delayStartTime > 0;
+        await this.getSettingForNewRound();
+
+        if (this.gameData.gameConfigs.reloadExchange) {
+            await this.updateExchangeRates();
+            await this.gameConfigsRepository.updateOne({ name: configName }, { reloadExchange: false });
+            this.gameData.gameConfigs.reloadExchange = false;
+        }
 
         if (this.gameData.disabled) {
             this.gameData.remainingTime = durations.wholeRound;

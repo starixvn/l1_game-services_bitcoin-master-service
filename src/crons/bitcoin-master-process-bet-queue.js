@@ -1,22 +1,22 @@
 import { ProcessBetQueue } from "sc-pool-betting-game-base";
 
 export default class BitcoinMasterProcessBetQueue extends ProcessBetQueue {
-    async upsertBet(player, roundId, bet) {
+    async upsertBet(player, roundId, bet, rate) {
         const configs = this.gameData.gameConfigs;
         const existingBetFilter = { uid: player.UID, phien: roundId };
         const existingBet = await this.betsRepository.findOne(existingBetFilter).exec();
         if (existingBet) {
-            await this.updateBet(existingBet, bet);
+            await this.updateBet(existingBet, bet, rate);
         } else {
-            await this.insertBet(player, bet, roundId, configs);
+            await this.insertBet(player, bet, roundId, configs, rate);
         }
 
-        if (!this.isUUSAccount(player) && (!existingBet || existingBet[bet.betChoice] - bet.amount === 0)) {
+        if (!this.isTestAccount(player) && (!existingBet || existingBet[bet.betChoice] - bet.amount === 0)) {
             this.gameData.betCount[bet.betChoice] = (this.gameData.betCount[bet.betChoice] ?? 0) + 1;
         }
     }
 
-    async insertBet(player, bet, roundId, configs) {
+    async insertBet(player, bet, roundId, configs, rate) {
         const newBet = {
             uid: player.UID,
             name: player.profile.name,
@@ -25,19 +25,25 @@ export default class BitcoinMasterProcessBetQueue extends ProcessBetQueue {
             odds: configs.odds,
             [bet.betChoice]: bet.amount,
             totalAmount: bet.amount,
+            baseTotalAmount: bet.amount * rate
         };
 
         if (player.session) {
             newBet.memberId = player.session.memberId;
             newBet.siteId = player.session.siteId;
+            newBet.partnerId = player.session.partnerId;
+            newBet.currency = player.session.currencyName;
+            newBet.rate = rate;
         }
 
         await this.betsRepository.create(newBet);
     }
 
-    async updateBet(existingBet, bet) {
+    async updateBet(existingBet, bet, rate) {
         existingBet[bet.betChoice] += bet.amount;
         existingBet.totalAmount += bet.amount;
+        existingBet.baseTotalAmount += bet.amount * rate;
+
         await existingBet.save();
     }
 }

@@ -70,6 +70,21 @@ const gameConfigsRepository = {
 
 const notificationRepository = stubMongooseModelStupidly(mongoose.Model);
 
+/** @type {mongoose.Model}*/
+const exchangeRatesRepository = stubMongooseModelStupidly(mongoose.Model);
+
+/** @type {mongoose.Model}*/
+const currencyGroupGamesRepository = stubMongooseModelStupidly(mongoose.Model);
+
+/** @type {mongoose.Model}*/
+const partnerConfigRepository = stubMongooseModelStupidly(mongoose.Model);
+
+/** @type {mongoose.Model}*/
+const currencyGroupRepository = stubMongooseModelStupidly(mongoose.Model);
+
+/** @type {mongoose.Model}*/
+const currencyRepository = stubMongooseModelStupidly(mongoose.Model);
+
 const cron = new BitcoinMasterGameCron({
     definition,
     gameData,
@@ -84,6 +99,11 @@ const cron = new BitcoinMasterGameCron({
     archiveStatusesRepository,
     notificationRepository,
     gameConfigsRepository,
+    exchangeRatesRepository,
+    currencyGroupGamesRepository,
+    partnerConfigRepository,
+    currencyGroupRepository,
+    currencyRepository,
 });
 
 const exchangeData = {
@@ -141,13 +161,10 @@ const exchangeData = {
     },
 };
 
-
 cryptoExchangesRepository.mockLeanFnc.mockReturnValue(exchangeData);
 
 describe("proceed tests", () => {
- 
     it("should snapshot open price and send to clients when remaining time = snapshot open price time", async () => {
-
         gameData.disabled = false;
         gameData.remainingTime = gameSettings.durations.snapshotOpenPrice + 1;
 

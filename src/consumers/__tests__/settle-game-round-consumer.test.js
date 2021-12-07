@@ -35,7 +35,7 @@ betsRepository.updateOne = jest.fn();
 const betLogsRepository = stubMongooseModelStupidly(mongoose.Model);
 
 /** @type {mongoose.Model}*/
-const userInfosRepository = stubMongooseModelStupidly(mongoose.Model);
+const currencyRepository = stubMongooseModelStupidly(mongoose.Model);
 
 describe("SettleGameRoundConsumer test", () => {
     const consumer = new BitcoinMasterSettleGameRoundConsumer({
@@ -47,7 +47,7 @@ describe("SettleGameRoundConsumer test", () => {
         roundsRepository,
         betsRepository,
         betLogsRepository,
-        userInfosRepository,
+        currencyRepository,
     });
     describe("settle round tests", () => {
         it("open < close, should settle correctly", async () => {
@@ -61,21 +61,21 @@ describe("SettleGameRoundConsumer test", () => {
             gameData.totalBets = { odd: 300, even: 200, up: 200, down: 100 };
             // arrange
 
-            const expectedWinBetLog = { uid: 1, amount: 200, choice: "up", save: jest.fn() };
+            const expectedWinBetLog = { uid: 1, amount: 200, baseAmount: 200, choice: "up", rate: 1, save: jest.fn() };
 
             const betLogs = [expectedWinBetLog];
-            const bet = { uid: 1, up: 200 };
+            const bet = { uid: 1, up: 200, rate: 1 };
 
             betLogsRepository.find().exec = jest.fn().mockReturnValueOnce(betLogs);
             betsRepository.find().lean().exec.mockReturnValueOnce([bet]);
-            userInfosRepository.find().lean().exec.mockReturnValueOnce([]);
+            currencyRepository.find().lean().exec.mockReturnValueOnce([]);
             // act
             await consumer.settleRound();
 
-            // asset
+            // assert
             betLogs.forEach((betLog) => expect(betLog.save).toHaveBeenCalled());
-            expect(expectedWinBetLog.refund).toEqual(100);
-            expect(expectedWinBetLog.betwin).toEqual(100 * (gameConfigs.odds.even - 1));
+            expect(parseFloat(expectedWinBetLog.refund)).toEqual(100);
+            expect(parseFloat(expectedWinBetLog.betwin)).toEqual(100 * (gameConfigs.odds.even - 1));
         });
 
         it("open > close, should settle correctly", async () => {
@@ -89,21 +89,21 @@ describe("SettleGameRoundConsumer test", () => {
             gameData.totalBets = { odd: 300, even: 200, up: 200, down: 100 };
             // arrange
 
-            const expectedWinBetLog = { uid: 1, amount: 200, choice: "up", save: jest.fn() };
+            const expectedWinBetLog = { uid: 1, amount: 200, baseAmount: 200, choice: "up", rate: 1, save: jest.fn() };
 
             const betLogs = [expectedWinBetLog];
-            const bet = { uid: 1, up: 200 };
+            const bet = { uid: 1, up: 200, rate: 1 };
 
             betLogsRepository.find().exec = jest.fn().mockReturnValueOnce(betLogs);
             betsRepository.find().lean().exec.mockReturnValueOnce([bet]);
-            userInfosRepository.find().lean().exec.mockReturnValueOnce([]);
+            currencyRepository.find().lean().exec.mockReturnValueOnce([]);
             // act
             await consumer.settleRound();
 
-            // asset
+            // assert
             betLogs.forEach((betLog) => expect(betLog.save).toHaveBeenCalled());
-            expect(expectedWinBetLog.refund).toEqual(100);
-            expect(expectedWinBetLog.betwin).toEqual(0);
+            expect(parseFloat(expectedWinBetLog.refund)).toEqual(100);
+            expect(parseFloat(expectedWinBetLog.betwin)).toEqual(0);
         });
 
         it("open = close, should refund all up & down bets correctly", async () => {
@@ -116,22 +116,23 @@ describe("SettleGameRoundConsumer test", () => {
             };
             gameData.totalBets = { odd: 300, even: 200, up: 200, down: 100 };
             // arrange
-            const expectedRefundBetLog = { uid: 1, amount: 200, choice: "up", save: jest.fn() };
-            const expectedWinBetLog = { uid: 1, amount: 200, choice: "even", save: jest.fn() };
+            const expectedRefundBetLog = { uid: 1, amount: 200, baseAmount: 200, choice: "up", rate: 1, save: jest.fn() };
+            const expectedWinBetLog = { uid: 1, amount: 200, baseAmount: 200, choice: "even", rate: 1, save: jest.fn() };
 
             const betLogs = [expectedWinBetLog, expectedRefundBetLog];
-            const bet = { uid: 1, even: 200, up: 200 };
+            const bet = { uid: 1, even: 200, up: 200, rate: 1 };
 
             betLogsRepository.find().exec = jest.fn().mockReturnValueOnce(betLogs);
             betsRepository.find().lean().exec.mockReturnValueOnce([bet]);
-            userInfosRepository.find().lean().exec.mockReturnValueOnce([]);
+            currencyRepository.find().lean().exec.mockReturnValueOnce([]);
             // act
             await consumer.settleRound();
 
-            // asset
+            // assert
             betLogs.forEach((betLog) => expect(betLog.save).toHaveBeenCalled());
-            expect(expectedRefundBetLog.refund).toEqual(expectedRefundBetLog.amount);
-            expect(expectedWinBetLog.betwin).toEqual(expectedRefundBetLog.amount * (gameConfigs.odds.even - 1));
+            expect(parseFloat(expectedRefundBetLog.refund)).toEqual(expectedRefundBetLog.amount);
+            expect(parseFloat(expectedWinBetLog.betwin)).toEqual(expectedRefundBetLog.amount * (gameConfigs.odds.even - 1));
+
         });
     });
 });
