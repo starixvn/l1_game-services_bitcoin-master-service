@@ -170,12 +170,15 @@ export default class BitcoinMasterGameCron extends GameCron {
             const now = new Date();
 
             setTimeout(async () => {
-                const { average } = await this.cryptoCandleSticksRepository.findOne({ time }, "average").lean();
+                const candle = await this.cryptoCandleSticksRepository.findOne({ time }, "average").lean();
 
-                this.gameData.cryptoExchange.runningCandleStick = average;
-                this.gameData.open = average.open;
+                if (candle) {
+                    const { average } = candle;
+                    this.gameData.cryptoExchange.runningCandleStick = average;
+                    this.gameData.open = average.open;
 
-                await this.settleGameRoundConsumer.settleRound();
+                    await this.settleGameRoundConsumer.settleRound();
+                }
 
                 await this.updateCryptoExchangeData();
                 this.chartClientPublisher.publishToAllClients({ init: getAll(this.gameData.cryptoExchange) });
