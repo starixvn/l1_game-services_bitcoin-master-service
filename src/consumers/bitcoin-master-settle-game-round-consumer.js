@@ -61,8 +61,9 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
                 } else {
                     result.totalWin += betLog.refund;
                     result.winningByChoices[betLog.choice] = (result.winningByChoices[betLog.choice] ?? 0) + betLog.refund;
-                    result.totalLost += betLog.amount - betLog.refund;
                 }
+
+                result.totalLost += betLog.amount - betLog.refund;
 
                 return result;
             },
