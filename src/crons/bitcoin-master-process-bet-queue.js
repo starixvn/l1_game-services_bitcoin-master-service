@@ -25,7 +25,8 @@ export default class BitcoinMasterProcessBetQueue extends ProcessBetQueue {
             odds: configs.odds,
             [bet.betChoice]: bet.amount,
             totalAmount: bet.amount,
-            baseTotalAmount: bet.amount * rate
+            baseTotalAmount: bet.amount * rate,
+            roundId,
         };
 
         if (player.session) {
@@ -34,6 +35,9 @@ export default class BitcoinMasterProcessBetQueue extends ProcessBetQueue {
             newBet.partnerId = player.session.partnerId;
             newBet.currency = player.session.currencyName;
             newBet.rate = rate;
+
+            newBet.playerId = player.session.memberId;
+            newBet.operatorId = player.session.partnerId;
         }
 
         await this.betsRepository.create(newBet);
