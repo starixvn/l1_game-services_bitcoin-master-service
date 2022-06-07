@@ -81,4 +81,5 @@ export default {
             "https://m.gamesaba.com",
         ],
     },
+    enableMsgpackParser: true,
 };

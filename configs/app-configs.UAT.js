@@ -70,4 +70,5 @@ export default {
         socketPath: "/uat/bitcoinmaster/socket.io",
         allows: ["https://l1uat.sgamesuat.com", "https://l1uatm.sgamesuat.com"],
     },
+    enableMsgpackParser: true,
 };
