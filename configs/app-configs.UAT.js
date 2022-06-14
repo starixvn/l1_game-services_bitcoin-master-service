@@ -13,16 +13,9 @@ export default {
         requestTimeout: 10000, // 10s
         enabledApiLogs: true,
     },
-    mainServerApiSettings: {
-        url: "http://l1_game_server_uat:5000/api",
-        auth: {
-            url: "http://l1_auth_api_uat:5000",
-            id: "game-services",
-            secret: "gameservices@20luminet&",
-        },
+    userServiceSettings: {
+        url: "http://l1_user_service_uat:5000",
         requestTimeout: 10000,
-        placeBetTimeout: 4500,
-        useAuthenticate: true,
     },
     socketOptions: {
         pingInterval: 60 * 1000,
@@ -63,7 +56,7 @@ export default {
         "https://l1uatadm.sgamesuat.com",
         "http://l1uatm.sgamesuat.com",
         "https://l1uatm.sgamesuat.com",
-        "https://l1uatproxy.sgamesuat.com"
+        "https://l1uatproxy.sgamesuat.com",
     ],
     chartConfig: {
         socket: "wss://l1uatproxy.sgamesuat.com/user/bitcoinmaster",

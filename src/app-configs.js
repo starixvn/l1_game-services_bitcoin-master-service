@@ -13,16 +13,9 @@ export default {
         placeBetTimeout: 4500,
         enableApiLogs: true,
     },
-    mainServerApiSettings: {
-        url: "http://localhost:8080/api",
-        auth: {
-            url: "http://auth.lumigame.com",
-            id: "game-services",
-            secret: "gameservices@20luminet&",
-        },
+    userServiceSettings: {
+        url: "https://l1-proxy.lumigame.com/user",
         requestTimeout: 10000,
-        placeBetTimeout: 4500,
-        useAuthenticate: true,
     },
     socketOptions: {
         pingInterval: 60 * 1000,
@@ -50,7 +43,13 @@ export default {
     },
     adminSecretKey: "asWDEerfOIdgsdqRTFabvmgh",
     enableCorsWs: false,
-    corsUrls: ["http://localhost:7456", "http://localhost:7000", "http://games.lumigame.com", "http://admin.lumigame.com", "http://localhost:8084"],
+    corsUrls: [
+        "http://localhost:7456",
+        "http://localhost:7000",
+        "http://games.lumigame.com",
+        "http://admin.lumigame.com",
+        "http://localhost:8084",
+    ],
     chartConfig: {
         socket: "ws://localhost:8084/user/bitcoinmaster",
         socketPath: "/socket.io",
