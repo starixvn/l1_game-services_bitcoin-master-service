@@ -1,3 +1,4 @@
+// prettier-ignore
 /*!
  * Socket.IO v4.4.0
  * (c) 2014-2021 Guillermo Rauch
