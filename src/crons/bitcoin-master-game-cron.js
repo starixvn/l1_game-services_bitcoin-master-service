@@ -118,6 +118,8 @@ export default class BitcoinMasterGameCron extends GameCron {
             this.bot && (await this.bot.run());
             this.runningRoundInfoPublisher.publish();
         }
+
+        console.log(this.gameData.open);
     }
 
     async checkGameStatus() {

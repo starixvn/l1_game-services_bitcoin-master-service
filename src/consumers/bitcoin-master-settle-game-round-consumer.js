@@ -12,6 +12,8 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
             close: runningCandleStick.close,
         };
 
+        console.log(result);
+
         return this.gameData.roundId === resultFromAdmin.roundId
             ? {
                   time: result.time,
