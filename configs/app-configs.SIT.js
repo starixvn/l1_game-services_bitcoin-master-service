@@ -10,19 +10,19 @@ export default {
         },
         useAuthenticate: true,
         requestTimeout: 10000,
-        placeBetTimeout: 4500,
+        placeBetTimeout: 4000,
         enabledApiLogs: true,
     },
-    mainServerApiSettings: {
-        url: "http://l1_game_server_sit:5000/api",
-        auth: {
-            url: "http://l1_auth_api_sit:5000",
-            id: "game-services",
-            secret: "gameservices@20luminet&",
-        },
+    authenticateSettings: {
+        url: "http://l1_auth_api_sit:5000",
+        id: "game-services",
+        secret: "gameservices@20luminet&",
         requestTimeout: 10000,
-        placeBetTimeout: 4500,
         useAuthenticate: true,
+        audiences: ["api", "admin-api"],
+    },
+    userServiceSettings: {
+        url: "http://l1_user_service_sit:5000",
     },
     socketOptions: {
         pingInterval: 60 * 1000,
@@ -43,9 +43,6 @@ export default {
         sentryUrl: "http://52368c4019044019885440599c180bda@10.2.190.51:9009/24",
         logIdentifier: "bitcoin-master",
         env: "SIT",
-    },
-    authenticateSettings: {
-        audiences: ["api", "admin-api"],
     },
     adminSecretKey: "asWDEerfOIdgsdqRTFabvmgh",
     enableCorsWs: true,
@@ -71,4 +68,5 @@ export default {
         socketPath: "/sit/bitcoinmaster/socket.io",
         allows: ["https://l1sit.sgamesuat.com", "https://l1sitm.sgamesuat.com"],
     },
+    enableMsgpackParser: true,
 };

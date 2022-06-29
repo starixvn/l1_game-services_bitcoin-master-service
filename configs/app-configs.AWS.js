@@ -13,16 +13,16 @@ export default {
         requestTimeout: 10000, // 10s
         enabledApiLogs: true,
     },
-    mainServerApiSettings: {
-        url: "http://l1_game_server_AWS:5000/api",
-        auth: {
-            url: "http://l1_auth_api_AWS:5000",
-            id: "game-services",
-            secret: "gameservices@20luminet&",
-        },
+    authenticateSettings: {
+        url: "http://l1_auth_api_AWS:5000",
+        id: "game-services",
+        secret: "gameservices@20luminet&",
         requestTimeout: 10000,
-        placeBetTimeout: 4500,
         useAuthenticate: true,
+        audiences: ["api", "admin-api"],
+    },
+    userServiceSettings: {
+        url: "http://localhost:8004/api",
     },
     socketOptions: {
         pingInterval: 60 * 1000,
@@ -44,9 +44,6 @@ export default {
         sentryUrl: "http://58fc00e79ab34a3bab04a79038760cb8@sentry.sabagame.com/8",
         logIdentifier: "bitcoin-master",
         env: "AWS",
-    },
-    authenticateSettings: {
-        audiences: ["api", "admin-api"],
     },
     adminSecretKey: "asWDEer4yGdgsdqR4uqmKQZgh",
     enableCorsWs: true,

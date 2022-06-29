@@ -26,6 +26,11 @@ const betLogSchema = {
     currency: { type: String, require: true },
     rate: { type: Number, require: true },
     partnerId: { type: String, require: true },
+
+    playerId: { type: Number },
+    operatorId: { type: String, require: true },
+    roundId: { type: Number, required: true },
+    paid: { type: Boolean, default: false },
 };
 
 const betSchema = new mongoose.Schema({
@@ -59,6 +64,11 @@ const betSchema = new mongoose.Schema({
     currency: { type: String, require: true },
     rate: { type: Number, require: true },
     partnerId: { type: String, require: true },
+
+    playerId: { type: Number },
+    operatorId: { type: String, require: true },
+    roundId: { type: Number, required: true },
+    paid: { type: Boolean, default: false },
 });
 
 const BitcoinMasterBets = mongoose.model("bitcoinmaster_bet", betSchema);

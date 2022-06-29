@@ -9,20 +9,20 @@ export default {
             secret: "gameserver@20luminet&",
         },
         useAuthenticate: true,
-        placeBetTimeout: 4500,
+        placeBetTimeout: 4000,
         requestTimeout: 10000, // 10s
         enabledApiLogs: true,
     },
-    mainServerApiSettings: {
-        url: "http://l1_game_server_uat:5000/api",
-        auth: {
-            url: "http://l1_auth_api_uat:5000",
-            id: "game-services",
-            secret: "gameservices@20luminet&",
-        },
+    authenticateSettings: {
+        url: "http://l1_auth_api_uat:5000",
+        id: "game-services",
+        secret: "gameservices@20luminet&",
         requestTimeout: 10000,
-        placeBetTimeout: 4500,
         useAuthenticate: true,
+        audiences: ["api", "admin-api"],
+    },
+    userServiceSettings: {
+        url: "http://l1_user_service_uat:5000",
     },
     socketOptions: {
         pingInterval: 60 * 1000,
@@ -45,9 +45,6 @@ export default {
         logIdentifier: "bitcoin-master",
         env: "UAT",
     },
-    authenticateSettings: {
-        audiences: ["api", "admin-api"],
-    },
     adminSecretKey: "asWDEerfOIdgsdqRTFabvmgh",
     enableCorsWs: true,
     corsUrls: [
@@ -63,11 +60,12 @@ export default {
         "https://l1uatadm.sgamesuat.com",
         "http://l1uatm.sgamesuat.com",
         "https://l1uatm.sgamesuat.com",
-        "https://l1uatproxy.sgamesuat.com"
+        "https://l1uatproxy.sgamesuat.com",
     ],
     chartConfig: {
         socket: "wss://l1uatproxy.sgamesuat.com/user/bitcoinmaster",
         socketPath: "/uat/bitcoinmaster/socket.io",
         allows: ["https://l1uat.sgamesuat.com", "https://l1uatm.sgamesuat.com"],
     },
+    enableMsgpackParser: true,
 };
