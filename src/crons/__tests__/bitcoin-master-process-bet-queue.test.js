@@ -19,7 +19,7 @@ const betsRepository = {
 
 const processBetQueue = new BitcoinMasterProcessBetQueue({ definition, gameData, gameConfigs, betsRepository });
 
-const player = { UID: 1, profile: { name: "player" }, session: { memberId: 100, siteId: "lumi" } };
+const player = { UID: 1, profile: { name: "player" }, session: { playerId: 100, siteId: "lumi" } };
 
 describe("insert bet tests", () => {
     it("insert bet correctly", async () => {

@@ -159,7 +159,7 @@ export default class BitcoinMasterGameCron extends GameCron {
     }
 
     async processUnsettledBets(lastRound) {
-        const unsettledBet = await this.betsRepository.exists({ thanhtoan: false, phien: lastRound.id + 1 });
+        const unsettledBet = await this.betsRepository.exists({ paid: false, roundId: lastRound.id + 1 });
 
         if (unsettledBet) {
             const time = new Date(lastRound.result.time);

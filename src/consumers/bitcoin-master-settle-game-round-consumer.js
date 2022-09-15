@@ -35,13 +35,13 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
                 settledBets.map(async (bet) => {
                     const betResult = this.calculateBetResult(
                         bet,
-                        bets.filter((x) => x.phien === bet.phien && x.uid === bet.uid)
+                        bets.filter((x) => x.roundId === bet.roundId && x.uid === bet.uid)
                     );
 
                     await this.callEndGame(bet, roundId, time, betResult);
                     this.captureBetResult(bet.uid, betResult);
 
-                    if (bet.memberId) {
+                    if (bet.playerId) {
                         this.userBetResultPublisher.publish(bet.uid, betResult);
                     }
                 })
@@ -83,12 +83,12 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
         if (settlementResult.up || settlementResult.down) {
             const realBets = bets.filter(
                 (bet) =>
-                    !testCurrencies.some((currency) => currency.name === bet.currency && currency.partnerId === bet.partnerId) &&
+                    !testCurrencies.some((currency) => currency.name === bet.currency && currency.partnerId === bet.operatorId) &&
                     choices.includes(bet.choice)
             );
             const uusBets = bets.filter(
                 (bet) =>
-                    testCurrencies.some((currency) => currency.name === bet.currency && currency.partnerId === bet.partnerId) &&
+                    testCurrencies.some((currency) => currency.name === bet.currency && currency.partnerId === bet.operatorId) &&
                     choices.includes(bet.choice)
             );
             const realBetProcessors = this.settleBetsByGroup(realBets, roundId, settlementResult, this.gameData.totalBets, choices);
@@ -107,12 +107,12 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
 
         const realBets = bets.filter(
             (bet) =>
-                !testCurrencies.some((currency) => currency.name === bet.currency && currency.partnerId === bet.partnerId) &&
+                !testCurrencies.some((currency) => currency.name === bet.currency && currency.partnerId === bet.operatorId) &&
                 choices.includes(bet.choice)
         );
         const uusBets = bets.filter(
             (bet) =>
-                testCurrencies.some((currency) => currency.name === bet.currency && currency.partnerId === bet.partnerId) &&
+                testCurrencies.some((currency) => currency.name === bet.currency && currency.partnerId === bet.operatorId) &&
                 choices.includes(bet.choice)
         );
 

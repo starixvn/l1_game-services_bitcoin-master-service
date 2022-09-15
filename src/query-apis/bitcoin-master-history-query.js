@@ -4,7 +4,7 @@ export default class BitcoinMasterHistoryQuery extends Core.QueryApis.HistoryQue
     getBetLogDetails(player, roundId) {
         return this.betLogsRepository
             .find(
-                { phien: roundId, uid: player.UID },
+                { roundId, uid: player.UID },
                 { _id: false, time: true, choice: true, amount: true, win: true, refund: true, betwin: true },
                 { sort: { _id: -1 } }
             )

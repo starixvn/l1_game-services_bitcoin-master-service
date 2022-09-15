@@ -3,7 +3,7 @@ import { ProcessBetQueue } from "sc-pool-betting-game-base";
 export default class BitcoinMasterProcessBetQueue extends ProcessBetQueue {
     async upsertBet(player, roundId, bet, rate) {
         const configs = this.gameData.gameConfigs;
-        const existingBetFilter = { uid: player.UID, phien: roundId };
+        const existingBetFilter = { uid: player.UID, roundId };
         const existingBet = await this.betsRepository.findOne(existingBetFilter).exec();
         if (existingBet) {
             await this.updateBet(existingBet, bet, rate);
@@ -20,7 +20,6 @@ export default class BitcoinMasterProcessBetQueue extends ProcessBetQueue {
         const newBet = {
             uid: player.UID,
             name: player.profile.name,
-            phien: roundId,
             time: new Date(),
             odds: configs.odds,
             [bet.betChoice]: bet.amount,
@@ -30,14 +29,12 @@ export default class BitcoinMasterProcessBetQueue extends ProcessBetQueue {
         };
 
         if (player.session) {
-            newBet.memberId = player.session.memberId;
             newBet.siteId = player.session.siteId;
-            newBet.partnerId = player.session.partnerId;
             newBet.currency = player.session.currencyName;
             newBet.rate = rate;
 
-            newBet.playerId = player.session.memberId;
-            newBet.operatorId = player.session.partnerId;
+            newBet.playerId = player.session.playerId;
+            newBet.operatorId = player.session.operatorId;
         }
 
         await this.betsRepository.create(newBet);
