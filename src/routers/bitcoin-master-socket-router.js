@@ -12,7 +12,11 @@ export default class BitcoinMasterSocketRouter extends SocketRouter {
         try {
             const { ss } = payload;
 
-            if (Object.values(this.gameData.realPlayers).some((x) => x.session.sessionId === ss)) {
+            if (
+                Object.values(this.gameData.realPlayers).some((x) => x.session.sessionId === ss) &&
+                Object.values(this.gameData.chartClients).every((x) => x.sessionId !== ss)
+            ) {
+                this.socketClient.sessionId = ss;
                 this.gameData.chartClients[this.socketClient.id] = this.socketClient;
                 this.socketClient.emit(this.definition.name, { init: getAll(this.gameData.cryptoExchange) });
             } else {

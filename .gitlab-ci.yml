@@ -1,7 +1,10 @@
 variables:
-  SMOKE_PRODUCT_NAME: BitCoin
+    SMOKE_PRODUCT_NAME: BitCoin
 
 include:
-  - project: "ci/repos-ci/pentagon_l1_bitcoin_master_service"
-    ref: master
-    file: "gitlab-ci.yml"
+    - project: "ci/repos-ci/pentagon_l1_bitcoin_master_service"
+      ref: master
+      file: "gitlab-ci.yml"
+    - project: "ci/repos-ci/pentagon_l2_bitcoin_master_service"
+      ref: master
+      file: "gitlab-ci-mixing.yml"

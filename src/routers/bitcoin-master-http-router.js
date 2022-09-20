@@ -6,7 +6,7 @@ import helmet from "helmet";
 export default class BitcoinMasterHttpRouter extends Core.Routers.HttpRouter {
     init(app) {
         super.init(app);
-        
+
         app.get("/chart-config", function (req, res) {
             res.send({ socketInfo: appConfigs.chartConfig });
         });

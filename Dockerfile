@@ -1,20 +1,23 @@
-FROM registry.nexdev.net:5050/docker/node:14.15.1-slim
+FROM hub.lumigame.com/docker-hub/library/node:18.1-alpine AS builder
+WORKDIR /app
+COPY package.json yarn.lock .modprunerrc ./
+COPY public ./public
+RUN npm run reg \
+    && yarn install --production \
+    && npm run uglify \
+    && npx mod-pruner prune --force
+COPY ./src/ .
 
+FROM hub.lumigame.com/docker-hub/library/node:18.1-alpine
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
-RUN mkdir /app && chown -R node /app
-
+RUN mkdir /app && chown node:node /app
 WORKDIR /app
-COPY package.json yarn.lock ./
-COPY public ./public
-RUN npm run reg
-RUN yarn install --production
-RUN npm run uglify
-ENV PATH /app/node_modules/.bin:$PATH
-
-COPY ./src/ .
-HEALTHCHECK --interval=10s CMD node --es-module-specifier-resolution=node healthcheck.js
 
 USER node
+ENV PATH /app/node_modules/.bin:$PATH
+COPY --from=builder /app .
+
+HEALTHCHECK --interval=10s CMD node --es-module-specifier-resolution=node healthcheck.js
 
 CMD [ "node", "--es-module-specifier-resolution=node", "./app.js" ]
