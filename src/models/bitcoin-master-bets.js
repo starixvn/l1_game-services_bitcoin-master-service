@@ -19,10 +19,10 @@ const betLogSchema = {
     time: { type: Date },
 
     siteId: { type: String },
-    currency: { type: String, require: true },
-    rate: { type: Number, require: true },
+    currency: { type: String, required: true },
+    rate: { type: Number, required: true },
     playerId: { type: Number },
-    operatorId: { type: String, require: true },
+    operatorId: { type: String, required: true },
     roundId: { type: Number, required: true },
     paid: { type: Boolean, default: false },
 };
@@ -52,11 +52,11 @@ const betSchema = new mongoose.Schema({
     odds: { type: Object },
 
     siteId: { type: String },
-    currency: { type: String, require: true },
-    rate: { type: Number, require: true },
+    currency: { type: String, required: true },
+    rate: { type: Number, required: true },
 
     playerId: { type: Number },
-    operatorId: { type: String, require: true },
+    operatorId: { type: String, required: true },
     roundId: { type: Number, required: true },
     paid: { type: Boolean, default: false },
 });

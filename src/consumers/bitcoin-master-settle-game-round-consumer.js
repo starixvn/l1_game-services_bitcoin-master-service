@@ -81,30 +81,20 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
         const choices = ["up", "down"];
 
         if (settlementResult.up || settlementResult.down) {
-            const realBets = bets.filter(
-                (bet) =>
-                    !testCurrencies.some((currency) => currency.name === bet.currency && currency.partnerId === bet.operatorId) &&
-                    choices.includes(bet.choice)
-            );
-            const uusBets = bets.filter(
-                (bet) =>
-                    testCurrencies.some((currency) => currency.name === bet.currency && currency.partnerId === bet.operatorId) &&
-                    choices.includes(bet.choice)
-            );
-            const realBetProcessors = this.settleBetsByGroup(realBets, roundId, settlementResult, this.gameData.totalBets, choices);
-            const uusBetProcessors = this.settleBetsByGroup(uusBets, roundId, settlementResult, this.gameData.totalTestBets, choices);
-
-            return realBetProcessors.concat(uusBetProcessors);
-        } else {
-            const upDownBets = bets.filter((bet) => choices.includes(bet.choice));
-
-            return upDownBets.map((bet) => this.settleBet(bet, roundId, settlementResult, { choice: bet.choice, amount: bet.amount }));
+            return this.settleBetsByChoices(testCurrencies, bets, roundId, settlementResult, choices);
         }
+
+        const upDownBets = bets.filter((bet) => choices.includes(bet.choice));
+        return upDownBets.map((bet) => this.settleBet(bet, roundId, settlementResult, { choice: bet.choice, amount: bet.amount }));
     }
 
     settleOddEven(testCurrencies, bets, roundId, settlementResult) {
         const choices = ["odd", "even"];
 
+        return this.settleBetsByChoices(testCurrencies, bets, roundId, settlementResult, choices);
+    }
+
+    settleBetsByChoices(testCurrencies, bets, roundId, settlementResult, choices) {
         const realBets = bets.filter(
             (bet) =>
                 !testCurrencies.some((currency) => currency.name === bet.currency && currency.partnerId === bet.operatorId) &&
