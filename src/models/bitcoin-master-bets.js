@@ -52,11 +52,11 @@ const betSchema = new mongoose.Schema({
     odds: { type: Object },
 
     siteId: { type: String },
-    currency: { type: String, required: true },
+    currency: { type: String },
     rate: { type: Number, required: true },
 
     playerId: { type: Number },
-    operatorId: { type: String, required: true },
+    operatorId: { type: String },
     roundId: { type: Number, required: true },
     paid: { type: Boolean, default: false },
 });
