@@ -11,7 +11,7 @@ export default {
         useAuthenticate: true,
         requestTimeout: 10000,
         placeBetTimeout: 4000,
-        enableApiLogs: true,
+        enabledApiLogs: true,
     },
     authenticateSettings: {
         url: "http://l1_auth_api_local:5000",
