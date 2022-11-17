@@ -79,4 +79,5 @@ export default {
         ],
     },
     enableMsgpackParser: true,
+    balancedBotBettingTime: 10,
 };
