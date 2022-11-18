@@ -1,6 +1,6 @@
-import gameSettings from "../../game-settings";
-import GameData from "../../bitcoin-master-game-data";
-import ChartClientPublisher from "../chart-client-publisher";
+import gameSettings from "../../../src/game-settings";
+import GameData from "../../../src/bitcoin-master-game-data";
+import ChartClientPublisher from "../../../src/event-publishers/chart-client-publisher";
 
 const gameData = new GameData(gameSettings.durations.wholeRound);
 gameData.roundId = 1;

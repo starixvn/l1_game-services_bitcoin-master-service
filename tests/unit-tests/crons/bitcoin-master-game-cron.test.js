@@ -1,19 +1,20 @@
 import { Core } from "sc-game-base";
-import gameSettings from "../../game-settings";
-import GameData from "../../bitcoin-master-game-data";
-import BitcoinMasterSettleGameRoundConsumer from "../../consumers/bitcoin-master-settle-game-round-consumer";
-import BitcoinMasterGameCron from "../bitcoin-master-game-cron";
-import BitcoinMasterRunningRoundInfoPublisher from "../../event-publishers/bitcoin-master-running-round-info-publisher";
-import ChartClientPublisher from "../../event-publishers/chart-client-publisher";
+import gameSettings from "../../../src/game-settings";
+import GameData from "../../../src/bitcoin-master-game-data";
+import BitcoinMasterSettleGameRoundConsumer from "../../../src/consumers/bitcoin-master-settle-game-round-consumer";
+import BitcoinMasterGameCron from "../../../src/crons/bitcoin-master-game-cron";
+
+import BitcoinMasterRunningRoundInfoPublisher from "../../../src/event-publishers/bitcoin-master-running-round-info-publisher";
+import ChartClientPublisher from "../../../src/event-publishers/chart-client-publisher";
 import GameStatusPublisher from "sc-game-base/src/core/event-publishers/game-status-publisher";
 import { stubMongooseModelStupidly } from "jest-micro-auto-stub";
 import mongoose from "mongoose";
 
 jest.useFakeTimers();
 
-jest.mock("../../consumers/bitcoin-master-settle-game-round-consumer");
-jest.mock("../../event-publishers/bitcoin-master-running-round-info-publisher");
-jest.mock("../../event-publishers/chart-client-publisher");
+jest.mock("../../../src/consumers/bitcoin-master-settle-game-round-consumer");
+jest.mock("../../../src/event-publishers/bitcoin-master-running-round-info-publisher");
+jest.mock("../../../src/event-publishers/chart-client-publisher");
 jest.mock("sc-game-base/src/core/event-publishers/game-status-publisher");
 jest.mock("cron");
 

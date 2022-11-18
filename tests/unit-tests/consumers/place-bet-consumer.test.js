@@ -1,8 +1,8 @@
 import { Core } from "sc-game-base";
-import BitcoinMasterGameData from "../../bitcoin-master-game-data";
-import gameSettings from "../../game-settings";
+import BitcoinMasterGameData from "../../../src/bitcoin-master-game-data";
+import gameSettings from "../../../src/game-settings";
 
-import BitcoinMasterPlaceBetConsumer from "../bitcoin-master-place-bet-consumer";
+import BitcoinMasterPlaceBetConsumer from "../../../src/consumers/bitcoin-master-place-bet-consumer";
 
 describe("composeValidationCriteria tests", () => {
     const playerName = "nhanvat01";

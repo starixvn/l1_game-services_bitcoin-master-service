@@ -1,7 +1,7 @@
 import { Core } from "sc-game-base";
-import gameSettings from "../../game-settings";
-import GameData from "../../bitcoin-master-game-data";
-import BitcoinMasterBot from "../bitcoin-master-bot";
+import gameSettings from "../../../src/game-settings";
+import GameData from "../../../src/bitcoin-master-game-data";
+import BitcoinMasterBot from "../../../src/crons/bitcoin-master-bot";
 
 const definition = new Core.GameDefinition(gameSettings);
 const gameConfigs = { odds: { odd: 1.98, even: 1.98, up: 1.98, down: 1.98 } };

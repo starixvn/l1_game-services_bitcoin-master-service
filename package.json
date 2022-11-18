@@ -4,8 +4,8 @@
     "description": "",
     "main": "./src/app.js",
     "scripts": {
-        "test": "jest",
-        "test-coverage": "jest --collect-coverage",
+        "test": "jest --testPathPattern=tests/unit-tests/",
+        "test-coverage": "jest --collect-coverage --testPathPattern=tests/unit-tests/",
         "uglify": "uglifyjs ./public/chart.js -o ./public/chart.js  --compress --mangle",
         "dev": "SET NODE_ENV=development&& nodemon --es-module-specifier-resolution=node --watch ./src --ignore src/public/  ./src/app.js",
         "debug": "nodemon --es-module-specifier-resolution=node --watch ./ --inspect ./src/app.js",

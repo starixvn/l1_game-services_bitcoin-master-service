@@ -1,6 +1,6 @@
-import gameSettings from "../../game-settings";
-import GameData from "../../bitcoin-master-game-data";
-import BitcoinMasterRunningRoundInfoPublisher from "../bitcoin-master-running-round-info-publisher";
+import gameSettings from "../../../src/game-settings";
+import GameData from "../../../src/bitcoin-master-game-data";
+import BitcoinMasterRunningRoundInfoPublisher from "../../../src/event-publishers/bitcoin-master-running-round-info-publisher";
 
 const gameData = new GameData(gameSettings.durations.wholeRound);
 gameData.roundId = 1;
@@ -35,7 +35,7 @@ describe("calculateBetPercentage tests", () => {
         [{}, {}],
     ])("should calculate correctly", (betCount, expetedResult) => {
         gameData.betCount = betCount;
-        
+
         const result = publisher.calculateBetPercentage();
 
         expect(result).toEqual(expetedResult);

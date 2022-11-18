@@ -1,7 +1,7 @@
 import { Core } from "sc-game-base";
-import gameSettings from "../../game-settings";
-import GameData from "../../bitcoin-master-game-data";
-import BitcoinMasterSocketRouter from "../bitcoin-master-socket-router";
+import gameSettings from "../../../src/game-settings";
+import GameData from "../../../src/bitcoin-master-game-data";
+import BitcoinMasterSocketRouter from "../../../src/routers/bitcoin-master-socket-router";
 import UserDisconnectConsumer from "sc-game-base/src/core/event-consumers/user-disconnect-consumer";
 
 jest.mock("sc-game-base/src/core/event-consumers/user-disconnect-consumer");
