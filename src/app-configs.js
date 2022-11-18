@@ -59,5 +59,5 @@ export default {
         socketPath: "/socket.io",
         allows: ["http://localhost:7456", "http://localhost:7000"],
     },
-    balancedBotBettingTime: 10,
+    balancedBotBettingTime: 70,
 };

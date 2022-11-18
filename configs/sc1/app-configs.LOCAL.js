@@ -61,5 +61,5 @@ export default {
         socketPath: "/bitcoinmaster/socket.io",
         allows: ["http://localhost:7456", "http://localhost:7000", "https://games.lumigame.com", "https://l1-m.lumigame.com"],
     },
-    balancedBotBettingTime: 10,
+    balancedBotBettingTime: 70,
 };

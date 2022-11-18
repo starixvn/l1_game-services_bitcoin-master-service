@@ -61,5 +61,5 @@ export default {
         socketPath: "/bitcoinmaster/socket.io",
         allows: ["*"],
     },
-    balancedBotBettingTime: 10,
+    balancedBotBettingTime: 70,
 };

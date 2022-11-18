@@ -62,5 +62,5 @@ export default {
         allows: ["*"],
     },
     enableMsgpackParser: true,
-    balancedBotBettingTime: 10,
+    balancedBotBettingTime: 70,
 };

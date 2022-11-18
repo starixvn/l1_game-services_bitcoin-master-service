@@ -79,5 +79,5 @@ export default {
         ],
     },
     enableMsgpackParser: true,
-    balancedBotBettingTime: 10,
+    balancedBotBettingTime: 70,
 };

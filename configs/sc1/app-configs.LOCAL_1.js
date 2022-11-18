@@ -62,5 +62,5 @@ export default {
         allows: ["http://localhost:7456", "http://localhost:7000", "https://l1-games1.lumigame.com", "https://l1-m1.lumigame.com"],
     },
     enableMsgpackParser: false,
-    balancedBotBettingTime: 10,
+    balancedBotBettingTime: 70,
 };
