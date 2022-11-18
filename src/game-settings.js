@@ -11,4 +11,8 @@ export default {
     },
     choices: ["even", "odd", "up", "down"],
     choicesMapper: { even: 1, odd: 2, up: 3, down: 4 },
+    hedgeBetGroups: [
+        ["even", "odd"],
+        ["up", "down"],
+    ],
 };
