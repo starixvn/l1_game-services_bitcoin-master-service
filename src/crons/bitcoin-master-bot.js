@@ -1,8 +1,8 @@
 import { Bot } from "sc-pool-betting-game-base";
 
 export default class BitcoinMasterBot extends Bot {
-    constructor(definition, gameData, publisher, userInfosRepository, betsRepository, betLogsRepository) {
-        super(definition, gameData, publisher, userInfosRepository, betsRepository, betLogsRepository);
+    constructor(definition, gameData, publisher, userInfosRepository, betsRepository, betLogsRepository, balancedBot) {
+        super(definition, gameData, publisher, userInfosRepository, betsRepository, betLogsRepository, balancedBot);
 
         this.ratioOfUnroundTicket = 50;
 
