@@ -24,6 +24,7 @@ export default class BitcoinMasterGameCron extends GameCron {
         cryptoCandleSticksRepository,
         betsRepository,
         chartClientPublisher,
+        balancedBot,
     }) {
         super({
             definition,
@@ -48,6 +49,7 @@ export default class BitcoinMasterGameCron extends GameCron {
         this.cryptoCandleSticksRepository = cryptoCandleSticksRepository;
         this.betsRepository = betsRepository;
         this.chartClientPublisher = chartClientPublisher;
+        this.balancedBot = balancedBot;
     }
 
     async start() {
@@ -108,6 +110,7 @@ export default class BitcoinMasterGameCron extends GameCron {
         if (this.isStartingTime(this.gameData.remainingTime, durations)) {
             this.resetForNewRound();
             this.bot && (await this.bot.reset());
+            this.balancedBot && (await this.balancedBot.reset());
         }
 
         if (this.gameData.remainingTime < 0) {
