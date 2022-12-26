@@ -179,6 +179,7 @@ export default class BitcoinMasterGameCron extends GameCron {
                     this.gameData.cryptoExchange.runningCandleStick = average;
                     this.gameData.open = average.open;
 
+                    await this.updateExchangeRates();
                     await this.settleGameRoundConsumer.settleRound();
                 }
 
