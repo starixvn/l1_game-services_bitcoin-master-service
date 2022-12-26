@@ -58,6 +58,9 @@ export default class BitcoinMasterGameCron extends GameCron {
             .lean()
             .exec();
 
+        await this.getSettingForNewRound();
+        await this.updateExchangeRates();
+
         if (lastRound) {
             this.gameData.roundId = lastRound.id + 1;
             await this.processUnsettledBets(lastRound);
@@ -65,9 +68,6 @@ export default class BitcoinMasterGameCron extends GameCron {
             this.gameData.roundId = await this.getLastArchiveRound();
             this.initCronJob();
         }
-
-        await this.getSettingForNewRound();
-        await this.updateExchangeRates();
     }
 
     initCronJob() {
@@ -179,7 +179,6 @@ export default class BitcoinMasterGameCron extends GameCron {
                     this.gameData.cryptoExchange.runningCandleStick = average;
                     this.gameData.open = average.open;
 
-                    await this.updateExchangeRates();
                     await this.settleGameRoundConsumer.settleRound();
                 }
 
