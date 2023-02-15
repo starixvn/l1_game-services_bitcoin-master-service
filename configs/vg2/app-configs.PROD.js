@@ -46,16 +46,6 @@ export default {
         env: "PROD",
     },
     adminSecretKey: "asWDEer4yGdgsdqR4uqmKQZgh",
-    enableCorsWs: true,
-    corsUrls: [
-        "https://v-gaming.net",
-        "https://www.v-gaming.net",
-        "http://v-gaming.net",
-        "http://www.v-gaming.net",
-        "http://adm.v-gaming.net",
-        "https://adm.v-gaming.net",
-        "http://proxy.v-gaming.net",
-    ],
     chartConfig: {
         socket: "wss://proxy.v-gaming.net/user/bitcoinmaster",
         socketPath: "/bitcoinmaster/socket.io",

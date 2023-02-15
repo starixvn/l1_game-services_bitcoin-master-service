@@ -46,16 +46,6 @@ export default {
         env: "LOCAL-1",
     },
     adminSecretKey: "asWDEerfOIdgsdqRTFabvmgh",
-    enableCorsWs: true,
-    corsUrls: [
-        "http://localhost:7456",
-        "http://localhost:7000",
-        "https://l2-games1.lumigame.com",
-        "https://l2-admin1.lumigame.com",
-        "http://l2-m1.lumigame.com",
-        "https://l2-m1.lumigame.com",
-        "https://l2-proxy1.lumigame.com",
-    ],
     chartConfig: {
         socket: "wss://l2-proxy1.lumigame.com/user/bitcoinmaster",
         socketPath: "/bitcoinmaster/socket.io",

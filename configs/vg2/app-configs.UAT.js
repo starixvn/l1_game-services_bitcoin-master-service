@@ -46,16 +46,6 @@ export default {
         env: "UAT",
     },
     adminSecretKey: "asWDEerfOIdgsdqRTFabvmgh",
-    enableCorsWs: true,
-    corsUrls: [
-        "http://l2uat.sgamesuat.com",
-        "https://l2uat.sgamesuat.com",
-        "http://l2uatadm.sgamesuat.com",
-        "https://l2uatadm.sgamesuat.com",
-        "http://l2uatm.sgamesuat.com",
-        "https://l2uatm.sgamesuat.com",
-        "https://l2uatproxy.sgamesuat.com",
-    ],
     chartConfig: {
         socket: "wss://l2uatproxy.sgamesuat.com/user/bitcoinmaster",
         socketPath: "/uat/bitcoinmaster/socket.io",

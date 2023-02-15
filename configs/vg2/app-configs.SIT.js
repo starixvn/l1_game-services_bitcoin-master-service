@@ -45,15 +45,6 @@ export default {
         env: "SIT",
     },
     adminSecretKey: "asWDEerfOIdgsdqRTFabvmgh",
-    enableCorsWs: true,
-    corsUrls: [
-        "http://l2sit.sgamesuat.com",
-        "https://l2sit.sgamesuat.com",
-        "http://l2sitadm.sgamesuat.com",
-        "https://l2sitadm.sgamesuat.com",
-        "http://l2sitm.sgamesuat.com",
-        "https://l2uatproxy.sgamesuat.com",
-    ],
     chartConfig: {
         socket: "wss://l2uatproxy.sgamesuat.com/user/bitcoinmaster",
         socketPath: "/sit/bitcoinmaster/socket.io",
