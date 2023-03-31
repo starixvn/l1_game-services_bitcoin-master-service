@@ -48,7 +48,7 @@ export default {
     chartConfig: {
         socket: "wss://l1uatproxy.sgamesuat.com/user/bitcoinmaster",
         socketPath: "/sit/bitcoinmaster/socket.io",
-        allows: ["https://l1sit.sgamesuat.com", "https://l1sitm.sgamesuat.com", "https://demo.saba.games"],
+        allows: ["*"],
     },
     enableMsgpackParser: true,
     balancedBotBettingTime: 70,

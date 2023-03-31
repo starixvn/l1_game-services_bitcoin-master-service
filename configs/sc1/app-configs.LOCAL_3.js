@@ -54,7 +54,7 @@ export default {
     chartConfig: {
         socket: "wss://l1-proxy3.lumigame.com/user/bitcoinmaster",
         socketPath: "/bitcoinmaster/socket.io",
-        allows: ["http://localhost:7456", "http://localhost:7000", "https://l1-games3.lumigame.com", "https://l1-m3.lumigame.com"],
+        allows: ["*"],
     },
     balancedBotBettingTime: 70,
 };
