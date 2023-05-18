@@ -85,7 +85,7 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
         }
 
         const upDownBets = bets.filter((bet) => choices.includes(bet.choice));
-        return upDownBets.map((bet) => this.settleBet(bet, roundId, settlementResult, { choice: bet.choice, amount: bet.amount }));
+        return upDownBets.map((bet) => this.settleBet(bet, roundId, settlementResult, { choice: bet.choice, amount: bet.baseAmount }));
     }
 
     settleOddEven(testCurrencies, bets, roundId, settlementResult) {
