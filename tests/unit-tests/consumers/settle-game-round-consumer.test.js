@@ -2,12 +2,12 @@ import { stubMongooseModelStupidly } from "jest-micro-auto-stub";
 import mongoose from "mongoose";
 import { Core } from "sc-game-base";
 
-import BitcoinMasterSettleGameRoundConsumer from "../../../src/consumers/bitcoin-master-settle-game-round-consumer";
-import { getSettlementResult } from "../../../src/helpers/result-helper";
-import gameSettings from "../../../src/game-settings";
-import GameData from "../../../src/bitcoin-master-game-data";
 import RoundResultPublisher from "sc-game-base/src/core/event-publishers/round-result-publisher";
 import UserBetResultPublisher from "sc-game-base/src/core/event-publishers/user-bet-result-publisher";
+import GameData from "../../../src/bitcoin-master-game-data";
+import BitcoinMasterSettleGameRoundConsumer from "../../../src/consumers/bitcoin-master-settle-game-round-consumer";
+import gameSettings from "../../../src/game-settings";
+import { getSettlementResult } from "../../../src/helpers/result-helper";
 
 jest.mock("sc-game-base/src/core/event-publishers/round-result-publisher");
 jest.mock("sc-game-base/src/core/event-publishers/user-bet-result-publisher");
@@ -106,7 +106,18 @@ describe("SettleGameRoundConsumer test", () => {
             expect(parseFloat(expectedWinBetLog.betwin)).toEqual(0);
         });
 
-        it("open = close, should refund all up & down bets correctly", async () => {
+        it.each([
+            [
+                { uid: 1, amount: 200, baseAmount: 200, choice: "up", rate: 1, currency: "$US", save: jest.fn() },
+                { uid: 1, amount: 200, baseAmount: 200, choice: "even", rate: 1, currency: "$US", save: jest.fn() },
+                { odd: 300, even: 200, up: 200, down: 100 },
+            ],
+            [
+                { uid: 1, amount: 200, baseAmount: 20000, choice: "up", rate: 100, currency: "$US", save: jest.fn() },
+                { uid: 1, amount: 200, baseAmount: 20000, choice: "even", rate: 100, currency: "$US", save: jest.fn() },
+                { odd: 30000, even: 20000, up: 20000, down: 1000 },
+            ],
+        ])("open = close, should refund all up & down bets correctly", async (expectedRefundBetLog, expectedWinBetLog, totalBets) => {
             gameData.open = 400;
             gameData.cryptoExchange = {
                 runningCandleStick: {
@@ -114,11 +125,8 @@ describe("SettleGameRoundConsumer test", () => {
                     open: 400,
                 },
             };
-            gameData.totalBets = { odd: 300, even: 200, up: 200, down: 100 };
+            gameData.totalBets = totalBets;
             // arrange
-            const expectedRefundBetLog = { uid: 1, amount: 200, baseAmount: 200, choice: "up", rate: 1, save: jest.fn() };
-            const expectedWinBetLog = { uid: 1, amount: 200, baseAmount: 200, choice: "even", rate: 1, save: jest.fn() };
-
             const betLogs = [expectedWinBetLog, expectedRefundBetLog];
             const bet = { uid: 1, even: 200, up: 200, rate: 1 };
 
@@ -131,7 +139,7 @@ describe("SettleGameRoundConsumer test", () => {
             // assert
             betLogs.forEach((betLog) => expect(betLog.save).toHaveBeenCalled());
             expect(parseFloat(expectedRefundBetLog.refund)).toEqual(expectedRefundBetLog.amount);
-            expect(parseFloat(expectedWinBetLog.betwin)).toEqual(expectedRefundBetLog.amount * (gameConfigs.odds.even - 1));
+            expect(parseFloat(expectedWinBetLog.betwin)).toEqual(expectedWinBetLog.amount * (gameConfigs.odds.even - 1));
         });
     });
 });
