@@ -1,0 +1,55 @@
+export default {
+    hostingPort: 5000,
+    apiSettings: {
+        enabledApi: true,
+        apiUrl: "http://l2_game_api_local_2:5000",
+        authUrl: "http://l2_auth_api_local_2:5000",
+        client: {
+            id: "game-server",
+            secret: "gameserver@20luminet&",
+        },
+        useAuthenticate: true,
+        requestTimeout: 10000,
+        placeBetTimeout: 4000,
+        enabledApiLogs: true,
+    },
+    authenticateSettings: {
+        url: "http://l2_auth_api_local_2:5000",
+        id: "game-services",
+        secret: "gameservices@20luminet&",
+        requestTimeout: 10000,
+        useAuthenticate: true,
+        audiences: ["api", "admin-api"],
+    },
+    userServiceSettings: {
+        url: "http://l2_user_service_local_2:5000",
+    },
+    socketOptions: {
+        pingInterval: 60 * 1000,
+        pingTimeout: 60 * 1000,
+        transports: ["websocket"],
+        allowUpgrades: false,
+    },
+    enabledLogs: true,
+    database: {
+        url: "mongodb://lmn_backend:LmnBackend@10.10.50.12:39202,10.10.50.13:39202,10.10.50.14:39202/?replicaSet=L2ppLocal&appName=BitcoinMaster",
+        options: {
+            dbName: "minigame",
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            auto_reconnect: true,
+        },
+    },
+    sentry: {
+        sentryUrl: "https://acb36eb835d948d68c1aad9873754d51@sentry.lumigame.com/27",
+        logIdentifier: "bitcoin-master",
+        env: "LOCAL-2",
+    },
+    adminSecretKey: "asWDEerfOIdgsdqRTFabvmgh",
+    chartConfig: {
+        socket: "wss://l2-proxy2.lumigame.com/user/bitcoinmaster",
+        socketPath: "/bitcoinmaster/socket.io",
+        allows: ["*"],
+    },
+    balancedBotBettingTime: 70,
+};

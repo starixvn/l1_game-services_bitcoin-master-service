@@ -21,7 +21,7 @@ const betLogSchema = {
     siteId: { type: String },
     currency: { type: String, required: true },
     rate: { type: Number, required: true },
-    playerId: { type: Number },
+    playerId: { type: String },
     operatorId: { type: String, required: true },
     roundId: { type: Number, required: true },
     paid: { type: Boolean, default: false },
@@ -55,7 +55,7 @@ const betSchema = new mongoose.Schema({
     currency: { type: String },
     rate: { type: Number, required: true },
 
-    playerId: { type: Number },
+    playerId: { type: String },
     operatorId: { type: String },
     roundId: { type: Number, required: true },
     paid: { type: Boolean, default: false },
