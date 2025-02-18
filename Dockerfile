@@ -1,4 +1,4 @@
-FROM hub.lumigame.com/docker-hub/library/node:18.1-alpine AS builder
+FROM hub.lumigame.com/base/node:18.1-alpine-24h1.1 AS builder
 WORKDIR /app
 COPY package.json yarn.lock .modprunerrc ./
 COPY public ./public
@@ -8,7 +8,7 @@ RUN npm run reg \
     && npx mod-pruner prune --force
 COPY ./src/ .
 
-FROM hub.lumigame.com/docker-hub/library/node:18.1-alpine
+FROM hub.lumigame.com/base/node:18.1-alpine-24h1.1
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 RUN mkdir /app && chown node:node /app

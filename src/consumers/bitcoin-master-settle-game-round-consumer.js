@@ -47,8 +47,6 @@ export default class BitcoinMasterSettleGameRoundConsumer extends SettleGameRoun
                 })
             );
         }
-
-        this.roundResultPublisher.publishRoundResult(this.collectRoundResult(result, settlementResult, roundId));
     }
 
     calculateBetResult(bet, betLogs) {
