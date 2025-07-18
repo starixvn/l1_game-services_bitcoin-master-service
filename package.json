@@ -30,7 +30,7 @@
     "resolutions": {
         "sc-base-apis": "1.18.2",
         "sc-base-database": "1.11.1",
-        "mongoose": " 5.13.22",
+        "mongoose": "5.13.23",
         "socket.io-parser": "4.0.5"
     },
     "devDependencies": {
