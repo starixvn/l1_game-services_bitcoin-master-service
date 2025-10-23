@@ -2053,7 +2053,21 @@
     fs-extra "^9.0.0"
     lodash "^4.17.4"
 
-"@semantic-release/commit-analyzer@^8.0.0", "@semantic-release/commit-analyzer@^8.0.1":
+"@semantic-release/commit-analyzer@^13.0.0":
+  version "13.0.1"
+  resolved "http://npm.lumigame.com/@semantic-release/commit-analyzer/-/commit-analyzer-13.0.1.tgz#d84b599c3fef623ccc01f0cc2025eb56a57d8feb"
+  integrity sha512-wdnBPHKkr9HhNhXOhZD5a2LNl91+hs8CC2vsAVYxtZH3y0dV3wKn+uZSN61rdJQZ8EGxzWB3inWocBHV9+u/CQ==
+  dependencies:
+    conventional-changelog-angular "^8.0.0"
+    conventional-changelog-writer "^8.0.0"
+    conventional-commits-filter "^5.0.0"
+    conventional-commits-parser "^6.0.0"
+    debug "^4.0.0"
+    import-from-esm "^2.0.0"
+    lodash-es "^4.17.21"
+    micromatch "^4.0.2"
+
+"@semantic-release/commit-analyzer@^8.0.0":
   version "8.0.1"
   resolved "http://npm.lumigame.com/@semantic-release%2fcommit-analyzer/-/commit-analyzer-8.0.1.tgz#5d2a37cd5a3312da0e3ac05b1ca348bf60b90bca"
   integrity sha512-5bJma/oB7B4MtwUkZC2Bf7O1MHfi4gWe4mA+MIQ3lsEV0b422Bvl1z5HRpplDnMLHH3EXMoRdEng6Ds5wUqA3A==
@@ -3694,6 +3708,13 @@ conventional-changelog-angular@^5.0.0:
     compare-func "^2.0.0"
     q "^1.5.1"
 
+conventional-changelog-angular@^8.0.0:
+  version "8.1.0"
+  resolved "http://npm.lumigame.com/conventional-changelog-angular/-/conventional-changelog-angular-8.1.0.tgz#06223a40f818c5618982fdb92d2b2aac5e24d33e"
+  integrity sha512-GGf2Nipn1RUCAktxuVauVr1e3r8QrLP/B0lEUsFktmGqc3ddbQkhoJZHJctVU829U1c6mTSWftrVOCHaL85Q3w==
+  dependencies:
+    compare-func "^2.0.0"
+
 conventional-changelog-conventionalcommits@4.3.0:
   version "4.3.0"
   resolved "http://npm.lumigame.com/conventional-changelog-conventionalcommits/-/conventional-changelog-conventionalcommits-4.3.0.tgz#c4205a659f7ca9d7881f29ee78a4e7d6aeb8b3c2"
@@ -3719,6 +3740,16 @@ conventional-changelog-writer@^4.0.0:
     split "^1.0.0"
     through2 "^4.0.0"
 
+conventional-changelog-writer@^8.0.0:
+  version "8.2.0"
+  resolved "http://npm.lumigame.com/conventional-changelog-writer/-/conventional-changelog-writer-8.2.0.tgz#1b77ef8e45ccc4559e02a23a34d50c15d2051e5a"
+  integrity sha512-Y2aW4596l9AEvFJRwFGJGiQjt2sBYTjPD18DdvxX9Vpz0Z7HQ+g1Z+6iYDAm1vR3QOJrDBkRHixHK/+FhkR6Pw==
+  dependencies:
+    conventional-commits-filter "^5.0.0"
+    handlebars "^4.7.7"
+    meow "^13.0.0"
+    semver "^7.5.2"
+
 conventional-commits-filter@^2.0.0, conventional-commits-filter@^2.0.7:
   version "2.0.7"
   resolved "http://npm.lumigame.com/conventional-commits-filter/-/conventional-commits-filter-2.0.7.tgz#f8d9b4f182fce00c9af7139da49365b136c8a0b3"
@@ -3726,6 +3757,11 @@ conventional-commits-filter@^2.0.0, conventional-commits-filter@^2.0.7:
   dependencies:
     lodash.ismatch "^4.4.0"
     modify-values "^1.0.0"
+
+conventional-commits-filter@^5.0.0:
+  version "5.0.0"
+  resolved "http://npm.lumigame.com/conventional-commits-filter/-/conventional-commits-filter-5.0.0.tgz#72811f95d379e79d2d39d5c0c53c9351ef284e86"
+  integrity sha512-tQMagCOC59EVgNZcC5zl7XqO30Wki9i9J3acbUvkaosCT6JX3EeFwJD7Qqp4MCikRnzS18WXV3BLIQ66ytu6+Q==
 
 conventional-commits-parser@^3.0.0, conventional-commits-parser@^3.0.7:
   version "3.2.2"
@@ -3738,6 +3774,13 @@ conventional-commits-parser@^3.0.0, conventional-commits-parser@^3.0.7:
     meow "^8.0.0"
     split2 "^3.0.0"
     through2 "^4.0.0"
+
+conventional-commits-parser@^6.0.0:
+  version "6.2.1"
+  resolved "http://npm.lumigame.com/conventional-commits-parser/-/conventional-commits-parser-6.2.1.tgz#855e53c4792b1feaf93649eff5d75e0dbc2c63ad"
+  integrity sha512-20pyHgnO40rvfI0NGF/xiEoFMkXDtkF8FwHvk5BokoFoCuTQRI8vrNCNFWUOfuolKJMm1tPCHc8GgYEtr1XRNA==
+  dependencies:
+    meow "^13.0.0"
 
 convert-source-map@^1.4.0, convert-source-map@^1.6.0, convert-source-map@^1.7.0:
   version "1.8.0"
@@ -3927,6 +3970,13 @@ debug@^3.2.7:
   integrity sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==
   dependencies:
     ms "^2.1.1"
+
+debug@^4.3.4:
+  version "4.4.3"
+  resolved "http://npm.lumigame.com/debug/-/debug-4.4.3.tgz#c6ae432d9bd9662582fce08709b038c58e9e3d6a"
+  integrity sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==
+  dependencies:
+    ms "^2.1.3"
 
 debug@^4.3.5:
   version "4.4.0"
@@ -5057,6 +5107,18 @@ handlebars@^4.7.6:
   optionalDependencies:
     uglify-js "^3.1.4"
 
+handlebars@^4.7.7:
+  version "4.7.8"
+  resolved "http://npm.lumigame.com/handlebars/-/handlebars-4.7.8.tgz#41c42c18b1be2365439188c77c6afae71c0cd9e9"
+  integrity sha512-vafaFqs8MZkRrSX7sFVUdo3ap/eNiLnb4IakshzvP56X5Nr1iGKAIqdX6tMlm6HcNRIkr6AxO5jFEoJzzpT8aQ==
+  dependencies:
+    minimist "^1.2.5"
+    neo-async "^2.6.2"
+    source-map "^0.6.1"
+    wordwrap "^1.0.0"
+  optionalDependencies:
+    uglify-js "^3.1.4"
+
 har-schema@^2.0.0:
   version "2.0.0"
   resolved "http://npm.lumigame.com/har-schema/-/har-schema-2.0.0.tgz#a94c2224ebcac04782a0d9035521f24735b7ec92"
@@ -5314,6 +5376,14 @@ import-fresh@^3.0.0, import-fresh@^3.1.0, import-fresh@^3.2.1:
     parent-module "^1.0.0"
     resolve-from "^4.0.0"
 
+import-from-esm@^2.0.0:
+  version "2.0.0"
+  resolved "http://npm.lumigame.com/import-from-esm/-/import-from-esm-2.0.0.tgz#184eb9aad4f557573bd6daf967ad5911b537797a"
+  integrity sha512-YVt14UZCgsX1vZQ3gKjkWVdBdHQ6eu3MPU1TBgL1H5orXe2+jWD006WCPPtOuwlQm10NuzOW5WawiF1Q9veW8g==
+  dependencies:
+    debug "^4.3.4"
+    import-meta-resolve "^4.0.0"
+
 import-from@^3.0.0:
   version "3.0.0"
   resolved "http://npm.lumigame.com/import-from/-/import-from-3.0.0.tgz#055cfec38cd5a27d8057ca51376d7d3bf0891966"
@@ -5338,6 +5408,11 @@ import-local@^3.0.2:
   dependencies:
     pkg-dir "^4.2.0"
     resolve-cwd "^3.0.0"
+
+import-meta-resolve@^4.0.0:
+  version "4.2.0"
+  resolved "http://npm.lumigame.com/import-meta-resolve/-/import-meta-resolve-4.2.0.tgz#08cb85b5bd37ecc8eb1e0f670dc2767002d43734"
+  integrity sha512-Iqv2fzaTQN28s/FwZAoFq0ZSs/7hMAHJVX+w8PZl3cY19Pxk6jFFalxQoIfW2826i/fDLXv8IiEZRIT0lDuWcg==
 
 imurmurhash@^0.1.4:
   version "0.1.4"
@@ -7037,6 +7112,11 @@ locate-path@^6.0.0:
   dependencies:
     p-locate "^5.0.0"
 
+lodash-es@^4.17.21:
+  version "4.17.21"
+  resolved "http://npm.lumigame.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
+  integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
+
 lodash.camelcase@^4.3.0:
   version "4.3.0"
   resolved "http://npm.lumigame.com/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
@@ -7256,6 +7336,11 @@ memory-pager@^1.0.2:
   version "1.5.0"
   resolved "http://npm.lumigame.com/memory-pager/-/memory-pager-1.5.0.tgz#d8751655d22d384682741c972f2c3d6dfa3e66b5"
   integrity sha512-ZS4Bp4r/Zoeq6+NLJpP+0Zzm0pR8whtGPf1XExKLJBAczGMnSi3It14OiNCStjQjM6NU1okjQGSxgEZN8eBYKg==
+
+meow@^13.0.0:
+  version "13.2.0"
+  resolved "http://npm.lumigame.com/meow/-/meow-13.2.0.tgz#6b7d63f913f984063b3cc261b6e8800c4cd3474f"
+  integrity sha512-pxQJQzB6djGPXh08dacEloMFopsOqGVRKFPYvPOt9XDZ1HasbgDZA74CJGreSU4G3Ak7EFJGoiH2auq+yXISgA==
 
 meow@^8.0.0:
   version "8.1.2"
@@ -7635,7 +7720,7 @@ negotiator@0.6.2, negotiator@^0.6.2:
   resolved "http://npm.lumigame.com/negotiator/-/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"
   integrity sha512-hZXc7K2e+PgeI1eDBe/10Ard4ekbfrrqG8Ep+8Jmf4JID2bNg7NvCPOZN+kfF574pFQI7mum2AUqDidoKqcTOw==
 
-neo-async@^2.6.0:
+neo-async@^2.6.0, neo-async@^2.6.2:
   version "2.6.2"
   resolved "http://npm.lumigame.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
@@ -9287,6 +9372,11 @@ semver@^7.5.1:
   version "7.7.1"
   resolved "http://npm.lumigame.com/semver/-/semver-7.7.1.tgz#abd5098d82b18c6c81f6074ff2647fd3e7220c9f"
   integrity sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==
+
+semver@^7.5.2:
+  version "7.7.3"
+  resolved "http://npm.lumigame.com/semver/-/semver-7.7.3.tgz#4b5f4143d007633a8dc671cd0a6ef9147b8bb946"
+  integrity sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==
 
 send@0.17.1:
   version "0.17.1"
